@@ -1,4 +1,5 @@
 import React from 'react'
+import './TextStyles.css'
 
 const LeftText = () => {
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
@@ -21,17 +22,23 @@ const LeftText = () => {
     let newString = ''
 
     for (let i = 0; i < num; i++) {
-      newString += array[Math.floor(Math.random() * array.length)]
+      // if (newString.length > 10 && i % 12 === 0) newString += '\nRICE'
+      if (newString.length > 10 && i % 12 === 0) newString += `\n${array[Math.floor(Math.random() * array.length)]}`
+      else newString += array[Math.floor(Math.random() * array.length)]
     }
 
     return newString
+  }
+  const setTerminalCharacters = (number) => {
+
   }
   
   
 
   return (
     <>
-      <div>
+    <div className='grid'>
+      <div className='leftgrid '>
         <p>0x{randomLetters(lettersNumbers, 4)}</p>
         <p>0x{randomLetters(lettersNumbers, 4)}</p>
         <p>0x{randomLetters(lettersNumbers, 4)}</p>
@@ -50,14 +57,18 @@ const LeftText = () => {
         <p>0x{randomLetters(lettersNumbers, 4)}</p>
         <p>0x{randomLetters(lettersNumbers, 4)}</p>
       </div>
-      // 12 across and 17 down
-      <div>
+      <div className='rightgrid '>
         <p>
           {
             randomLetters(characters, 204)
+
           }
         </p>
       </div>
+    </div>
+      
+      // 12 across and 17 down
+      
     </>
   )
 }
