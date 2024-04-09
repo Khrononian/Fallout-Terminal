@@ -1,0 +1,24 @@
+.grid {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+
+.leftgrid, .rightgrid {
+    flex-direction: column;
+} 
+
+.leftgrid p, .rightgrid p {
+    margin: 0;
+    padding: 0;
+}
+.leftgrid {
+    width: 75px;
+}
+.rightgrid {
+    background: darkgreen;
+    width: 200px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    letter-spacing: 1.8px;
+    text-align: left;
+}
