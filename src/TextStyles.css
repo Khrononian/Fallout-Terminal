@@ -1,6 +1,6 @@
 .grid {
     display: grid;
-    grid-template-columns: 100px 1fr;
+    grid-template-columns: 80px 1fr;
 }
 
 .leftgrid, .rightgrid {
@@ -13,12 +13,17 @@
 }
 .leftgrid {
     width: 75px;
+    text-align: left;
 }
 .rightgrid {
     background: darkgreen;
-    width: 200px;
+    width: 210px;
     word-wrap: break-word;
     white-space: pre-wrap;
     letter-spacing: 1.8px;
     text-align: left;
+    display: grid;
+    grid-template-columns: repeat(12, 17px);
+    grid-template-rows: repeat(17, 24px);
+    text-align: center;
 }
