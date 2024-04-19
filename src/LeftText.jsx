@@ -21,10 +21,10 @@ const LeftText = () => {
   'Tempura','Naphtha','Polenta','Silesia','Viremia','Purpura','Sultana','Pergola','Emerita',
   'Exotica','Helluva','Arabica']
 
-  useEffect(() => {
-    setUpLetters(characters, 102)
-    console.log('Inside', string)
-  }, [])
+  // useEffect(() => {
+  //   // setUpLetters(characters, 102)
+  //   console.log('Inside', string)
+  // }, [])
   
   const randomLetters = (array, num) => {
     let newString = ''
@@ -41,11 +41,11 @@ const LeftText = () => {
 
   const setUpLetters = (array, num) => {
     const newNum = [0, 1, 2, 3, 4, 5]
-    // let newString = ''
-    let newString = []
+    const dudLetters = [0, 1, 2, 3, 4]
+    const newString = []
+    const terminalWords = [`[${sevenWords[Math.floor(Math.random() * sevenWords.length)]}]`, `{${sevenWords[Math.floor(Math.random() * sevenWords.length)]}}`]
     
     for (let i = 0; i < num; i++) {
-      console.log('WOW', newString, newString.length)
     //   if (numbers.length !== 0 && newString.length > 2) {
     //   console.log('Num', numbers.length, newString, newString.length)
     //   newString += sevenWords[Math.floor(Math.random() * sevenWords.length)]
@@ -60,49 +60,38 @@ const LeftText = () => {
       // } else setString(prev => prev += array[Math.floor(Math.random() * array.length)])
 
       // newString += array[Math.floor(Math.random() * array.length)]
+      
       newString.push(array[Math.floor(Math.random() * array.length)])
-      // if (newNum.length !== 0) {
-      //   console.log('TEST', newString[Math.floor(Math.random() * newString.length)], newString.indexOf(newString[Math.floor(Math.random() * newString.length)]))
-      //   newNum.pop()
-        
-      //   newString.substring(newString.indexOf(newString[Math.floor(Math.random() * newString.length)]), 7, sevenWords[Math.floor(Math.random() * sevenWords.length)])
-      //   console.log('CHECK NUM', newNum)
-        
-      // } 
-
       
-      // setNumbers(prevState => prevState.filter((_, i) => i !== 0))
-      // setNumbers(prevState => prevState.filter((_, i) => i !== 0))
-      // setString(prev => prev += array[Math.floor(Math.random() * array.length)])
       
-      // console.log('Text', string, numbers)
+      console.log('FIND STRING', newString)
+     
     }
-    
-
-    // setWords(sevenWords[Math.floor(Math.random() * sevenWords.length)])
-    // setString(prev => prev += words)
-    // setUpWords()
-    
+    const setUpWords = (string, number) => {
+      console.log('FUNC', string)
+      let rice = ['NOW', 'HI', 'BASTARD', 'YO', 'YES', 'BUGS']
+      
+      while (number.length !== 0 || dudLetters.length !== 0) {
+        console.log('First line', string.indexOf(string[Math.floor(Math.random() * string.length)]), string[Math.floor(Math.random() * string.length)], number, terminalWords)
+        // string.splice(string.indexOf(characters[Math.floor(Math.random() * characters.length)]), 7, sevenWords[Math.floor(Math.random() * sevenWords.length)].split(''))
+        string.splice(Math.floor(Math.random() * 204), 0, sevenWords[Math.floor(Math.random() * sevenWords.length)].split(''))
+        for (let i = 0; i < 6; i++) {
+          string.splice(Math.floor(Math.random() * 204), 0, '[' + characters[Math.floor(Math.random() * characters.length)].split('') + ']'.split('') )
+        }
+        
+        number.pop()
+        dudLetters.pop()
+      }
+      
+      console.log('RICE', rice, sevenWords[Math.floor(Math.random() * sevenWords.length)], sevenWords[Math.floor(Math.random() * sevenWords.length)].split(''))
+      console.log('FLAT', string.flat())
+      return string.flat()
+      
+    }
     return setUpWords(newString, newNum)
   }
 
-  const setUpWords = (newString, newNum) => {
-    console.log('FUNC', newString)
-    let rice = ['NOW', 'HI', 'BASTARD', 'YO', 'YES', 'BUGS']
-    if (newNum.length !== 0 ) {
-      console.log('TEST', newString, newString[Math.floor(Math.random() * newString.length)], newString.indexOf(newString[Math.floor(Math.random() * newString.length)]))
-      newNum.pop()
-      rice.splice(1, 4, 'WORKS')
-
-      newString.splice(newString.indexOf(newString[Math.floor(Math.random() * newString.length)]), 7, sevenWords[Math.floor(Math.random() * sevenWords.length)].split(''))
-      // newString.substring(newString.indexOf(newString[Math.floor(Math.random() * newString.length)]), 7, sevenWords[Math.floor(Math.random() * sevenWords.length)])
-      
-      // rice.split('now').join('Fixed')
-    }
-    console.log('RICE', rice, sevenWords[Math.floor(Math.random() * sevenWords.length)], sevenWords[Math.floor(Math.random() * sevenWords.length)].split(''))
-    return newString.flat()
-    
-  }
+  
   console.log('ALL', string.length, string.indexOf(string[Math.floor(Math.random() * 204)]), numbers, words)
   // TRY RENDERING MAPPED AN ARRAY OF THE TEXT TO GET PERFECT LINE UP
   
