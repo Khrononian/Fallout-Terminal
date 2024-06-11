@@ -1,6 +1,6 @@
 .grid {
     display: grid;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 70px 1fr;
 }
 
 .leftgrid, .rightgrid {
