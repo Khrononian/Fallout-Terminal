@@ -40,6 +40,7 @@ function App() {
     for (let i = 0; i < num; i++) {
       newString.push(array[Math.floor(Math.random() * array.length)])
     }
+
     const setUpWords = (string, number) => {
       const sevenWords = ['Formula','Dilemma','Diploma','Replica','Grandma','Spectra','Persona',
       'Ammonia','Antenna','Stamina','Malaria','Militia','Vanilla','Bonanza','Inertia','Sequoia',
@@ -55,10 +56,11 @@ function App() {
       'Exotica','Helluva','Arabica']
       let firstNum = 1
       let secondNum = 12
+
       while (number.length !== 0 ) {
         console.log('First line', string.indexOf(string[Math.floor(Math.random() * string.length)]), string[Math.floor(Math.random() * string.length)], number, terminalWords)
         
-        string.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, sevenWords[Math.floor(Math.random() * sevenWords.length)].split(''))
+        string.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase().split(''))
         firstNum += 12
         secondNum += 12
         console.log('Numbers', firstNum, secondNum)
@@ -94,24 +96,42 @@ function App() {
 
   // const mouseEnter = event => event.target.style.background = 'green'
   const mouseEnter = event => {
-    event.target.style.background = 'green'
-    const audio = new Audio(`https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`)
     const selectedAudio = document.getElementById('audiofile')
+    let nextSibling = event.target.nextElementSibling
+    let prevSibling = event.target.previousElementSibling
+    
+    event.target.style.background = 'green'
+    console.log(selectedAudio.src)
+    
+    selectedAudio.play()
+    
+    console.log(event.target.innerText, event.target.nextElementSibling, event)
+    
 
-    selectedAudio.volume = 0.2
-    // selectedAudio.muted = false
-    selectedAudio.src = `https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`
+    while (nextSibling && /[a-z]/i.test(nextSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
+      event.target.style.background = 'red'
+      nextSibling.style.background = 'red'
+      nextSibling = nextSibling.nextElementSibling
+    }
     
-    if (!selectedAudio.current > 0 && selectedAudio.paused ) selectedAudio.play()
-    
+    while (prevSibling && /[a-z]/i.test(prevSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
+      event.target.style.background = 'red'
+      prevSibling.style.background = 'red'
+      prevSibling = prevSibling.previousElementSibling
+    }
+
     // terminalAudio(`https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`)
+  
   }
   const mouseOut = event => {
     event.target.style.background = 'transparent'
     const selectedAudio = document.getElementById('audiofile')
-
-    // selectedAudio.pause()
-    selectedAudio.currentTime = 0;
+    
+    
+    selectedAudio.onended = () => {
+      selectedAudio.src = `https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`
+      
+    }
   }
 
   return (
@@ -120,7 +140,7 @@ function App() {
         <p>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
         <p>ENTER PASSWORD NOW</p>
         <br/>
-        <p>4 ATTEMPT(S) LEFT: </p>
+        <p>4 ATTEMPT(S) LEFT: <span>B</span> <span>B</span> <span>B</span> <span>B</span> </p>
         <br/>
         <div className='boxes'>
           <LeftText 
@@ -137,6 +157,7 @@ function App() {
             randomLetters={randomLetters}
             setUpLetters={setUpLetters}
           />
+          <p>{'>'}</p>
         </div>
         
       </div>
