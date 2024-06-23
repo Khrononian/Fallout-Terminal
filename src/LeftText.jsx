@@ -96,7 +96,6 @@ const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onM
   
 
   // console.log('ALL', string.length, string.indexOf(string[Math.floor(Math.random() * 204)]), numbers, words)
-  
   return (
     <>
     <div className='grid'>
