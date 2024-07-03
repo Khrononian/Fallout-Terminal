@@ -95,38 +95,87 @@ function App() {
   }
 
   // const mouseEnter = event => event.target.style.background = 'green'
+
+  async function typeSentence (sentence, location) {
+    const letters = sentence.split('');
+    let i = 0;
+
+    while (i < letters.length) {
+      await waitForMs(100)
+      location.innerText += letters[i]
+      i++
+    }
+
+    return
+  }
+  const waitForMs = () => {
+    return new Promise(resolve => setTimeout(resolve, 100))
+  }
+
   const mouseEnter = event => {
-    const selectedAudio = document.getElementById('audiofile')
+    const selectedAudio = document.getElementById('audiofile');
+    const spanText = document.getElementById('span')
     let nextSibling = event.target.nextElementSibling
     let prevSibling = event.target.previousElementSibling
+    let wholeWord = ''
     
     event.target.style.background = 'green'
+    event.target.style.color = 'black'
+
     console.log(selectedAudio.src)
     
     selectedAudio.play()
     
     console.log(event.target.innerText, event.target.nextElementSibling, event)
     
-
+    spanText.innerText = ''
     while (nextSibling && /[a-z]/i.test(nextSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
-      event.target.style.background = 'red'
-      nextSibling.style.background = 'red'
+      event.target.style.background = '#33dd88'
+      // event.target.style.color = 'black'
+      nextSibling.style.background = '#33dd88'
+      nextSibling.style.color = 'black'
+      // wholeWord += event.target.innerText
+      wholeWord += nextSibling.innerText
+      console.log('words', wholeWord)
       nextSibling = nextSibling.nextElementSibling
     }
     
     while (prevSibling && /[a-z]/i.test(prevSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
-      event.target.style.background = 'red'
-      prevSibling.style.background = 'red'
+      event.target.style.background = '#33dd88'
+      // event.target.style.color = 'black'
+      prevSibling.style.background = '#33dd88'
+      prevSibling.style.color = 'black'
       prevSibling = prevSibling.previousElementSibling
     }
+    typeSentence(event.target.innerText, spanText)
+
 
     // terminalAudio(`https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`)
   
   }
   const mouseOut = event => {
-    event.target.style.background = 'transparent'
-    const selectedAudio = document.getElementById('audiofile')
+    const selectedAudio = document.getElementById('audiofile');
+    let nextSibling = event.target.nextElementSibling;
+    let prevSibling = event.target.previousElementSibling;
+
+    event.target.style.background = 'transparent';
+    event.target.style.color = 'white';
+    // event.target.style.color = '#33dd88'
     
+    while (nextSibling && /[a-z]/i.test(nextSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
+      // event.target.style.background = '#33dd88'
+      // event.target.style.color = 'black'
+      nextSibling.style.background = 'transparent'
+      nextSibling.style.color = 'white'
+      nextSibling = nextSibling.nextElementSibling
+    }
+
+    while (prevSibling && /[a-z]/i.test(prevSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
+      // event.target.style.color = 'black'
+      prevSibling.style.background = 'transparent'
+      prevSibling.style.color = 'white'
+      prevSibling = prevSibling.previousElementSibling
+    }
     
     selectedAudio.onended = () => {
       selectedAudio.src = `https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`
@@ -140,7 +189,7 @@ function App() {
         <p>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
         <p>ENTER PASSWORD NOW</p>
         <br/>
-        <p>4 ATTEMPT(S) LEFT: <span>B</span> <span>B</span> <span>B</span> <span>B</span> </p>
+        <p className='header'>4 ATTEMPT(S) LEFT: <span className='span'>█</span><span className='span'>█</span><span className='span'>█</span><span className='span'>█</span></p>
         <br/>
         <div className='boxes'>
           <LeftText 
@@ -157,7 +206,7 @@ function App() {
             randomLetters={randomLetters}
             setUpLetters={setUpLetters}
           />
-          <p>{'>'}</p>
+          <p>{'>'}<span id='span'></span></p>
         </div>
         
       </div>
