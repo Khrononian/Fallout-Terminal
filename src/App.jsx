@@ -10,7 +10,7 @@ function App() {
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
-
+  const testArrays = []
   const terminalAudio = (url) => {
     const sounds = new Audio(url);
 
@@ -34,7 +34,8 @@ function App() {
     const dudLetters = [0, 1, 2, 3, 4]
     const blockHolder = ['[]', '()', '{}', '<>']
     const characterHolder = '!@#$%^&*_-=+|,;./'
-    const terminalWords = [[], [], [], [], [], [], [], [], []]
+    const terminalWords = [[], [], [], [], [], [], [], [], []];
+    const terminalCodes = [[], [], [], [], [], []]
     const newString = []
     
     for (let i = 0; i < num; i++) {
@@ -54,18 +55,29 @@ function App() {
       'Adenoma','Beretta','Corolla','Piranha','Lasagna','Cantata','Ephedra','Mahatma','Marimba',
       'Tempura','Naphtha','Polenta','Silesia','Viremia','Purpura','Sultana','Pergola','Emerita',
       'Exotica','Helluva','Arabica']
+      
       let firstNum = 1
       let secondNum = 12
+      let i = 0
+      let t = 0;
 
       while (number.length !== 0 ) {
         console.log('First line', string.indexOf(string[Math.floor(Math.random() * string.length)]), string[Math.floor(Math.random() * string.length)], number, terminalWords)
         
-        string.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase().split(''))
+        terminalCodes[i].push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
+        string.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, terminalCodes[i].toString().split(''))
+
         firstNum += 12
         secondNum += 12
-        console.log('Numbers', firstNum, secondNum)
+        
+        console.log('Numbers', firstNum, secondNum, terminalCodes, terminalCodes[i], terminalCodes[i].toString(), testArrays)
+        
         number.pop()
+        i++
+        t++
       }
+      testArrays.push(terminalCodes)
+      // testArrays.shift()
       
       let j = 0;
       while (dudLetters.length !== 0 || j <= 8) {
@@ -85,12 +97,15 @@ function App() {
         string.splice(Math.floor(Math.random() * newString.length), 0, terminalWords[i])
       }
       
-      console.log('TERM', terminalWords, )
+      console.log('TERM', terminalWords, terminalCodes )
       console.log('RICE', sevenWords[Math.floor(Math.random() * sevenWords.length)], sevenWords[Math.floor(Math.random() * sevenWords.length)].split(''))
       console.log('FLAT', string.flat())
-      return string.flat()
       
+      return string.flat()
     }
+    testArrays.splice(0, 0)
+    testArrays.splice(2, 1)
+
     return setUpWords(newString, newNum)
   }
 
@@ -118,6 +133,9 @@ function App() {
     let nextSibling = event.target.nextElementSibling
     let prevSibling = event.target.previousElementSibling
     let wholeWord = ''
+    let currentWord = ''
+    let frontWord = ''
+    let backWord = ''
     
     event.target.style.background = 'green'
     event.target.style.color = 'black'
@@ -128,25 +146,39 @@ function App() {
     
     console.log(event.target.innerText, event.target.nextElementSibling, event)
     
+    
     spanText.innerText = ''
+    frontWord += event.target.innerText
     while (nextSibling && /[a-z]/i.test(nextSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
       event.target.style.background = '#33dd88'
       // event.target.style.color = 'black'
       nextSibling.style.background = '#33dd88'
       nextSibling.style.color = 'black'
       // wholeWord += event.target.innerText
-      wholeWord += nextSibling.innerText
-      console.log('words', wholeWord)
+      // wholeWord += nextSibling.innerText
+
+      frontWord += nextSibling.innerText
+      console.log('words', frontWord, 'front')
       nextSibling = nextSibling.nextElementSibling
     }
-    
+
+
+    currentWord = event.target.innerText
+
+    // backWord += event.target.innerText
     while (prevSibling && /[a-z]/i.test(prevSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
       event.target.style.background = '#33dd88'
       // event.target.style.color = 'black'
       prevSibling.style.background = '#33dd88'
       prevSibling.style.color = 'black'
+      backWord += prevSibling.innerText
+      console.log('words', backWord.split('').reverse().join(''), 'back')
+
       prevSibling = prevSibling.previousElementSibling
     }
+    // backWord.split('').reverse().join('')
+    wholeWord = backWord.split('').reverse().join('') + frontWord
+    console.log('Words, whole', wholeWord)
     typeSentence(event.target.innerText, spanText)
 
 
