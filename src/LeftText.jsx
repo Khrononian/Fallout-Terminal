@@ -15,6 +15,14 @@ const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onM
   'Tempura','Naphtha','Polenta','Silesia','Viremia','Purpura','Sultana','Pergola','Emerita',
   'Exotica','Helluva','Arabica']
 
+  const showText = () => {
+    const rightGrid = document.getElementById('grid');
+
+    rightGrid.forEach((letter, index) => {
+      
+    })
+  }
+
   return (
     <>
     <div className='grid'>
@@ -38,13 +46,13 @@ const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onM
         <p>0x{randomLetters(lettersNumbers, 4)}</p>
       </div>
       
-      <div className='rightgrid '>
+      <div className='rightgrid ' id='grid'>
         
         {
           
           
-          setUpLetters(characters, 90, sevenWords).map((letter, index) => {
-            return <p key={index} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
+          setUpLetters(characters, 90).map((letter, index) => {
+            return <p className={letter} key={index} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
           })
         }
         
