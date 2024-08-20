@@ -112,19 +112,19 @@ function App() {
   // const mouseEnter = event => event.target.style.background = 'green'
 
   async function typeSentence (sentence, location) {
-    const letters = sentence.split('');
+    const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('') 
     let i = 0;
-
+    console.log('LED', letters)
     while (i < letters.length) {
-      await waitForMs(100)
-      location.innerText += letters[i]
+      await waitForMs()
+      location.innerText = letters
       i++
     }
 
-    return
+    
   }
   const waitForMs = () => {
-    return new Promise(resolve => setTimeout(resolve, 100))
+    return new Promise(resolve => setTimeout(resolve, 50))
   }
 
   const mouseEnter = event => {
@@ -179,7 +179,7 @@ function App() {
     // backWord.split('').reverse().join('')
     wholeWord = backWord.split('').reverse().join('') + frontWord
     console.log('Words, whole', wholeWord)
-    typeSentence(event.target.innerText, spanText)
+    typeSentence([event.target.innerText, wholeWord], spanText)
 
 
     // terminalAudio(`https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`)
