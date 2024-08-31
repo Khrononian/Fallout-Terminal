@@ -115,18 +115,42 @@ function App() {
     const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('') 
     let i = 0;
     console.log('LED', letters)
-    while (i < letters.length) {
-      await waitForMs()
-      location.innerText = letters
-      i++
-    }
 
-    
+    await waitForMs()
+    if (/[A-Z]/.test(sentence[0])) {
+      location.innerText.substring(0, 8)
+      location.innerText += letters
+      
+    }
+    else location.innerText = letters
+
+    // while (i < letters.length) {
+    //   await waitForMs()
+      
+    //   if (/[A-Z]/.test(sentence[0])) location.innerText += letters.split('')
+    //   else location.innerText = letters
+    //   // WHEN HOVERING OVER THE LETTERS MAKE IT === ''
+    //   i++
+    // }
+
   }
   const waitForMs = () => {
     return new Promise(resolve => setTimeout(resolve, 50))
   }
+  let isMouseOver = false
 
+  const mouseMove = (event) => {
+    const spanText = document.getElementById('span');
+
+    console.log('MOVE', event)
+    // if (/[a-z]/i.test(event.target.innerText)) console.log('MOVE', 'WORKS')
+
+    // if (/[a-z]/i.test(event.target.innerText)) !isMouseOver
+    // else !!isMouseOver
+
+    // if (/[a-z]/i.test(event.target.innerText) && !isMouseOver) console.log('MOVE', 'MOVIE')
+    // else console.log('MOVE', 'NEWS', isMouseOver)
+  }
   const mouseEnter = event => {
     const selectedAudio = document.getElementById('audiofile');
     const spanText = document.getElementById('span')
@@ -146,9 +170,12 @@ function App() {
     
     console.log(event.target.innerText, event.target.nextElementSibling, event)
     
-    
     spanText.innerText = ''
+    if (/[a-z]/i.test(event.target.innerText)) !isMouseOver
+    
     frontWord += event.target.innerText
+
+    
     while (nextSibling && /[a-z]/i.test(nextSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
       event.target.style.background = '#33dd88'
       // event.target.style.color = 'black'
@@ -164,7 +191,7 @@ function App() {
 
 
     currentWord = event.target.innerText
-
+    
     // backWord += event.target.innerText
     while (prevSibling && /[a-z]/i.test(prevSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
       event.target.style.background = '#33dd88'
@@ -177,11 +204,21 @@ function App() {
       prevSibling = prevSibling.previousElementSibling
     }
     // backWord.split('').reverse().join('')
-    wholeWord = backWord.split('').reverse().join('') + frontWord
-    console.log('Words, whole', wholeWord)
+    if (/[a-z]/i.test(event.target.innerText) && isMouseOver == true) {
+      console.log('MOUSET', isMouseOver)
+      document.getElementById('span').innerText = ''
+    }
+    else {
+      
+      wholeWord = backWord.split('').reverse().join('') + frontWord
+      console.log('MOVE', 'WHOLE', wholeWord)
+      console.log('MOVE', 'WHOLE', frontWord)
+    }
+    // wholeWord = backWord.split('').reverse().join('') + frontWord
+    console.log('Words, whole', wholeWord, frontWord, backWord)
     typeSentence([event.target.innerText, wholeWord], spanText)
 
-
+    if (document.getElementById('span').innerText.length > 7) document.getElementById('span').innerText.substring(0, 8)
     // terminalAudio(`https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`)
   
   }
@@ -192,6 +229,9 @@ function App() {
 
     event.target.style.background = 'transparent';
     event.target.style.color = 'white';
+    if (/[a-z]/i.test(event.target.innerText)) !!isMouseOver
+    
+    if (document.getElementById('span').innerText.length > 7) document.getElementById('span').innerText.substring(0, 8)
     // event.target.style.color = '#33dd88'
     
     while (nextSibling && /[a-z]/i.test(nextSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
@@ -231,6 +271,7 @@ function App() {
             setUpLetters={setUpLetters}
             onMouseHover={mouseEnter}
             onMouseOut={mouseOut}
+            onMouseMove={mouseMove}
           />
           <RightText 
             lettersNumbers={lettersNumbers} 
