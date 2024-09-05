@@ -110,57 +110,106 @@ function App() {
   }
 
   // const mouseEnter = event => event.target.style.background = 'green'
+  async function textRunner (sentence, location) {
+    const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('') 
+    let i = 0;
+    
+    // console.log('first MOW', isMouseOver)
+    // if (isMouseOver == true) {
+    //   await typeSentence(sentence, location)
+    //   console.log('MOW', isMouseOver)
+    // } else console.log('T')
+    await typeSentence(sentence, location)
+      
+    
+    return
+  }
 
   async function typeSentence (sentence, location) {
     const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('') 
+    const checkWords = []
     let i = 0;
-    console.log('LED', letters)
+    
+    location.innerText = ''
+    console.log('LED', letters, checkWords, location.innerText)
+    
+    while (i < letters.length) {
+      await waitForMs()
+      checkWords.push(letters[i])
+      console.log('LEDs', letters[i], checkWords, checkWords.join(''), location.innerText, location.innerText.substring(0, 6) === checkWords.join('').substring(0, 6) )
+      if ( location.innerText.length < 7) {
+        location.innerText += letters[i]
+        
+      }
+      else location.innerText = letters
 
-    await waitForMs()
-    if (/[A-Z]/.test(sentence[0])) {
-      location.innerText.substring(0, 8)
-      location.innerText += letters
       
+      i++
     }
-    else location.innerText = letters
+    while (checkWords.length !== 0) {
+      checkWords.pop()
+    }
+    return
+  }
 
-    // while (i < letters.length) {
-    //   await waitForMs()
-      
-    //   if (/[A-Z]/.test(sentence[0])) location.innerText += letters.split('')
-    //   else location.innerText = letters
-    //   // WHEN HOVERING OVER THE LETTERS MAKE IT === ''
-    //   i++
-    // }
+  async function deleteSentence (location) {
+    const sentence = ''
+    const letters = location.innerText
+    let i = 0;
 
+    while (letters.length > 0) {
+      await waitForMs()
+
+      letters.substring(0, letters.length - 1)
+    }
   }
   const waitForMs = () => {
-    return new Promise(resolve => setTimeout(resolve, 50))
+    return new Promise(resolve => setTimeout(resolve, 55))
+  }
+
+  const addLetters = (spot, letter) => {
+    return spot.innerText += letter
   }
   let isMouseOver = false
 
   const mouseMove = (event) => {
-    const spanText = document.getElementById('span');
+    const spanText = document.getElementById('span'); 
+    let timer;
+    // console.log('MOVE', event, event.target.innerText, event.target.nextElementSibling)
+    // if (event.target.innerText === event.target.className) isMouseOver = true
+    // console.log('CHECK', isMouseOver)
+    clearTimeout(timer)
+    timer = setTimeout(() => {
 
-    console.log('MOVE', event)
-    // if (/[a-z]/i.test(event.target.innerText)) console.log('MOVE', 'WORKS')
-
-    // if (/[a-z]/i.test(event.target.innerText)) !isMouseOver
-    // else !!isMouseOver
-
-    // if (/[a-z]/i.test(event.target.innerText) && !isMouseOver) console.log('MOVE', 'MOVIE')
-    // else console.log('MOVE', 'NEWS', isMouseOver)
+    })
   }
-  const mouseEnter = event => {
+
+  // function mouseMove (event) {
+  //   const spanText = document.getElementById('span')
+  //   let nextSibling = event.target.nextElementSibling
+  //   let prevSibling = event.target.previousElementSibling
+  //   let wholeWord = ''
+  //   let frontWord = ''
+  //   let backWord = ''
+  //   let timed 
+
+  //   clearTimeout(timed)
+  //   timed = setTimeout(async () => {
+  //     await OutwardText(event, frontWord, backWord, wholeWord, nextSibling, prevSibling, spanText)
+  //   }, 50)
+    
+  // }
+  
+  async function mouseEnter (event) {
     const selectedAudio = document.getElementById('audiofile');
     const spanText = document.getElementById('span')
     let nextSibling = event.target.nextElementSibling
     let prevSibling = event.target.previousElementSibling
     let wholeWord = ''
-    let currentWord = ''
     let frontWord = ''
     let backWord = ''
     
+
     event.target.style.background = 'green'
     event.target.style.color = 'black'
 
@@ -171,57 +220,134 @@ function App() {
     console.log(event.target.innerText, event.target.nextElementSibling, event)
     
     spanText.innerText = ''
-    if (/[a-z]/i.test(event.target.innerText)) !isMouseOver
     
-    frontWord += event.target.innerText
-
-    
-    while (nextSibling && /[a-z]/i.test(nextSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
-      event.target.style.background = '#33dd88'
-      // event.target.style.color = 'black'
-      nextSibling.style.background = '#33dd88'
-      nextSibling.style.color = 'black'
-      // wholeWord += event.target.innerText
-      // wholeWord += nextSibling.innerText
-
-      frontWord += nextSibling.innerText
-      console.log('words', frontWord, 'front')
-      nextSibling = nextSibling.nextElementSibling
-    }
-
-
-    currentWord = event.target.innerText
-    
-    // backWord += event.target.innerText
-    while (prevSibling && /[a-z]/i.test(prevSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
-      event.target.style.background = '#33dd88'
-      // event.target.style.color = 'black'
-      prevSibling.style.background = '#33dd88'
-      prevSibling.style.color = 'black'
-      backWord += prevSibling.innerText
-      console.log('words', backWord.split('').reverse().join(''), 'back')
-
-      prevSibling = prevSibling.previousElementSibling
-    }
-    // backWord.split('').reverse().join('')
-    if (/[a-z]/i.test(event.target.innerText) && isMouseOver == true) {
-      console.log('MOUSET', isMouseOver)
-      document.getElementById('span').innerText = ''
-    }
-    else {
-      
-      wholeWord = backWord.split('').reverse().join('') + frontWord
-      console.log('MOVE', 'WHOLE', wholeWord)
-      console.log('MOVE', 'WHOLE', frontWord)
-    }
-    // wholeWord = backWord.split('').reverse().join('') + frontWord
-    console.log('Words, whole', wholeWord, frontWord, backWord)
-    typeSentence([event.target.innerText, wholeWord], spanText)
-
-    if (document.getElementById('span').innerText.length > 7) document.getElementById('span').innerText.substring(0, 8)
-    // terminalAudio(`https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`)
+    isMouseOver = false
+    console.log('NEW CHECK', isMouseOver)
+    // if (/[A-Z]/i.test(event.target.innerText) !== false && /[A-Z]/i.test(event.target.nextElementSibling.innerText) == true && /[A-Z]/i.test(event.target.previousElementSibling.innerText == true)) spanText.innerText = ''
+    OutwardText(event, frontWord, backWord, wholeWord, nextSibling, prevSibling, spanText)
   
   }
+  const OutwardText = (event, fWord, bWord, wWord, nSibling, pSibling, sText, location) => {
+    console.log('PIG', event)
+    return new Promise((resolve, reject) => {
+
+      fWord += event.target.innerText
+      while (nSibling && /[a-z]/i.test(nSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
+        event.target.style.background = '#33dd88'
+        // event.target.style.color = 'black'
+        nSibling.style.background = '#33dd88'
+        nSibling.style.color = 'black'
+        // wWord += event.target.innerText
+        // wWord += nSibling.innerText
+
+        fWord += nSibling.innerText
+        console.log('words', fWord, 'front')
+        nSibling = nSibling.nextElementSibling
+      }
+
+
+      // currentWord = event.target.innerText
+      
+      // backWord += event.target.innerText
+      while (pSibling && /[a-z]/i.test(pSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
+        event.target.style.background = '#33dd88'
+        // event.target.style.color = 'black'
+        pSibling.style.background = '#33dd88'
+        pSibling.style.color = 'black'
+        bWord += pSibling.innerText
+        console.log('words', bWord.split('').reverse().join(''), 'back')
+
+        pSibling = pSibling.previousElementSibling
+      }
+      
+      // wWord += bWord.split('').reverse().join('') + fWord
+      
+      wWord = bWord.split('').reverse().join('') + fWord
+      console.log('Words, whole', wWord, fWord, bWord)
+      if (testArrays[1].indexOf(wWord) ) {
+        resolve(wWord)
+        textRunner([event.target.innerText, wWord], sText)
+        // typeSentence([event.target.innerText, wWord], sText, fWord, bWord)
+      }
+      else {
+        reject(new Error('False'))
+      }
+      // console.log('Test', testArrays, testArrays[1], testArrays[1].indexOf('URETHRA'))
+      
+      
+    })
+  }
+  // const mouseEnter = event => {
+  //   const selectedAudio = document.getElementById('audiofile');
+  //   const spanText = document.getElementById('span')
+  //   let nextSibling = event.target.nextElementSibling
+  //   let prevSibling = event.target.previousElementSibling
+  //   let wholeWord = ''
+  //   let currentWord = ''
+  //   let frontWord = ''
+  //   let backWord = ''
+    
+  //   event.target.style.background = 'green'
+  //   event.target.style.color = 'black'
+
+  //   console.log(selectedAudio.src)
+    
+  //   selectedAudio.play()
+    
+  //   console.log(event.target.innerText, event.target.nextElementSibling, event)
+    
+  //   spanText.innerText = ''
+  //   if (/[a-z]/i.test(event.target.innerText)) !isMouseOver
+    
+  //   frontWord += event.target.innerText
+
+    
+  //   while (nextSibling && /[a-z]/i.test(nextSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
+  //     event.target.style.background = '#33dd88'
+  //     // event.target.style.color = 'black'
+  //     nextSibling.style.background = '#33dd88'
+  //     nextSibling.style.color = 'black'
+  //     // wholeWord += event.target.innerText
+  //     // wholeWord += nextSibling.innerText
+
+  //     frontWord += nextSibling.innerText
+  //     console.log('words', frontWord, 'front')
+  //     nextSibling = nextSibling.nextElementSibling
+  //   }
+
+
+  //   currentWord = event.target.innerText
+    
+  //   // backWord += event.target.innerText
+  //   while (prevSibling && /[a-z]/i.test(prevSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
+  //     event.target.style.background = '#33dd88'
+  //     // event.target.style.color = 'black'
+  //     prevSibling.style.background = '#33dd88'
+  //     prevSibling.style.color = 'black'
+  //     backWord += prevSibling.innerText
+  //     console.log('words', backWord.split('').reverse().join(''), 'back')
+
+  //     prevSibling = prevSibling.previousElementSibling
+  //   }
+  //   // backWord.split('').reverse().join('')
+  //   if (/[a-z]/i.test(event.target.innerText) && isMouseOver == true) {
+  //     console.log('MOUSET', isMouseOver)
+  //     document.getElementById('span').innerText = ''
+  //   }
+  //   else {
+      
+  //     wholeWord = backWord.split('').reverse().join('') + frontWord
+  //     console.log('MOVE', 'WHOLE', wholeWord)
+  //     console.log('MOVE', 'WHOLE', frontWord)
+  //   }
+  //   // wholeWord = backWord.split('').reverse().join('') + frontWord
+  //   console.log('Words, whole', wholeWord, frontWord, backWord)
+  //   typeSentence([event.target.innerText, wholeWord], spanText)
+
+  //   if (document.getElementById('span').innerText.length > 7) document.getElementById('span').innerText.substring(0, 8)
+  //   // terminalAudio(`https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`)
+  
+  // }
   const mouseOut = event => {
     const selectedAudio = document.getElementById('audiofile');
     let nextSibling = event.target.nextElementSibling;
