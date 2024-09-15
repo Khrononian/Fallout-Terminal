@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './TextStyles.css'
 
-const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onMouseHover, onMouseOut, onMouseMove }) => {
+const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onMouseHover, onMouseOut, onClicked }) => {
   const sevenWords = ['Formula','Dilemma','Diploma','Replica','Grandma','Spectra','Persona',
   'Ammonia','Antenna','Stamina','Malaria','Militia','Vanilla','Bonanza','Inertia','Sequoia',
   'Algebra','Cholera','Bohemia','Bologna','Alameda','Gorilla','Nirvana','Grandpa','Panacea',
@@ -52,7 +52,7 @@ const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onM
           
           
           setUpLetters(characters, 90).map((letter, index) => {
-            return <p className={letter} key={index} onMouseMove={event => onMouseMove(event)} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
+            return <p style={{cursor: 'pointer'}} className={letter} key={index} onClick={event => onClicked(event)} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
           })
         }
         
