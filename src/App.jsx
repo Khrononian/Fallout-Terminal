@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import LeftText from './LeftText'
 import RightText from './RightText'
@@ -11,6 +11,10 @@ function App() {
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
   const testArrays = []
+  let chosenWord = ''
+  let clickedWord = ''
+
+  
   const terminalAudio = (url) => {
     const sounds = new Audio(url);
 
@@ -56,6 +60,10 @@ function App() {
       'Tempura','Naphtha','Polenta','Silesia','Viremia','Purpura','Sultana','Pergola','Emerita',
       'Exotica','Helluva','Arabica']
       
+      useEffect(() => {
+        chosenWord = sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase()
+      }, [])
+
       let firstNum = 1
       let secondNum = 12
       let i = 0
@@ -77,7 +85,6 @@ function App() {
         t++
       }
       testArrays.push(terminalCodes)
-      // testArrays.shift()
       
       let j = 0;
       while (dudLetters.length !== 0 || j <= 8) {
@@ -109,7 +116,6 @@ function App() {
     return setUpWords(newString, newNum)
   }
 
-  // const mouseEnter = event => event.target.style.background = 'green'
   async function textRunner (sentence, location) {
     const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('') 
     let i = 0;
@@ -137,19 +143,12 @@ function App() {
       await waitForMs()
       checkWords.push(letters[i])
       console.log('LEDs', letters[i], checkWords, checkWords.join(''), location.innerText, location.innerText.substring(0, 6) === checkWords.join('').substring(0, 6) )
-      if ( location.innerText.length < 7) {
-        location.innerText += letters[i]
-        
-      }
+      if ( location.innerText.length < 7) location.innerText += letters[i]
       else location.innerText = letters
-
       
       i++
     }
-    while (checkWords.length !== 0) {
-      checkWords.pop()
-    }
-    return
+    retrieveCode(location.innerText)
   }
 
   async function deleteSentence (location) {
@@ -167,39 +166,6 @@ function App() {
     return new Promise(resolve => setTimeout(resolve, 55))
   }
 
-  const addLetters = (spot, letter) => {
-    return spot.innerText += letter
-  }
-  let isMouseOver = false
-
-  const mouseMove = (event) => {
-    const spanText = document.getElementById('span'); 
-    let timer;
-    // console.log('MOVE', event, event.target.innerText, event.target.nextElementSibling)
-    // if (event.target.innerText === event.target.className) isMouseOver = true
-    // console.log('CHECK', isMouseOver)
-    clearTimeout(timer)
-    timer = setTimeout(() => {
-
-    })
-  }
-
-  // function mouseMove (event) {
-  //   const spanText = document.getElementById('span')
-  //   let nextSibling = event.target.nextElementSibling
-  //   let prevSibling = event.target.previousElementSibling
-  //   let wholeWord = ''
-  //   let frontWord = ''
-  //   let backWord = ''
-  //   let timed 
-
-  //   clearTimeout(timed)
-  //   timed = setTimeout(async () => {
-  //     await OutwardText(event, frontWord, backWord, wholeWord, nextSibling, prevSibling, spanText)
-  //   }, 50)
-    
-  // }
-  
   async function mouseEnter (event) {
     const selectedAudio = document.getElementById('audiofile');
     const spanText = document.getElementById('span')
@@ -209,8 +175,7 @@ function App() {
     let frontWord = ''
     let backWord = ''
     
-
-    event.target.style.background = 'green'
+    event.target.style.background = 'green' 
     event.target.style.color = 'black'
 
     console.log(selectedAudio.src)
@@ -221,12 +186,13 @@ function App() {
     
     spanText.innerText = ''
     
-    isMouseOver = false
-    console.log('NEW CHECK', isMouseOver)
-    // if (/[A-Z]/i.test(event.target.innerText) !== false && /[A-Z]/i.test(event.target.nextElementSibling.innerText) == true && /[A-Z]/i.test(event.target.previousElementSibling.innerText == true)) spanText.innerText = ''
     OutwardText(event, frontWord, backWord, wholeWord, nextSibling, prevSibling, spanText)
   
   }
+  const clearCodes = (event) => {
+    console.log('Code', clickedWord, chosenWord)
+  }
+  const retrieveCode = (code) => clickedWord = code
   const OutwardText = (event, fWord, bWord, wWord, nSibling, pSibling, sText, location) => {
     console.log('PIG', event)
     return new Promise((resolve, reject) => {
@@ -244,8 +210,6 @@ function App() {
         console.log('words', fWord, 'front')
         nSibling = nSibling.nextElementSibling
       }
-
-
       // currentWord = event.target.innerText
       
       // backWord += event.target.innerText
@@ -256,98 +220,20 @@ function App() {
         pSibling.style.color = 'black'
         bWord += pSibling.innerText
         console.log('words', bWord.split('').reverse().join(''), 'back')
-
         pSibling = pSibling.previousElementSibling
       }
       
-      // wWord += bWord.split('').reverse().join('') + fWord
-      
       wWord = bWord.split('').reverse().join('') + fWord
-      console.log('Words, whole', wWord, fWord, bWord)
       if (testArrays[1].indexOf(wWord) ) {
         resolve(wWord)
         textRunner([event.target.innerText, wWord], sText)
-        // typeSentence([event.target.innerText, wWord], sText, fWord, bWord)
       }
       else {
         reject(new Error('False'))
       }
-      // console.log('Test', testArrays, testArrays[1], testArrays[1].indexOf('URETHRA'))
-      
-      
     })
   }
-  // const mouseEnter = event => {
-  //   const selectedAudio = document.getElementById('audiofile');
-  //   const spanText = document.getElementById('span')
-  //   let nextSibling = event.target.nextElementSibling
-  //   let prevSibling = event.target.previousElementSibling
-  //   let wholeWord = ''
-  //   let currentWord = ''
-  //   let frontWord = ''
-  //   let backWord = ''
-    
-  //   event.target.style.background = 'green'
-  //   event.target.style.color = 'black'
-
-  //   console.log(selectedAudio.src)
-    
-  //   selectedAudio.play()
-    
-  //   console.log(event.target.innerText, event.target.nextElementSibling, event)
-    
-  //   spanText.innerText = ''
-  //   if (/[a-z]/i.test(event.target.innerText)) !isMouseOver
-    
-  //   frontWord += event.target.innerText
-
-    
-  //   while (nextSibling && /[a-z]/i.test(nextSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
-  //     event.target.style.background = '#33dd88'
-  //     // event.target.style.color = 'black'
-  //     nextSibling.style.background = '#33dd88'
-  //     nextSibling.style.color = 'black'
-  //     // wholeWord += event.target.innerText
-  //     // wholeWord += nextSibling.innerText
-
-  //     frontWord += nextSibling.innerText
-  //     console.log('words', frontWord, 'front')
-  //     nextSibling = nextSibling.nextElementSibling
-  //   }
-
-
-  //   currentWord = event.target.innerText
-    
-  //   // backWord += event.target.innerText
-  //   while (prevSibling && /[a-z]/i.test(prevSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
-  //     event.target.style.background = '#33dd88'
-  //     // event.target.style.color = 'black'
-  //     prevSibling.style.background = '#33dd88'
-  //     prevSibling.style.color = 'black'
-  //     backWord += prevSibling.innerText
-  //     console.log('words', backWord.split('').reverse().join(''), 'back')
-
-  //     prevSibling = prevSibling.previousElementSibling
-  //   }
-  //   // backWord.split('').reverse().join('')
-  //   if (/[a-z]/i.test(event.target.innerText) && isMouseOver == true) {
-  //     console.log('MOUSET', isMouseOver)
-  //     document.getElementById('span').innerText = ''
-  //   }
-  //   else {
-      
-  //     wholeWord = backWord.split('').reverse().join('') + frontWord
-  //     console.log('MOVE', 'WHOLE', wholeWord)
-  //     console.log('MOVE', 'WHOLE', frontWord)
-  //   }
-  //   // wholeWord = backWord.split('').reverse().join('') + frontWord
-  //   console.log('Words, whole', wholeWord, frontWord, backWord)
-  //   typeSentence([event.target.innerText, wholeWord], spanText)
-
-  //   if (document.getElementById('span').innerText.length > 7) document.getElementById('span').innerText.substring(0, 8)
-  //   // terminalAudio(`https://breakout.bernis-hideout.de/robco-industries/sound/k${Math.floor(Math.random() * 10) + 1}.ogg`)
   
-  // }
   const mouseOut = event => {
     const selectedAudio = document.getElementById('audiofile');
     let nextSibling = event.target.nextElementSibling;
@@ -355,7 +241,6 @@ function App() {
 
     event.target.style.background = 'transparent';
     event.target.style.color = 'white';
-    if (/[a-z]/i.test(event.target.innerText)) !!isMouseOver
     
     if (document.getElementById('span').innerText.length > 7) document.getElementById('span').innerText.substring(0, 8)
     // event.target.style.color = '#33dd88'
@@ -397,7 +282,7 @@ function App() {
             setUpLetters={setUpLetters}
             onMouseHover={mouseEnter}
             onMouseOut={mouseOut}
-            onMouseMove={mouseMove}
+            onClicked={clearCodes}
           />
           <RightText 
             lettersNumbers={lettersNumbers} 
