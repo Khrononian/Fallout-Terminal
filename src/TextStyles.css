@@ -27,3 +27,7 @@
     grid-template-rows: repeat(17, 24px);
     text-align: center;
 }
+
+.code-desc {
+    letter-spacing: .5em;
+}
