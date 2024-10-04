@@ -1,28 +1,45 @@
+import React, { useState, useEffect, useMemo, useCallback, createElement } from 'react'
 import './App.css'
-import { useState, useEffect } from 'react'
-
 import LeftText from './LeftText'
 import RightText from './RightText'
 
 // import Audios from './audios'
 
-function App() {
+const App = React.memo(() => {
+  const [data, setData] = useState([])
+  const [words, setWords] = useState([])
+  const [letters, setLetters] = useState('')
+
+  const [count, setCount] = useState(0)
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
   const testArrays = []
   let chosenWord = ''
   let clickedWord = ''
-
   
-  const terminalAudio = (url) => {
-    const sounds = new Audio(url);
+  useEffect(() => {
+    const sevenWords = ['Formula','Dilemma','Diploma','Replica','Grandma','Spectra','Persona',
+          'Ammonia','Antenna','Stamina','Malaria','Militia','Vanilla','Bonanza','Inertia','Sequoia',
+          'Algebra','Cholera','Bohemia','Bologna','Alameda','Gorilla','Nirvana','Grandpa','Panacea',
+          'Alumina','Amnesia','Candida','Tequila','Regatta','Mascara','Magenta','Bulimia','Indicia',
+          'Gondola','Veranda','Urethra','Granola','Myeloma','Candela','Dyspnea','Sarcoma','Cantina',
+          'Rosacea','Regalia','Rotunda','Madrona','Corpora','Alfalfa','Myalgia','Gangsta','Bravura',
+          'Caldera','Anaemia','Tessera','Yeshiva','Trachea','Cordoba','Ganglia','Aphasia','Chimera',
+          'Rubella','Lantana','Breccia','Spatula','Hypoxia','Savanna','Paprika','Novella','Propria',
+          'Erotica','Giardia','Fuchsia','Taffeta','Cortina','Fistula','Arugula','Ricotta','Cannula',
+          'Adenoma','Beretta','Corolla','Piranha','Lasagna','Cantata','Ephedra','Mahatma','Marimba',
+          'Tempura','Naphtha','Polenta','Silesia','Viremia','Purpura','Sultana','Pergola','Emerita',
+          'Exotica','Helluva','Arabica']
 
-    sounds.volume = 0.2
-    sounds.muted = true
-    sounds.play();
-  }
-
+    setWords([
+      ...words,
+      ...sevenWords
+    ])
+    for (let i = 0; i < 90; i++) {
+      setLetters(prevLetter => prevLetter + characters[Math.floor(Math.random() * characters.length)])
+    }
+  }, [])
   const randomLetters = (array, num) => {
     let newString = ''
     
@@ -32,100 +49,100 @@ function App() {
 
     return newString
   }
-
-  const setUpLetters = (array, num) => {
-    const newNum = [0, 1, 2, 3, 4, 5]
-    const dudLetters = [0, 1, 2, 3, 4]
-    const blockHolder = ['[]', '()', '{}', '<>']
-    const characterHolder = '!@#$%^&*_-=+|,;./'
-    const terminalWords = [[], [], [], [], [], [], [], [], []];
-    const terminalCodes = [[], [], [], [], [], []]
-    const newString = []
-    
-    for (let i = 0; i < num; i++) {
-      newString.push(array[Math.floor(Math.random() * array.length)])
-    }
-
-    const setUpWords = (string, number) => {
-      const sevenWords = ['Formula','Dilemma','Diploma','Replica','Grandma','Spectra','Persona',
-      'Ammonia','Antenna','Stamina','Malaria','Militia','Vanilla','Bonanza','Inertia','Sequoia',
-      'Algebra','Cholera','Bohemia','Bologna','Alameda','Gorilla','Nirvana','Grandpa','Panacea',
-      'Alumina','Amnesia','Candida','Tequila','Regatta','Mascara','Magenta','Bulimia','Indicia',
-      'Gondola','Veranda','Urethra','Granola','Myeloma','Candela','Dyspnea','Sarcoma','Cantina',
-      'Rosacea','Regalia','Rotunda','Madrona','Corpora','Alfalfa','Myalgia','Gangsta','Bravura',
-      'Caldera','Anaemia','Tessera','Yeshiva','Trachea','Cordoba','Ganglia','Aphasia','Chimera',
-      'Rubella','Lantana','Breccia','Spatula','Hypoxia','Savanna','Paprika','Novella','Propria',
-      'Erotica','Giardia','Fuchsia','Taffeta','Cortina','Fistula','Arugula','Ricotta','Cannula',
-      'Adenoma','Beretta','Corolla','Piranha','Lasagna','Cantata','Ephedra','Mahatma','Marimba',
-      'Tempura','Naphtha','Polenta','Silesia','Viremia','Purpura','Sultana','Pergola','Emerita',
-      'Exotica','Helluva','Arabica']
-      
-      useEffect(() => {
-        chosenWord = sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase()
-      }, [])
-
-      let firstNum = 1
-      let secondNum = 12
-      let i = 0
-      let t = 0;
-
-      while (number.length !== 0 ) {
-        console.log('First line', string.indexOf(string[Math.floor(Math.random() * string.length)]), string[Math.floor(Math.random() * string.length)], number, terminalWords)
-        
-        terminalCodes[i].push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-        string.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, terminalCodes[i].toString().split(''))
-
-        firstNum += 12
-        secondNum += 12
-        
-        console.log('Numbers', firstNum, secondNum, terminalCodes, terminalCodes[i], terminalCodes[i].toString(), testArrays)
-        
-        number.pop()
-        i++
-        t++
-      }
-      testArrays.push(terminalCodes)
-      
-      let j = 0;
-      while (dudLetters.length !== 0 || j <= 8) {
-        terminalWords[j].unshift(blockHolder[Math.floor(Math.random() * blockHolder.length)][0])
-        for (let i = 0; i < 6; i++) {
-          terminalWords[j].push(characterHolder[Math.floor(Math.random() * characterHolder.length)])
-          
-        }
-        dudLetters.pop()
-        blockHolder.forEach(element => {
-          if (element[0] === terminalWords[j][0]) terminalWords[j].push(element[1])
-        })
-        j++
-      }
-      
-      for (let i = 0; i < 9; i++) {
-        string.splice(Math.floor(Math.random() * newString.length), 0, terminalWords[i])
-      }
-      
-      console.log('TERM', terminalWords, terminalCodes )
-      console.log('RICE', sevenWords[Math.floor(Math.random() * sevenWords.length)], sevenWords[Math.floor(Math.random() * sevenWords.length)].split(''))
-      console.log('FLAT', string.flat())
-      
-      return string.flat()
-    }
-    testArrays.splice(0, 0)
-    testArrays.splice(2, 1)
-
-    return setUpWords(newString, newNum)
+  
+  const setUpLetters = () => {
+    console.log('STATE', letters)
   }
 
-  async function textRunner (sentence, location) {
-    const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('') 
-    let i = 0;
+  // const setUpLetters = (array, num) => {
+  //   const newNum = [0, 1, 2, 3, 4, 5]
+  //   const dudLetters = [0, 1, 2, 3, 4]
+  //   const blockHolder = ['[]', '()', '{}', '<>']
+  //   const characterHolder = '!@#$%^&*_-=+|,;./'
+  //   const terminalWords = [[], [], [], [], [], [], [], [], []];
+  //   const terminalCodes = [[], [], [], [], [], []]
+  //   const newString = []
     
-    // console.log('first MOW', isMouseOver)
-    // if (isMouseOver == true) {
-    //   await typeSentence(sentence, location)
-    //   console.log('MOW', isMouseOver)
-    // } else console.log('T')
-    await typeSentence(sentence, location)
+  //   for (let i = 0; i < num; i++) {
+  //     newString.push(array[Math.floor(Math.random() * array.length)])
+  //   }
+    
+
+  //   const setUpWords = (string, number) => {
+  //     const sevenWords = ['Formula','Dilemma','Diploma','Replica','Grandma','Spectra','Persona',
+  //     'Ammonia','Antenna','Stamina','Malaria','Militia','Vanilla','Bonanza','Inertia','Sequoia',
+  //     'Algebra','Cholera','Bohemia','Bologna','Alameda','Gorilla','Nirvana','Grandpa','Panacea',
+  //     'Alumina','Amnesia','Candida','Tequila','Regatta','Mascara','Magenta','Bulimia','Indicia',
+  //     'Gondola','Veranda','Urethra','Granola','Myeloma','Candela','Dyspnea','Sarcoma','Cantina',
+  //     'Rosacea','Regalia','Rotunda','Madrona','Corpora','Alfalfa','Myalgia','Gangsta','Bravura',
+  //     'Caldera','Anaemia','Tessera','Yeshiva','Trachea','Cordoba','Ganglia','Aphasia','Chimera',
+  //     'Rubella','Lantana','Breccia','Spatula','Hypoxia','Savanna','Paprika','Novella','Propria',
+  //     'Erotica','Giardia','Fuchsia','Taffeta','Cortina','Fistula','Arugula','Ricotta','Cannula',
+  //     'Adenoma','Beretta','Corolla','Piranha','Lasagna','Cantata','Ephedra','Mahatma','Marimba',
+  //     'Tempura','Naphtha','Polenta','Silesia','Viremia','Purpura','Sultana','Pergola','Emerita',
+  //     'Exotica','Helluva','Arabica']
+      
+  //     useEffect(() => {
+  //       console.log('checked', sevenWords, chosenWord, testArrays)
+  //       chosenWord = testArrays[1][Math.floor(Math.random() * testArrays[1].length)].toString()
+  //     }, [])
+
+  //     let firstNum = 1
+  //     let secondNum = 12
+  //     let i = 0
+  //     let t = 0;
+
+  //     while (number.length !== 0 ) {
+  //       console.log('First line', string.indexOf(string[Math.floor(Math.random() * string.length)]), string[Math.floor(Math.random() * string.length)], number, terminalWords)
+        
+  //       terminalCodes[i].push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
+  //       string.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, terminalCodes[i].toString().split(''))
+
+  //       firstNum += 12
+  //       secondNum += 12
+        
+  //       console.log('Numbers', firstNum, secondNum, terminalCodes, terminalCodes[i], terminalCodes[i].toString(), testArrays)
+        
+  //       number.pop()
+  //       i++
+  //       t++
+  //     }
+  //     testArrays.push(terminalCodes)
+      
+  //     let j = 0;
+  //     while (dudLetters.length !== 0 || j <= 8) {
+  //       terminalWords[j].unshift(blockHolder[Math.floor(Math.random() * blockHolder.length)][0])
+  //       for (let i = 0; i < 6; i++) {
+  //         terminalWords[j].push(characterHolder[Math.floor(Math.random() * characterHolder.length)])
+          
+  //       }
+  //       dudLetters.pop()
+  //       blockHolder.forEach(element => {
+  //         if (element[0] === terminalWords[j][0]) terminalWords[j].push(element[1])
+  //       })
+  //       j++
+  //     }
+      
+  //     for (let i = 0; i < 9; i++) {
+  //       string.splice(Math.floor(Math.random() * newString.length), 0, terminalWords[i])
+  //     }
+      
+  //     console.log('TERM', terminalWords, terminalCodes )
+  //     console.log('RICE', sevenWords[Math.floor(Math.random() * sevenWords.length)], sevenWords[Math.floor(Math.random() * sevenWords.length)].split(''))
+  //     console.log('FLAT', string.flat())
+      
+  //     return string.flat()
+  //   }
+
+  //   testArrays.splice(0, 0)
+  //   testArrays.splice(2, 1)
+
+  //   return setUpWords(newString, newNum)
+  // }
+
+  function textRunner (sentence, location) {
+    
+    typeSentence(sentence, location)
       
     
     return
@@ -143,7 +160,7 @@ function App() {
       await waitForMs()
       checkWords.push(letters[i])
       console.log('LEDs', letters[i], checkWords, checkWords.join(''), location.innerText, location.innerText.substring(0, 6) === checkWords.join('').substring(0, 6) )
-      if ( location.innerText.length < 7) location.innerText += letters[i]
+      if (location.innerText.length < 7 && /[A-Z]/.test(sentence[0])) location.innerText += letters[i]
       else location.innerText = letters
       
       i++
@@ -151,17 +168,6 @@ function App() {
     retrieveCode(location.innerText)
   }
 
-  async function deleteSentence (location) {
-    const sentence = ''
-    const letters = location.innerText
-    let i = 0;
-
-    while (letters.length > 0) {
-      await waitForMs()
-
-      letters.substring(0, letters.length - 1)
-    }
-  }
   const waitForMs = () => {
     return new Promise(resolve => setTimeout(resolve, 55))
   }
@@ -189,12 +195,54 @@ function App() {
     OutwardText(event, frontWord, backWord, wholeWord, nextSibling, prevSibling, spanText)
   
   }
-  const clearCodes = (event) => {
-    console.log('Code', clickedWord, chosenWord)
+  // const processCodes = useMemo((event) => {
+    
+
+  // }, [clickedWord])
+  const clickTester = () => {
+    if (clickedWord !== chosenWord) {
+      setData(
+        [
+          ...data,
+          { id: 0, name: clickedWord, correct: event.target.innerText.match(new RegExp(chosenWord, 'g')  )|| [].length }
+        ]
+      )
+    }
+  } 
+  // const processCodes = useCallback(() => {
+  //   console.log('Code', clickedWord, chosenWord)
+    
+  //   clickTester()
+
+  // }, [setData])
+
+  const processCodes = (event) => {
+    console.log('Code', clickedWord, chosenWord, letters, data)
+    
+    if (clickedWord !== chosenWord) {
+      setData(
+        [
+          ...data,
+          { id: setCount(prevCount => prevCount.id + 1), name: clickedWord, correct: event.target.innerText.match(new RegExp(chosenWord, 'g')  )|| [].length }
+        ]
+      )
+    }
+
+    return
+  }
+  console.log(data)
+  const createNewElements = ({ word, accessCode }) => {
+    return createElement(
+      'p',
+      { className: 'code-desc' },
+      `> ${'word'}`,
+      createElement('p', {className: 'code-desc'}, 'Access denied'),
+      createElement('p', {className: 'code-desc'}, 'Test'),
+    )
   }
   const retrieveCode = (code) => clickedWord = code
-  const OutwardText = (event, fWord, bWord, wWord, nSibling, pSibling, sText, location) => {
-    console.log('PIG', event)
+  const OutwardText = (event, fWord, bWord, wWord, nSibling, pSibling, sText) => {
+    console.log('PIG', 'CODE', event, chosenWord)
     return new Promise((resolve, reject) => {
 
       fWord += event.target.innerText
@@ -234,7 +282,7 @@ function App() {
     })
   }
   
-  const mouseOut = event => {
+  const mouseOut = event => { 
     const selectedAudio = document.getElementById('audiofile');
     let nextSibling = event.target.nextElementSibling;
     let prevSibling = event.target.previousElementSibling;
@@ -282,7 +330,7 @@ function App() {
             setUpLetters={setUpLetters}
             onMouseHover={mouseEnter}
             onMouseOut={mouseOut}
-            onClicked={clearCodes}
+            onClicked={processCodes}
           />
           <RightText 
             lettersNumbers={lettersNumbers} 
@@ -290,15 +338,28 @@ function App() {
             randomLetters={randomLetters}
             setUpLetters={setUpLetters}
           />
+          <div>
+            { data.map(info => (
+            <div key={info.id}>
+              <p>{info.name}</p>
+              <p>Access Denied</p>
+              <p>{info.correct}/7 correct</p>
+            </div>
+          )) } 
           <p>{'>'}<span id='span'></span></p>
+          </div>
+          
+          
         </div>
         
       </div>
+
       <div>
         <audio id='audiofile' src='https://breakout.bernis-hideout.de/robco-industries/sound/k1.ogg'/>
       </div>
     </>
   )
-}
+})
+App.displayName = 'App'
 
 export default App
