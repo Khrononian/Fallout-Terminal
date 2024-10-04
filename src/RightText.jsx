@@ -25,9 +25,9 @@ const RightText = ({ lettersNumbers, characters, randomLetters, setUpLetters }) 
         </div>
         <div className='rightgrid '>
           {
-            setUpLetters(characters, 90).map((letter, index) => {
-              return <p key={index}>{letter}</p>
-            })
+            // setUpLetters(characters, 90).map((letter, index) => {
+            //   return <p key={index}>{letter}</p>
+            // })
           }
         </div>
       </div>
