@@ -8,12 +8,16 @@ import RightText from './RightText'
 const App = React.memo(() => {
   const [data, setData] = useState([])
   const [words, setWords] = useState([])
-  const [letters, setLetters] = useState('')
+  const [characterString, setCharacterString] = useState('')
+  const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], [], [], []])
+  // const [terminalDudHolder, setTerminalDudHolder] = useState(['[]', '()', '{}', '<>'])
+  
 
   const [count, setCount] = useState(0)
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
+  
   const testArrays = []
   let chosenWord = ''
   let clickedWord = ''
@@ -30,16 +34,53 @@ const App = React.memo(() => {
           'Erotica','Giardia','Fuchsia','Taffeta','Cortina','Fistula','Arugula','Ricotta','Cannula',
           'Adenoma','Beretta','Corolla','Piranha','Lasagna','Cantata','Ephedra','Mahatma','Marimba',
           'Tempura','Naphtha','Polenta','Silesia','Viremia','Purpura','Sultana','Pergola','Emerita',
-          'Exotica','Helluva','Arabica']
+          'Exotica','Helluva','Arabica'
+    ];
+    const dudCharacters = '!@#$%^&*_-=+|,;./'
+    const terminalCodeCopy = [...terminalCode]
+    const terminalDudHolder = ['[]', '()', '{}', '<>']
+    const dudHolder = [0, 1, 2, 3, 4];
+    let p = 0
 
-    setWords([
-      ...words,
-      ...sevenWords
-    ])
-    for (let i = 0; i < 90; i++) {
-      setLetters(prevLetter => prevLetter + characters[Math.floor(Math.random() * characters.length)])
+    for (let i = 0; i < 3; i++) {
+      setWords(prevWord => [
+        ...prevWord,
+        words.concat(sevenWords[Math.floor(Math.random() * sevenWords.length)])
+      ])
     }
+    
+
+    for (let i = 0; i < 90; i++) {
+      setCharacterString(prevLetter => prevLetter + characters[Math.floor(Math.random() * characters.length)])
+    }
+    // setTerminalCode(prevLetter => [...prevLetter, terminalCode.concat(characterString.split('')) ])
+    while (dudHolder.length !== 0 || p <= 8) {
+      terminalCodeCopy[p].unshift(terminalDudHolder[Math.floor(Math.random() * terminalDudHolder.length)][0])
+      
+      for (let i = 0; i < 6; i++) {
+        // setTerminalCode(prevCode => [
+        //   ...prevCode,
+        //   terminalCode[p].concat(dudCharacters[Math.floor(Math.random() * dudCharacters.length)])
+        // ])
+        terminalCodeCopy[p].push(dudCharacters[Math.floor(Math.random() * dudCharacters.length)])
+        
+      }
+      console.log('TEST',terminalCode, terminalCode[p])
+      dudHolder.pop()
+      terminalDudHolder.forEach(element => {
+        if (element[0] === terminalCodeCopy[p][0]) terminalCodeCopy[p].push(element[1])
+      })
+      setTerminalCode(prevCode => [
+        ...prevCode,
+        terminalCode.concat(terminalCodeCopy)
+      ])
+      console.log('AFTER', terminalCodeCopy)
+      p++
+    }
+
   }, [])
+
+
   const randomLetters = (array, num) => {
     let newString = ''
     
@@ -51,7 +92,20 @@ const App = React.memo(() => {
   }
   
   const setUpLetters = () => {
-    console.log('STATE', letters)
+    // setTerminalCode(prevLetter => [...prevLetter, terminalCode.concat(characterString.split('')) ])
+    
+    console.log('STATE', characterString, characterString.split(''), words, terminalCode)
+    const newNum = [0, 1, 2, 3, 4, 5]
+    let firstNum = 1
+    let secondNum = 12
+    let i = 0
+    let t = 0;
+    // INDEX/NUM IS 90
+
+    // while (newNum.length !== 0) {
+
+    // }
+    return
   }
 
   // const setUpLetters = (array, num) => {
