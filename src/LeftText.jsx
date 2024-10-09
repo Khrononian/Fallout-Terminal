@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './TextStyles.css'
 
-const LeftText = React.memo(({ lettersNumbers, characters, randomLetters, setUpLetters, onMouseHover, onMouseOut, onClicked }) => {
-
+const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onMouseHover, onMouseOut, onClicked }) => {
+  // REACT MEMO
 
   return (
     <main>
@@ -42,7 +42,7 @@ const LeftText = React.memo(({ lettersNumbers, characters, randomLetters, setUpL
       </div>
     </main>
   )
-})
+}
 
 LeftText.displayName = 'LeftText'
 
