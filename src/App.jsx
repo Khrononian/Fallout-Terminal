@@ -42,7 +42,7 @@ const App = React.memo(() => {
     const dudHolder = [0, 1, 2, 3, 4];
     let p = 0
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 6; i++) {
       setWords(prevWord => [
         ...prevWord,
         words.concat(sevenWords[Math.floor(Math.random() * sevenWords.length)])
@@ -74,7 +74,7 @@ const App = React.memo(() => {
         ...prevCode,
         terminalCode.concat(terminalCodeCopy)
       ])
-      console.log('AFTER', terminalCodeCopy)
+      console.log('AFTER', terminalCodeCopy, characterString)
       p++
     }
 
@@ -94,13 +94,31 @@ const App = React.memo(() => {
   const setUpLetters = () => {
     // setTerminalCode(prevLetter => [...prevLetter, terminalCode.concat(characterString.split('')) ])
     
-    console.log('STATE', characterString, characterString.split(''), words, terminalCode)
-    const newNum = [0, 1, 2, 3, 4, 5]
+    console.log('STATE', characterString, words, terminalCode)
+    const newNum = [0, 1, 2, 3, 4, 5];
+    const characterStringCopy = [...characterString]
+    const terminalCopy = [...terminalCode]
     let firstNum = 1
     let secondNum = 12
     let i = 0
     let t = 0;
     // INDEX/NUM IS 90
+
+    for (let i = 0; i < 9; i++) {
+      characterStringCopy.splice(Math.floor(Math.random() * characterStringCopy.length), 0, terminalCopy[i] )
+    }
+
+    // console.log('NEW', characterStringCopy.flat(), characterStringCopy.length, terminalCopy)
+    
+    // setCharacterString(prevArray => [
+    //   ...prevArray,
+    //   characterString.concat(characterString.flat())
+    // ])
+
+
+    // IF YOU DONT FIND A WAY, USE INNER FUNCS WITHOUT STATE
+    // setCharacterString(characterStringCopy.flat().join('').toString())
+    console.log('AFTER NEW', characterString, characterStringCopy.flat().join('').toString())
 
     // while (newNum.length !== 0) {
 
