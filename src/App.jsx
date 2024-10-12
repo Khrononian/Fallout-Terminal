@@ -5,7 +5,7 @@ import RightText from './RightText'
 
 // import Audios from './audios'
 
-const App = React.memo(() => {
+const App = () => {
   const [data, setData] = useState([])
   const [words, setWords] = useState([])
   const [characterString, setCharacterString] = useState('')
@@ -92,17 +92,41 @@ const App = React.memo(() => {
   }
   
   const setUpLetters = () => {
-    // setTerminalCode(prevLetter => [...prevLetter, terminalCode.concat(characterString.split('')) ])
-    
-    console.log('STATE', characterString, words, terminalCode)
+    console.log('STATE', characterString, characterString.split('').length, words, terminalCode)
     const newNum = [0, 1, 2, 3, 4, 5];
     const characterStringCopy = [...characterString]
+    const characterNumbers = [...characterString.split('')]
     const terminalCopy = [...terminalCode]
     let firstNum = 1
     let secondNum = 12
     let i = 0
-    let t = 0;
+    
     // INDEX/NUM IS 90
+    // console.log('HEY', words[i], words[1].toString())
+
+    
+    while (characterNumbers.length !== 0) {
+      // characterStringCopy.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, words[i].split(''))
+
+      
+      if (words[i] !== undefined) {
+        console.log('Test', words[i], words[i].toString().split(''))
+
+        characterStringCopy.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) )+ firstNum, 0, words[i].toString().toUpperCase().split(''))
+      }
+
+      // words.map((word, index) => {
+      //   console.log('HEY',index, words, word, word.toString().split(''), characterNumbers )
+      //   // characterStringCopy.splice(Math.floor(Math.random() * ))
+      //   characterStringCopy.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, word.toString().split(''))
+      // })
+
+      firstNum += 12
+      secondNum += 12
+      i++
+
+      characterNumbers.pop()
+    }
 
     for (let i = 0; i < 9; i++) {
       characterStringCopy.splice(Math.floor(Math.random() * characterStringCopy.length), 0, terminalCopy[i] )
@@ -110,21 +134,23 @@ const App = React.memo(() => {
 
     // console.log('NEW', characterStringCopy.flat(), characterStringCopy.length, terminalCopy)
     
-    // setCharacterString(prevArray => [
-    //   ...prevArray,
-    //   characterString.concat(characterString.flat())
-    // ])
-
+    
+    
 
     // IF YOU DONT FIND A WAY, USE INNER FUNCS WITHOUT STATE
     // setCharacterString(characterStringCopy.flat().join('').toString())
-    console.log('AFTER NEW', characterString, characterStringCopy.flat().join('').toString())
+
+    console.log('AFTER NEW', characterStringCopy,  characterStringCopy.flat().join('').toString().length)
 
     // while (newNum.length !== 0) {
 
     // }
-    return
+    // return characterStringCopy.flat().join('').toString()
+    return characterStringCopy.flat()
   }
+
+
+
 
   // const setUpLetters = (array, num) => {
   //   const newNum = [0, 1, 2, 3, 4, 5]
@@ -212,13 +238,6 @@ const App = React.memo(() => {
   //   return setUpWords(newString, newNum)
   // }
 
-  function textRunner (sentence, location) {
-    
-    typeSentence(sentence, location)
-      
-    
-    return
-  }
 
   async function typeSentence (sentence, location) {
     const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('') 
@@ -232,6 +251,7 @@ const App = React.memo(() => {
       await waitForMs()
       checkWords.push(letters[i])
       console.log('LEDs', letters[i], checkWords, checkWords.join(''), location.innerText, location.innerText.substring(0, 6) === checkWords.join('').substring(0, 6) )
+      
       if (location.innerText.length < 7 && /[A-Z]/.test(sentence[0])) location.innerText += letters[i]
       else location.innerText = letters
       
@@ -313,45 +333,40 @@ const App = React.memo(() => {
     )
   }
   const retrieveCode = (code) => clickedWord = code
+
   const OutwardText = (event, fWord, bWord, wWord, nSibling, pSibling, sText) => {
     console.log('PIG', 'CODE', event, chosenWord)
-    return new Promise((resolve, reject) => {
 
-      fWord += event.target.innerText
-      while (nSibling && /[a-z]/i.test(nSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
-        event.target.style.background = '#33dd88'
-        // event.target.style.color = 'black'
-        nSibling.style.background = '#33dd88'
-        nSibling.style.color = 'black'
-        // wWord += event.target.innerText
-        // wWord += nSibling.innerText
 
-        fWord += nSibling.innerText
-        console.log('words', fWord, 'front')
-        nSibling = nSibling.nextElementSibling
-      }
-      // currentWord = event.target.innerText
-      
-      // backWord += event.target.innerText
-      while (pSibling && /[a-z]/i.test(pSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
-        event.target.style.background = '#33dd88'
-        // event.target.style.color = 'black'
-        pSibling.style.background = '#33dd88'
-        pSibling.style.color = 'black'
-        bWord += pSibling.innerText
-        console.log('words', bWord.split('').reverse().join(''), 'back')
-        pSibling = pSibling.previousElementSibling
-      }
-      
-      wWord = bWord.split('').reverse().join('') + fWord
-      if (testArrays[1].indexOf(wWord) ) {
-        resolve(wWord)
-        textRunner([event.target.innerText, wWord], sText)
-      }
-      else {
-        reject(new Error('False'))
-      }
-    })
+    fWord += event.target.innerText
+    while (nSibling && /[a-z]/i.test(nSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
+      event.target.style.background = '#33dd88'
+      // event.target.style.color = 'black'
+      nSibling.style.background = '#33dd88'
+      nSibling.style.color = 'black'
+      // wWord += event.target.innerText
+      // wWord += nSibling.innerText
+
+      fWord += nSibling.innerText
+      console.log('words', fWord, 'front')
+      nSibling = nSibling.nextElementSibling
+    }
+    // currentWord = event.target.innerText
+    
+    // backWord += event.target.innerText
+    while (pSibling && /[a-z]/i.test(pSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
+      event.target.style.background = '#33dd88'
+      // event.target.style.color = 'black'
+      pSibling.style.background = '#33dd88'
+      pSibling.style.color = 'black'
+      bWord += pSibling.innerText
+      console.log('words', bWord.split('').reverse().join(''), 'back')
+      pSibling = pSibling.previousElementSibling
+    }
+    
+    wWord = bWord.split('').reverse().join('') + fWord
+    
+    typeSentence([event.target.innerText, wWord], sText)
   }
   
   const mouseOut = event => { 
@@ -431,7 +446,7 @@ const App = React.memo(() => {
       </div>
     </>
   )
-})
+}
 App.displayName = 'App'
 
 export default App
