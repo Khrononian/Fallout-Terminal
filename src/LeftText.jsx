@@ -35,9 +35,11 @@ const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onM
             // setUpLetters().map((letter, index) => {
             //   return <p style={{cursor: 'pointer'}} className={letter} key={index} onClick={event => onClicked(event)} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
             // })
-            setUpLetters()
+            setUpLetters().map((letter, index) => {
+              return <p style={{cursor: 'pointer'}} className={letter} key={index} onClick={event => onClicked(event)} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
+            })
           }
-          <p onClick={event => onClicked(event)}>Test</p>
+          {/* <p onClick={event => onClicked(event)}>Test</p> */}
         </div>
       </div>
     </main>
