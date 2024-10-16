@@ -6,19 +6,19 @@ import RightText from './RightText'
 // import Audios from './audios'
 
 const App = () => {
+  const [attempts, setAttempts] = useState(4)
   const [data, setData] = useState([])
-  const [words, setWords] = useState([])
-  const [characterString, setCharacterString] = useState('')
+  // const [characterString, setCharacterString] = useState('')
+  const [finalCharacter, setFinalCharacter] = useState([])
   const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], [], [], []])
-  // const [terminalDudHolder, setTerminalDudHolder] = useState(['[]', '()', '{}', '<>'])
-  
-
   const [count, setCount] = useState(0)
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
   
+  const words = []
   const testArrays = []
+  let characterString = []
   let chosenWord = ''
   let clickedWord = ''
   
@@ -43,16 +43,13 @@ const App = () => {
     let p = 0
 
     for (let i = 0; i < 6; i++) {
-      setWords(prevWord => [
-        ...prevWord,
-        words.concat(sevenWords[Math.floor(Math.random() * sevenWords.length)])
-      ])
+      words.push(sevenWords[Math.floor(Math.random() * sevenWords.length)])
     }
-    
 
     for (let i = 0; i < 90; i++) {
-      setCharacterString(prevLetter => prevLetter + characters[Math.floor(Math.random() * characters.length)])
+      characterString.push(characters[Math.floor(Math.random() * characters.length)])
     }
+
     // setTerminalCode(prevLetter => [...prevLetter, terminalCode.concat(characterString.split('')) ])
     while (dudHolder.length !== 0 || p <= 8) {
       terminalCodeCopy[p].unshift(terminalDudHolder[Math.floor(Math.random() * terminalDudHolder.length)][0])
@@ -65,7 +62,7 @@ const App = () => {
         terminalCodeCopy[p].push(dudCharacters[Math.floor(Math.random() * dudCharacters.length)])
         
       }
-      console.log('TEST',terminalCode, terminalCode[p])
+      console.log('TEST', characterString, terminalCode, terminalCode[p])
       dudHolder.pop()
       terminalDudHolder.forEach(element => {
         if (element[0] === terminalCodeCopy[p][0]) terminalCodeCopy[p].push(element[1])
@@ -77,6 +74,43 @@ const App = () => {
       console.log('AFTER', terminalCodeCopy, characterString)
       p++
     }
+
+    const characterStringCopy = [...characterString]
+    const terminalCopy = [...terminalCode]
+    let firstNum = 1
+    let secondNum = 12
+    let i = 0
+    let takeAwayNum = 204
+    
+    while (takeAwayNum !== 0) {
+
+      // console.log('LOGGGS', words, characterStringCopy, characterStringCopy.length, characterString)
+      if (words[i] !== undefined) {
+        
+        console.log('Test', words[i], words[i].toString().split(''), characterString)
+
+        characterString.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) ) + firstNum, 0, words[i].toString().toUpperCase().split(''))
+      
+      }
+
+      firstNum += 12
+      secondNum += 12
+      i++
+      takeAwayNum--
+
+    }
+    console.log('NEW', characterString, characterString.length, )
+    for (let i = 0; i < 9; i++) {
+      // characterStringCopy.splice(Math.floor(Math.random() * characterStringCopy.length), 0, terminalCopy[i] )
+      characterString.splice(Math.floor(Math.random() * characterString.length), 0, terminalCopy[i] )
+      console.log('TESTTTT', finalCharacter, terminalCopy, words)
+    }
+    
+    setFinalCharacter(prevChar => [
+        ...prevChar,
+        finalCharacter.concat(characterString.flat())
+    ])
+      console.log('RIGHTS', finalCharacter)
 
   }, [])
 
@@ -92,61 +126,52 @@ const App = () => {
   }
   
   const setUpLetters = () => {
-    console.log('STATE', characterString, characterString.split('').length, words, terminalCode)
+    // console.log('STATE', characterString, characterString.split('').length, words, terminalCode)
     const newNum = [0, 1, 2, 3, 4, 5];
     const characterStringCopy = [...characterString]
-    const characterNumbers = [...characterString.split('')]
+    // const characterNumbers = [...characterString.split('')]
     const terminalCopy = [...terminalCode]
+    const finalCopy = [...finalCharacter]
     let firstNum = 1
     let secondNum = 12
     let i = 0
     
-    // INDEX/NUM IS 90
-    // console.log('HEY', words[i], words[1].toString())
-
-    
-    while (characterNumbers.length !== 0) {
-      // characterStringCopy.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, words[i].split(''))
+    // while (characterNumbers.length !== 0) {
 
       
-      if (words[i] !== undefined) {
-        console.log('Test', words[i], words[i].toString().split(''))
+    //   if (words[i] !== undefined) {
+    //     // console.log('Test', words[i], words[i].toString().split(''))
 
-        characterStringCopy.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) )+ firstNum, 0, words[i].toString().toUpperCase().split(''))
-      }
+    //     characterStringCopy.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) )+ firstNum, 0, words[i].toString().toUpperCase().split(''))
+    //   }
 
-      // words.map((word, index) => {
-      //   console.log('HEY',index, words, word, word.toString().split(''), characterNumbers )
-      //   // characterStringCopy.splice(Math.floor(Math.random() * ))
-      //   characterStringCopy.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, word.toString().split(''))
-      // })
+      
 
-      firstNum += 12
-      secondNum += 12
-      i++
+    //   firstNum += 12
+    //   secondNum += 12
+    //   i++
 
-      characterNumbers.pop()
-    }
+    //   characterNumbers.pop()
+    // }
 
-    for (let i = 0; i < 9; i++) {
-      characterStringCopy.splice(Math.floor(Math.random() * characterStringCopy.length), 0, terminalCopy[i] )
-    }
+    // for (let i = 0; i < 9; i++) {
+    //   characterStringCopy.splice(Math.floor(Math.random() * characterStringCopy.length), 0, terminalCopy[i] )
+    // }
+
 
     // console.log('NEW', characterStringCopy.flat(), characterStringCopy.length, terminalCopy)
-    
-    
-    
 
     // IF YOU DONT FIND A WAY, USE INNER FUNCS WITHOUT STATE
     // setCharacterString(characterStringCopy.flat().join('').toString())
 
-    console.log('AFTER NEW', characterStringCopy,  characterStringCopy.flat().join('').toString().length)
 
-    // while (newNum.length !== 0) {
+    console.log('AFTER NEW', characterString, characterString.length, finalCharacter, finalCopy.flat().length)
 
-    // }
-    // return characterStringCopy.flat().join('').toString()
-    return characterStringCopy.flat()
+
+
+
+    return finalCharacter.flat()
+    // return characterStringCopy.flat()
   }
 
 
@@ -293,12 +318,14 @@ const App = () => {
   // }, [clickedWord])
   const clickTester = () => {
     if (clickedWord !== chosenWord) {
-      setData(
-        [
-          ...data,
-          { id: 0, name: clickedWord, correct: event.target.innerText.match(new RegExp(chosenWord, 'g')  )|| [].length }
-        ]
-      )
+      console.log('WOAHHHHH')
+      // setData(
+      //   [
+      //     ...data,
+      //     { id: 0, name: clickedWord, correct: event.target.innerText.match(new RegExp(chosenWord, 'g')  )|| [].length }
+      //   ]
+      // )
+
     }
   } 
   // const processCodes = useCallback(() => {
@@ -309,18 +336,26 @@ const App = () => {
   // }, [setData])
 
   const processCodes = (event) => {
-    console.log('Code', clickedWord, chosenWord, letters, data)
+    const attemptsLeft = [0, 1, 2, 3]
+    console.log('Code', clickedWord, chosenWord, data)
     
     if (clickedWord !== chosenWord) {
+      console.log('WOAOOOOA')
+      
+      console.log('SS', attemptsLeft)
+
+      // setAttempts(attempt => attempt - 1)
+
       setData(
         [
           ...data,
           { id: setCount(prevCount => prevCount.id + 1), name: clickedWord, correct: event.target.innerText.match(new RegExp(chosenWord, 'g')  )|| [].length }
         ]
       )
+      
     }
 
-    return
+    
   }
   console.log(data)
   const createNewElements = ({ word, accessCode }) => {
@@ -407,7 +442,7 @@ const App = () => {
         <p>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
         <p>ENTER PASSWORD NOW</p>
         <br/>
-        <p className='header'>4 ATTEMPT(S) LEFT: <span className='span'>█</span><span className='span'>█</span><span className='span'>█</span><span className='span'>█</span></p>
+        <p className='header'>{attempts} ATTEMPT(S) LEFT: <span className='span'>█</span><span className='span'>█</span><span className='span'>█</span><span className='span'>█</span></p>
         <br/>
         <div className='boxes'>
           <LeftText 
