@@ -5,23 +5,11 @@ const RightText = ({ lettersNumbers, characters, randomLetters, setUpLetters }) 
     <>
       <div className='grid'>
         <div className='leftgrid '>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
-          <p>0x{randomLetters(lettersNumbers, 4)}</p>
+          {
+            randomLetters().map((letter, index) => {
+              return <p  key={index}>0x{letter}</p>
+            })
+          }
         </div>
         <div className='rightgrid '>
           {
