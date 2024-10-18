@@ -8,7 +8,7 @@ import RightText from './RightText'
 const App = () => {
   const [attempts, setAttempts] = useState(4)
   const [data, setData] = useState([])
-  // const [characterString, setCharacterString] = useState('')
+  const [sideStrings, setSideStrings] = useState([])
   const [finalCharacter, setFinalCharacter] = useState([])
   const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], [], [], []])
   const [count, setCount] = useState(0)
@@ -83,7 +83,6 @@ const App = () => {
     let takeAwayNum = 204
     
     while (takeAwayNum !== 0) {
-
       // console.log('LOGGGS', words, characterStringCopy, characterStringCopy.length, characterString)
       if (words[i] !== undefined) {
         
@@ -97,7 +96,6 @@ const App = () => {
       secondNum += 12
       i++
       takeAwayNum--
-
     }
     console.log('NEW', characterString, characterString.length, )
     for (let i = 0; i < 9; i++) {
@@ -112,17 +110,30 @@ const App = () => {
     ])
       console.log('RIGHTS', finalCharacter)
 
+    
+    let newArray = []
+    
+    for (let i = 0; i < 17; i++) {
+      let newString = ''
+      for (let i = 0; i < 4; i++) {
+
+        newString += lettersNumbers[Math.floor(Math.random() * lettersNumbers.length)]
+        console.log('WOY', typeof newString, newString)
+      }
+      // newArray.push(lettersNumbers[Math.floor(Math.random() * lettersNumbers.length)]  )
+      newArray.push(newString  )
+    }
+    setSideStrings(prevString => [
+      ...prevString,
+      sideStrings.concat(newArray)
+    ])
   }, [])
 
 
-  const randomLetters = (array, num) => {
-    let newString = ''
+  const randomLetters = () => {
+    // const sideStringsCopy = [...sideStrings.split('')]
     
-    for (let i = 0; i < num; i++) {
-       newString += array[Math.floor(Math.random() * array.length)]
-    }
-
-    return newString
+    return sideStrings.flat()
   }
   
   const setUpLetters = () => {
@@ -171,99 +182,8 @@ const App = () => {
 
 
     return finalCharacter.flat()
-    // return characterStringCopy.flat()
   }
-
-
-
-
-  // const setUpLetters = (array, num) => {
-  //   const newNum = [0, 1, 2, 3, 4, 5]
-  //   const dudLetters = [0, 1, 2, 3, 4]
-  //   const blockHolder = ['[]', '()', '{}', '<>']
-  //   const characterHolder = '!@#$%^&*_-=+|,;./'
-  //   const terminalWords = [[], [], [], [], [], [], [], [], []];
-  //   const terminalCodes = [[], [], [], [], [], []]
-  //   const newString = []
-    
-  //   for (let i = 0; i < num; i++) {
-  //     newString.push(array[Math.floor(Math.random() * array.length)])
-  //   }
-    
-
-  //   const setUpWords = (string, number) => {
-  //     const sevenWords = ['Formula','Dilemma','Diploma','Replica','Grandma','Spectra','Persona',
-  //     'Ammonia','Antenna','Stamina','Malaria','Militia','Vanilla','Bonanza','Inertia','Sequoia',
-  //     'Algebra','Cholera','Bohemia','Bologna','Alameda','Gorilla','Nirvana','Grandpa','Panacea',
-  //     'Alumina','Amnesia','Candida','Tequila','Regatta','Mascara','Magenta','Bulimia','Indicia',
-  //     'Gondola','Veranda','Urethra','Granola','Myeloma','Candela','Dyspnea','Sarcoma','Cantina',
-  //     'Rosacea','Regalia','Rotunda','Madrona','Corpora','Alfalfa','Myalgia','Gangsta','Bravura',
-  //     'Caldera','Anaemia','Tessera','Yeshiva','Trachea','Cordoba','Ganglia','Aphasia','Chimera',
-  //     'Rubella','Lantana','Breccia','Spatula','Hypoxia','Savanna','Paprika','Novella','Propria',
-  //     'Erotica','Giardia','Fuchsia','Taffeta','Cortina','Fistula','Arugula','Ricotta','Cannula',
-  //     'Adenoma','Beretta','Corolla','Piranha','Lasagna','Cantata','Ephedra','Mahatma','Marimba',
-  //     'Tempura','Naphtha','Polenta','Silesia','Viremia','Purpura','Sultana','Pergola','Emerita',
-  //     'Exotica','Helluva','Arabica']
-      
-  //     useEffect(() => {
-  //       console.log('checked', sevenWords, chosenWord, testArrays)
-  //       chosenWord = testArrays[1][Math.floor(Math.random() * testArrays[1].length)].toString()
-  //     }, [])
-
-  //     let firstNum = 1
-  //     let secondNum = 12
-  //     let i = 0
-  //     let t = 0;
-
-  //     while (number.length !== 0 ) {
-  //       console.log('First line', string.indexOf(string[Math.floor(Math.random() * string.length)]), string[Math.floor(Math.random() * string.length)], number, terminalWords)
-        
-  //       terminalCodes[i].push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-  //       string.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) + firstNum), 0, terminalCodes[i].toString().split(''))
-
-  //       firstNum += 12
-  //       secondNum += 12
-        
-  //       console.log('Numbers', firstNum, secondNum, terminalCodes, terminalCodes[i], terminalCodes[i].toString(), testArrays)
-        
-  //       number.pop()
-  //       i++
-  //       t++
-  //     }
-  //     testArrays.push(terminalCodes)
-      
-  //     let j = 0;
-  //     while (dudLetters.length !== 0 || j <= 8) {
-  //       terminalWords[j].unshift(blockHolder[Math.floor(Math.random() * blockHolder.length)][0])
-  //       for (let i = 0; i < 6; i++) {
-  //         terminalWords[j].push(characterHolder[Math.floor(Math.random() * characterHolder.length)])
-          
-  //       }
-  //       dudLetters.pop()
-  //       blockHolder.forEach(element => {
-  //         if (element[0] === terminalWords[j][0]) terminalWords[j].push(element[1])
-  //       })
-  //       j++
-  //     }
-      
-  //     for (let i = 0; i < 9; i++) {
-  //       string.splice(Math.floor(Math.random() * newString.length), 0, terminalWords[i])
-  //     }
-      
-  //     console.log('TERM', terminalWords, terminalCodes )
-  //     console.log('RICE', sevenWords[Math.floor(Math.random() * sevenWords.length)], sevenWords[Math.floor(Math.random() * sevenWords.length)].split(''))
-  //     console.log('FLAT', string.flat())
-      
-  //     return string.flat()
-  //   }
-
-  //   testArrays.splice(0, 0)
-  //   testArrays.splice(2, 1)
-
-  //   return setUpWords(newString, newNum)
-  // }
-
-
+  
   async function typeSentence (sentence, location) {
     const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('') 
     const checkWords = []
@@ -346,7 +266,7 @@ const App = () => {
 
       // setAttempts(attempt => attempt - 1)
 
-      setData(
+      setData(data =>
         [
           ...data,
           { id: setCount(prevCount => prevCount.id + 1), name: clickedWord, correct: event.target.innerText.match(new RegExp(chosenWord, 'g')  )|| [].length }
