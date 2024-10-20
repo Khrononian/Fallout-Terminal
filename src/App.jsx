@@ -232,29 +232,7 @@ const App = () => {
     OutwardText(event, frontWord, backWord, wholeWord, nextSibling, prevSibling, spanText)
   
   }
-  // const processCodes = useMemo((event) => {
-    
-
-  // }, [clickedWord])
-  const clickTester = () => {
-    if (clickedWord !== chosenWord) {
-      console.log('WOAHHHHH')
-      // setData(
-      //   [
-      //     ...data,
-      //     { id: 0, name: clickedWord, correct: event.target.innerText.match(new RegExp(chosenWord, 'g')  )|| [].length }
-      //   ]
-      // )
-
-    }
-  } 
-  // const processCodes = useCallback(() => {
-  //   console.log('Code', clickedWord, chosenWord)
-    
-  //   clickTester()
-
-  // }, [setData])
-
+  
   const processCodes = (event) => {
     const attemptsLeft = [0, 1, 2, 3]
     console.log('Code', clickedWord, chosenWord, data)
@@ -264,14 +242,17 @@ const App = () => {
       
       console.log('SS', attemptsLeft)
 
-      // setAttempts(attempt => attempt - 1)
+      setAttempts(attempt => attempt - 1)
 
-      setData(data =>
-        [
-          ...data,
-          { id: setCount(prevCount => prevCount.id + 1), name: clickedWord, correct: event.target.innerText.match(new RegExp(chosenWord, 'g')  )|| [].length }
-        ]
-      )
+      if (/[a-z]/i.test(clickedWord)) {
+        setData(data =>
+          [
+            ...data,
+            { id: setCount(prevCount => prevCount.id + 1), name: clickedWord, correct: event.target.innerText.match(new RegExp(chosenWord, 'g')  )|| [].length }
+          ]
+        )
+      } else return
+      
       
     }
 
@@ -306,6 +287,25 @@ const App = () => {
       console.log('words', fWord, 'front')
       nSibling = nSibling.nextElementSibling
     }
+    console.log('Jecks', event.target.innerText)
+    // if (/[()<>[\]{}]/gi.test(event.target.innerText)  ) {
+    if (/[ (<[{ ]/.test(event.target.innerText)  ) {
+      console.log('ALMOST', )
+      let i = 0
+     
+      //  /!@#$%^&*_-=+|,;./i.test(nSibling.innerText)
+      //  /[ (<[{ ]/.test(event.target.innerText)
+      //  / [ >\]}) ] /.test(nSibling.innerText)
+    }
+    console.log('CHECKERS', nSibling, nSibling.innerText, /[!@#$%^&* _\-[=+|,;.]/ig.test(event.target.innerText) , /[!@#$%^&* _=+|,;.-]/ig.test(nSibling.innerText) )
+    while (nSibling && /[!@#$%^&* _=+|,;.-]/ig.test(nSibling.innerText) && /[(<{[]/.test(event.target.innerText)) {
+      
+        console.log('Almonds', )
+        
+        nSibling = nSibling.nextElementSibling
+        // pSibling = pSibling.previousElementSibling
+      }
+
     // currentWord = event.target.innerText
     
     // backWord += event.target.innerText
