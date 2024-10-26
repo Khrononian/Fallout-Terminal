@@ -21,7 +21,8 @@ const App = () => {
   let characterString = []
   let chosenWord = ''
   let clickedWord = ''
-  
+  let clickedDud = ''
+
   useEffect(() => {
     const sevenWords = ['Formula','Dilemma','Diploma','Replica','Grandma','Spectra','Persona',
           'Ammonia','Antenna','Stamina','Malaria','Militia','Vanilla','Bonanza','Inertia','Sequoia',
@@ -46,12 +47,12 @@ const App = () => {
       words.push(sevenWords[Math.floor(Math.random() * sevenWords.length)])
     }
 
-    for (let i = 0; i < 90; i++) {
+    for (let i = 0; i < 98; i++) {
       characterString.push(characters[Math.floor(Math.random() * characters.length)])
     }
 
     // setTerminalCode(prevLetter => [...prevLetter, terminalCode.concat(characterString.split('')) ])
-    while (dudHolder.length !== 0 || p <= 8) {
+    while (dudHolder.length !== 0 || p <= 7) {
       terminalCodeCopy[p].unshift(terminalDudHolder[Math.floor(Math.random() * terminalDudHolder.length)][0])
       
       for (let i = 0; i < 6; i++) {
@@ -252,10 +253,8 @@ const App = () => {
           ]
         )
       } else return
-      
-      
     }
-
+    
     
   }
   console.log(data)
@@ -298,14 +297,117 @@ const App = () => {
       //  / [ >\]}) ] /.test(nSibling.innerText)
     }
     console.log('CHECKERS', nSibling, nSibling.innerText, /[!@#$%^&* _\-[=+|,;.]/ig.test(event.target.innerText) , /[!@#$%^&* _=+|,;.-]/ig.test(nSibling.innerText) )
-    while (nSibling && /[!@#$%^&* _=+|,;.-]/ig.test(nSibling.innerText) && /[(<{[]/.test(event.target.innerText)) {
-      
-        console.log('Almonds', )
+    let i = 0
+    let dudArray = []
+    let dudArray2= []
+    let dudArray3= []
+    let eventSibling = event.target.nextElementSibling
+    let prevEventSibling = event.target.previousElementSibling
+
+    while (nSibling && /[!@#$%^&*_=+|,;/.\- \])}>]/g.test(nSibling.innerText) && /[(<{[]/.test(event.target.innerText) && i <= 6 ) {
+      // \])}>
+      console.log('Almonds', nSibling, nSibling.nextElementSibling, dudArray3)
+
+      dudArray.push(event.target.innerText)
+      dudArray2.push(nSibling.innerText)
+      if (dudArray2.length <= 7 ) {
         
-        nSibling = nSibling.nextElementSibling
-        // pSibling = pSibling.previousElementSibling
+        dudArray3.push(dudArray[0], dudArray2.join(''))
+        console.log('FOOD1',dudArray2, dudArray3, )
+        
+      } 
+
+      if (dudArray3.length === 14 && dudArray3[12] && dudArray3[13]  ) {
+        
+        console.log('FOOD678', dudArray3[13], dudArray3[13][6], dudArray3[13][6] === '}' || dudArray3[13][6] === '>' || dudArray3[13][6] === ')' || dudArray3[13][6] === ']')
+        console.log('FOODTEST', '{' === '}', /[()|[\]|{}]/g.test('{' === '}'))
+
+        if (dudArray3[13][6] === '}' && dudArray3[12] === '{' || dudArray3[13][6] === '>' && dudArray3[12] === '<' || dudArray3[13][6] === ')' && dudArray3[12] === '(' || dudArray3[13][6] === ']' && dudArray3[12] === '[') {
+          
+          let p = 0;
+          clickedDud = dudArray[0]
+          while (p !== 7) {
+            console.log('FOOD9393', p, dudArray, dudArray2, terminalCode)
+            
+
+            clickedDud += eventSibling.innerText
+            console.log('FOODFIND', clickedDud, )
+            event.target.style.background = '#33dd88'
+            // event.target.nextElementSibling.style.background = '#33dd88'
+            // event.target.nextElementSibling.nextElementSibling.style.background = '#33dd88'
+            // event.target.nextElementSibling.nextElementSibling.nextElementSibling.style.background = '#33dd88'
+            // event.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.background = '#33dd88'
+            // event.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.background = '#33dd88'
+            // event.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.background = '#33dd88'
+            // event.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.background = '#33dd88'
+            eventSibling.style.background = '#33dd88'
+
+            eventSibling = eventSibling.nextElementSibling
+            p++
+          }
+                    // nSibling.style.background = '#33dd88'
+                    // nSibling.style.color = 'black'
+        }
+
+        // if (dudArray3[13][6] === '{' || dudArray3[13][6] === '<' || dudArray3[13][6] === '(' || dudArray3[13][6] === '[') {
+
+        // }
+        console.log('FOODFINAL', clickedDud)
+        
+        
       }
 
+      console.log('DUDS', dudArray, dudArray2, dudArray2[5], dudArray2.length)
+      
+      nSibling = nSibling.nextElementSibling
+      
+      i++
+    }
+    while (pSibling && /[(<[{ !@#$%^&*_=+|,;/.-]/g.test(pSibling.innerText) && /[\])}>]/.test(event.target.innerText) && i <= 6 ) {
+      dudArray.push(event.target.innerText)
+      dudArray2.unshift(pSibling.innerText)
+      if (dudArray2.length <= 7 ) {
+        
+        dudArray3.unshift(dudArray2.join(''), dudArray[0] )
+        console.log('FOOD1',dudArray2, dudArray3, )
+        
+      }
+
+      if (dudArray3.length === 14 && dudArray3[0] && dudArray3[1] ) {
+        
+        console.log('FOOD678', dudArray3[13], dudArray3[13][6], dudArray3[13][6] === '{' || dudArray3[13][6] === '<' || dudArray3[13][6] === '(' || dudArray3[13][6] === '[')
+        
+
+        if (dudArray3[0][0] === '{' && dudArray3[1] === '}' || dudArray3[0][0] === '<' && dudArray3[1] === '>' || dudArray3[0][0] === '(' && dudArray3[1] === ')' || dudArray3[0][0] === '[' && dudArray3[1] === ']') {
+          
+          let p = 0;
+          clickedDud = dudArray[0]
+          while (p !== 7) {
+            console.log('FOOD9393', p, dudArray, dudArray2, terminalCode)
+            
+
+            clickedDud += eventSibling.innerText
+            console.log('FOODFIND', clickedDud, )
+            event.target.style.background = '#33dd88'
+            prevEventSibling.style.background = '#33dd88'
+
+            prevEventSibling = prevEventSibling.previousElementSibling
+            p++
+          }
+                    // nSibling.style.background = '#33dd88'
+                    // nSibling.style.color = 'black'
+        }
+
+        // if (dudArray3[13][6] === '{' || dudArray3[13][6] === '<' || dudArray3[13][6] === '(' || dudArray3[13][6] === '[') {
+
+        // }
+        console.log('FOODFINAL', clickedDud)
+        
+        
+      }
+      pSibling = pSibling.previousElementSibling
+      i++
+    }
     // currentWord = event.target.innerText
     
     // backWord += event.target.innerText
