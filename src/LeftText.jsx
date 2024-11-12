@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './TextStyles.css'
 
-const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onMouseHover, onMouseOut, onClicked }) => {
+const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onMouseHover, onMouseOut, onClicked, onMoved }) => {
 
   return (
     <main>
@@ -20,7 +20,7 @@ const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onM
             //   return <p style={{cursor: 'pointer'}} className={letter} key={index} onClick={event => onClicked(event)} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
             // })
             setUpLetters().map((letter, index) => {
-              return <p style={{cursor: 'pointer'}} className={letter} key={index} onClick={event => onClicked(event)} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
+              return <p style={{cursor: 'pointer'}} className={letter} key={index} onMouseMove={event => onMoved(event)} onClick={event => onClicked(event)} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
             })
           }
         </div>
@@ -31,14 +31,6 @@ const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onM
 
 LeftText.displayName = 'LeftText'
 
-const Food = React.memo(( {characters, randomLetters} ) => {
-  return (
-    <div>
 
-    </div>
-  )
-})
-
-Food.displayName = 'MyFood'
 
 export default LeftText
