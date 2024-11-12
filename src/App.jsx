@@ -12,6 +12,8 @@ const App = () => {
   const [finalCharacter, setFinalCharacter] = useState([])
   const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], [], []])
   const [count, setCount] = useState(0)
+  const [letter, setLetter] = useState('')
+  const [truth, setTruth] = useState(false)
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
@@ -188,48 +190,128 @@ const App = () => {
   
   async function typeSentence (sentence, location) {
     const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('') 
-    const checkWords = []
+    const typedWords = []
+    const characters = []
     const remainder = []
     let i = 0;
     
 
     location.innerText = ''
-    console.log('LED', letters, checkWords, location.innerText)
+    console.log('LED', letters, location.innerText)
     
-    while (i < letters.length) {
-      await waitForMs()
-      checkWords.push(letters[i])
+    // if (truth === true) return
+    await waitForMs().then(async () => {
+      while (i < letters.length) {
       
-      // console.log('LEDs', letters[i], checkWords, checkWords.join(''), location.innerText, location.innerText.substring(0, 6) === checkWords.join('').substring(0, 6) )
-      // !@#$%^&*_=+|,;/.\- \])}>
-      // console.log('FOODWCHECK', location.innerText)
-      let t = 0;
-      
-      if (location.innerText.length < 7 && /[A-Z]/g.test(sentence[0])) {
-        if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[]/g.test(location.innerText) && /[A-Z]/g.test(location.innerText)) {
-          
-          location.innerText.replace(/[A-Z]/gi, '')
-        }
-        else location.innerText += letters[i]
-      }
-      else location.innerText = letters
-      remainder.push(letters[i])
-      console.log('FOODWIFFFS', checkWords, remainder, letters[i])
-      if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[]/g.test(location.innerText) && /[A-Z]/g.test(location.innerText)) {
-        console.log('FOODWIKS', /[!@#$%^&*_=+|,;/.\-\])}>(<{[]/g.test(location.innerText), /[A-Z]/g.test(location.innerText))
+        // setTimeout(typeSentence, 55)
         
-        location.innerText.replace(/[A-Z]/gi, '')
-        console.log('FOODWINS', location.innerText, location.innerText.replace(/[A-Z]/g, ''))
+        // console.log('LEDs', letters[i], checkWords, checkWords.join(''), location.innerText, location.innerText.substring(0, 6) === checkWords.join('').substring(0, 6) )
+        // !@#$%^&*_=+|,;/.\- \])}>
+        // console.log('FOODWCHECK', location.innerText)
+        let t = 0;
+        console.log('FOODWIFFFF', location.innerText)
+        
+        await waitForMs()
+        if (location.innerText.length < 7 && /[A-Z]/g.test(sentence[0])) {
+          if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[]/g.test(location.innerText) && /[A-Z]/g.test(location.innerText)) {
+            console.log('FOODWWWW')
+            
+            location.innerText.replace(/[A-Z]/gi, '')
+            return
+            
+            // setLetter(`${location.innerText.replace(/[A-Z]/gi, '')}`)
+          }
+          setLetter(prev => prev + letters[i]) 
+          typedWords.push(letters[i])
+          
+          
+          location.innerText += letters[i]
+          console.log('FOODWEEKS', location.innerText, typedWords, typedWords.join(''), letter)
+        }
+        else {
+          characters.push(letters[i])
+          setLetter(letters)
+          location.innerText = letters
+          console.log('FOODWEEKST', characters, letter)
+        }
+        
+        console.log('FOODKINS', letter, location.innerText.length)
+        console.log('FOODWIFFFS', remainder, letters[i])
+  
+        // if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[]/gi.test(location.innerText)) console.log('FOODWORKSS')
+        
+        
+          //  PLAY WITH SETTIMEOUT TO MAKE THE STATES TRUE AND FALSE WHEN HOVERING MOUSE OVER CHARACTERS
+        i++
       }
-      // else location.innerText = letters
-      
-      i++
+    })
+    if (location.innerText.length === 2 && /[!@#$%^&*_=+|,;/.\-\])}>(<{[A-Z]{2}$/gi.test(location.innerText) && /[A-Z]/g.test(location.innerText[1])) {
+      console.log('FOODWORKSS', location.innerText, location.innerText[1], location.innerText.split('').shift())
+      location.innerText[1].replace(/[A-Z]/, letter)
+      location.innerText.substring(0, location.innerText.length - 1)
+      location.innerText = location.innerText.split('').shift()
     }
-    location.innerText.replace(/[A-Z]/gi, '')
-    retrieveCode(location.innerText)
+    // while (i < letters.length) {
+      
+    //   // setTimeout(typeSentence, 55)
+    //   checkWords.push(letters[i])
+      
+    //   // console.log('LEDs', letters[i], checkWords, checkWords.join(''), location.innerText, location.innerText.substring(0, 6) === checkWords.join('').substring(0, 6) )
+    //   // !@#$%^&*_=+|,;/.\- \])}>
+    //   // console.log('FOODWCHECK', location.innerText)
+    //   let t = 0;
+    //   console.log('FOODWIFFFF', location.innerText)
+      
+
+    //   if (location.innerText.length < 7 && /[A-Z]/g.test(sentence[0])) {
+    //     if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[]/g.test(location.innerText) && /[A-Z]/g.test(location.innerText)) {
+    //       console.log('FOODWWWW')
+          
+    //       location.innerText.replace(/[A-Z]/gi, '')
+    //       return 
+          
+    //       // setLetter(`${location.innerText.replace(/[A-Z]/gi, '')}`)
+    //     }
+    //     console.log('FOODWEEKS', location.innerText)
+        
+    //     await waitForMs()
+    //     location.innerText += letters[i]
+    //   }
+    //   else location.innerText = letters
+      
+    //   console.log('FOODKINS', letter, location.innerText.length)
+    //   console.log('FOODWIFFFS', checkWords, remainder, letters[i])
+
+    //   if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[]/gi.test(location.innerText)) console.log('FOODWORKSS')
+      
+    //     //  PLAY WITH SETTIMEOUT TO MAKE THE STATES TRUE AND FALSE WHEN HOVERING MOUSE OVER CHARACTERS
+    //   i++
+    // }
+    
+    // retrieveCode(location.innerText)
+  }
+
+  let timer 
+  const updateText = () => setTruth(false)
+
+  const mouseMoved = (event) => {
+    const textLocation = document.getElementById('span'); 
+    
+
+    console.log('FOODWWWSSS', event.target.innerText, textLocation.innerText)
+    // if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[A-Z]/g.test(textLocation.innerText) ) {
+    //   console.log('FOODWORKS')
+    //   textLocation.innerText = ''
+    // }
+    // setTruth(false)
+    setTruth(true)
+    clearTimeout(timer)
+    // timer = setTimeout(typeSentence, 50)
+    timer = setTimeout(updateText, .5)
   }
 
   const waitForMs = () => {
+    // return new Promise(resolve => setTimeout(resolve, 55))
     return new Promise(resolve => setTimeout(resolve, 55))
   }
 
@@ -355,18 +437,10 @@ const App = () => {
           clickedDud = dudArray[0]
           while (p !== 7) {
             console.log('FOOD9393', p, dudArray, dudArray2, terminalCode)
-            
 
             clickedDud += eventSibling.innerText
             console.log('FOODFIND', clickedDud, )
             event.target.style.background = '#33dd88'
-            // event.target.nextElementSibling.style.background = '#33dd88'
-            // event.target.nextElementSibling.nextElementSibling.style.background = '#33dd88'
-            // event.target.nextElementSibling.nextElementSibling.nextElementSibling.style.background = '#33dd88'
-            // event.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.background = '#33dd88'
-            // event.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.background = '#33dd88'
-            // event.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.background = '#33dd88'
-            // event.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.background = '#33dd88'
             eventSibling.style.background = '#33dd88'
 
             eventSibling = eventSibling.nextElementSibling
@@ -503,6 +577,7 @@ const App = () => {
             onMouseHover={mouseEnter}
             onMouseOut={mouseOut}
             onClicked={processCodes}
+            onMoved={mouseMoved}
           />
           <RightText 
             lettersNumbers={lettersNumbers} 
