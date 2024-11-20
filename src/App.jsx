@@ -10,10 +10,12 @@ const App = () => {
   const [data, setData] = useState([])
   const [sideStrings, setSideStrings] = useState([])
   const [finalCharacter, setFinalCharacter] = useState([])
-  const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], [], []])
+  const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], []])
   const [count, setCount] = useState(0)
   const [letter, setLetter] = useState('')
   const [truth, setTruth] = useState(false)
+  const [clickedUserWord, setClickedUserWord] = useState('')
+  const [chosenRandomWord, setChosenRandomWord] = useState('')
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
@@ -21,10 +23,8 @@ const App = () => {
   const words = []
   const testArrays = []
   let characterString = []
-  let chosenWord = ''
-  let clickedWord = ''
   let clickedDud = ''
-
+  
   useEffect(() => {
     const sevenWords = ['Formula','Dilemma','Diploma','Replica','Grandma','Spectra','Persona',
           'Ammonia','Antenna','Stamina','Malaria','Militia','Vanilla','Bonanza','Inertia','Sequoia',
@@ -41,20 +41,23 @@ const App = () => {
     ];
     const dudCharacters = '!@#$%^&*_-=+|,;./'
     const terminalCodeCopy = [...terminalCode]
+    // const terminalCodeCopy = [[], [], [], [], [], [], []]
+    
     const terminalDudHolder = ['[]', '()', '{}', '<>']
-    const dudHolder = [0, 1, 2, 3, 4];
+    const dudHolder = [0, 1, 2, 3, 4, 5];
     let p = 0
 
     for (let i = 0; i < 6; i++) {
       words.push(sevenWords[Math.floor(Math.random() * sevenWords.length)])
     }
 
-    for (let i = 0; i < 98; i++) {
+    for (let i = 0; i < 105; i++) {
       characterString.push(characters[Math.floor(Math.random() * characters.length)])
+      console.log('FINS', characterString[i])
     }
 
     // setTerminalCode(prevLetter => [...prevLetter, terminalCode.concat(characterString.split('')) ])
-    while (dudHolder.length !== 0 || p <= 7) {
+    while (dudHolder.length !== 0 || p <= 6) {
       terminalCodeCopy[p].unshift(terminalDudHolder[Math.floor(Math.random() * terminalDudHolder.length)][0])
       
       for (let i = 0; i < 6; i++) {
@@ -65,19 +68,19 @@ const App = () => {
         terminalCodeCopy[p].push(dudCharacters[Math.floor(Math.random() * dudCharacters.length)])
         
       }
-      console.log('TEST', characterString, terminalCode, terminalCode[p])
+      // console.log('TEST', characterString, terminalCode, terminalCode[p])
       dudHolder.pop()
       terminalDudHolder.forEach(element => {
         if (element[0] === terminalCodeCopy[p][0]) terminalCodeCopy[p].push(element[1])
       })
       
-      console.log('AFTER', terminalCodeCopy, characterString)
+      console.log('AFTER', terminalCodeCopy, characterString, words)
       p++
     }
-    setTerminalCode(prevCode => [
-      ...prevCode,
-      terminalCode.concat(terminalCodeCopy)
-    ])
+    // setTerminalCode(prevCode => [
+    //   ...prevCode,
+    //   terminalCode.concat(terminalCodeCopy)
+    // ])
     
     const characterStringCopy = [...characterString]
     const terminalCopy = [...terminalCode]
@@ -127,13 +130,15 @@ const App = () => {
       // newArray.push(lettersNumbers[Math.floor(Math.random() * lettersNumbers.length)]  )
       newArray.push(newString  )
     }
+
     setSideStrings(prevString => [
       ...prevString,
       sideStrings.concat(newArray)
     ])
+    setChosenRandomWord(words[Math.floor(Math.random() * words.length)].toUpperCase())
   }, [])
-
-
+  
+  console.log('FINS', finalCharacter)
   const randomLetters = () => {
     // const sideStringsCopy = [...sideStrings.split('')]
     
@@ -150,55 +155,24 @@ const App = () => {
     let firstNum = 1
     let secondNum = 12
     let i = 0
-    
-    // while (characterNumbers.length !== 0) {
-
-      
-    //   if (words[i] !== undefined) {
-    //     // console.log('Test', words[i], words[i].toString().split(''))
-
-    //     characterStringCopy.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) )+ firstNum, 0, words[i].toString().toUpperCase().split(''))
-    //   }
-
-      
-
-    //   firstNum += 12
-    //   secondNum += 12
-    //   i++
-
-    //   characterNumbers.pop()
-    // }
-
-    // for (let i = 0; i < 9; i++) {
-    //   characterStringCopy.splice(Math.floor(Math.random() * characterStringCopy.length), 0, terminalCopy[i] )
-    // }
-
-
-    // console.log('NEW', characterStringCopy.flat(), characterStringCopy.length, terminalCopy)
-
-    // IF YOU DONT FIND A WAY, USE INNER FUNCS WITHOUT STATE
-    // setCharacterString(characterStringCopy.flat().join('').toString())
-
 
     console.log('AFTER NEW', characterString, characterString.length, finalCharacter, finalCopy.flat().length)
-
-
-
 
     return finalCharacter.flat()
   }
   
   async function typeSentence (sentence, location) {
-    const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('') 
+    const letters = (/[A-Z]/.test(sentence[0]) ) ? sentence[1] : sentence[0].split('')
     const typedWords = []
-    const characters = []
+    const characterLetters = []
     const remainder = []
     let i = 0;
     
 
     location.innerText = ''
+    setClickedUserWord(letters)
     console.log('LED', letters, location.innerText)
-    
+    console.log('TERMS', terminalCode)
     // if (truth === true) return
     await waitForMs().then(async () => {
       while (i < letters.length) {
@@ -221,7 +195,7 @@ const App = () => {
             
             // setLetter(`${location.innerText.replace(/[A-Z]/gi, '')}`)
           }
-          setLetter(prev => prev + letters[i]) 
+          setLetter(prev => prev + letters[i])
           typedWords.push(letters[i])
           
           
@@ -229,10 +203,10 @@ const App = () => {
           console.log('FOODWEEKS', location.innerText, typedWords, typedWords.join(''), letter)
         }
         else {
-          characters.push(letters[i])
+          characterLetters.push(letters[i])
           setLetter(letters)
           location.innerText = letters
-          console.log('FOODWEEKST', characters, letter)
+          console.log('FOODWEEKST', characterLetters, letter)
         }
         
         console.log('FOODKINS', letter, location.innerText.length)
@@ -241,7 +215,6 @@ const App = () => {
         // if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[]/gi.test(location.innerText)) console.log('FOODWORKSS')
         
         
-          //  PLAY WITH SETTIMEOUT TO MAKE THE STATES TRUE AND FALSE WHEN HOVERING MOUSE OVER CHARACTERS
         i++
       }
     })
@@ -251,64 +224,26 @@ const App = () => {
       location.innerText.substring(0, location.innerText.length - 1)
       location.innerText = location.innerText.split('').shift()
     }
-    // while (i < letters.length) {
-      
-    //   // setTimeout(typeSentence, 55)
-    //   checkWords.push(letters[i])
-      
-    //   // console.log('LEDs', letters[i], checkWords, checkWords.join(''), location.innerText, location.innerText.substring(0, 6) === checkWords.join('').substring(0, 6) )
-    //   // !@#$%^&*_=+|,;/.\- \])}>
-    //   // console.log('FOODWCHECK', location.innerText)
-    //   let t = 0;
-    //   console.log('FOODWIFFFF', location.innerText)
-      
 
-    //   if (location.innerText.length < 7 && /[A-Z]/g.test(sentence[0])) {
-    //     if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[]/g.test(location.innerText) && /[A-Z]/g.test(location.innerText)) {
-    //       console.log('FOODWWWW')
-          
-    //       location.innerText.replace(/[A-Z]/gi, '')
-    //       return 
-          
-    //       // setLetter(`${location.innerText.replace(/[A-Z]/gi, '')}`)
-    //     }
-    //     console.log('FOODWEEKS', location.innerText)
-        
-    //     await waitForMs()
-    //     location.innerText += letters[i]
-    //   }
-    //   else location.innerText = letters
-      
-    //   console.log('FOODKINS', letter, location.innerText.length)
-    //   console.log('FOODWIFFFS', checkWords, remainder, letters[i])
-
-    //   if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[]/gi.test(location.innerText)) console.log('FOODWORKSS')
-      
-    //     //  PLAY WITH SETTIMEOUT TO MAKE THE STATES TRUE AND FALSE WHEN HOVERING MOUSE OVER CHARACTERS
-    //   i++
-    // }
-    
-    // retrieveCode(location.innerText)
   }
 
-  let timer 
-  const updateText = () => setTruth(false)
+  // const updateText = () => setTruth(false)
 
-  const mouseMoved = (event) => {
-    const textLocation = document.getElementById('span'); 
+  // const mouseMoved = (event) => {
+  //   const textLocation = document.getElementById('span'); 
     
 
-    console.log('FOODWWWSSS', event.target.innerText, textLocation.innerText)
-    // if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[A-Z]/g.test(textLocation.innerText) ) {
-    //   console.log('FOODWORKS')
-    //   textLocation.innerText = ''
-    // }
-    // setTruth(false)
-    setTruth(true)
-    clearTimeout(timer)
-    // timer = setTimeout(typeSentence, 50)
-    timer = setTimeout(updateText, .5)
-  }
+  //   console.log('FOODWWWSSS', event.target.innerText, textLocation.innerText)
+  //   // if (/[!@#$%^&*_=+|,;/.\-\])}>(<{[A-Z]/g.test(textLocation.innerText) ) {
+  //   //   console.log('FOODWORKS')
+  //   //   textLocation.innerText = ''
+  //   // }
+  //   // setTruth(false)
+  //   setTruth(true)
+  //   clearTimeout(timer)
+  //   // timer = setTimeout(typeSentence, 50)
+  //   timer = setTimeout(updateText, .5)
+  // }
 
   const waitForMs = () => {
     // return new Promise(resolve => setTimeout(resolve, 55))
@@ -341,9 +276,11 @@ const App = () => {
   
   const processCodes = (event) => {
     const attemptsLeft = [0, 1, 2, 3]
-    console.log('Code', clickedWord, chosenWord, data, clickedDud, clickedDud.length)
-    
-    if (clickedWord !== chosenWord) {
+    console.log('Code', data, clickedDud, clickedDud.length)
+    console.log('FOODNEWS', clickedUserWord, chosenRandomWord)
+
+    // setClickedUserWord()
+    if (clickedUserWord !== chosenRandomWord) {
       console.log('WOAOOOOA')
       
       console.log('SS', attemptsLeft)
@@ -352,16 +289,17 @@ const App = () => {
         console.log('FOODTEST222', item)
         if (item.length === 8) console.log('FOODTEST111')
       })
-
-      if (/[a-z]/gi.test(clickedWord)) {
+      
+      if (/[A-Z]/g.test(clickedUserWord)) {
+        console.log('FOODNEWS')
         setAttempts(attempt => attempt - 1)
         setData(data =>
           [
             ...data,
-            { id: setCount(prevCount => prevCount.id + 1), name: clickedWord, correct: event.target.innerText.match(new RegExp(chosenWord, 'g')  )|| [].length }
+            { id: setCount(prevCount => prevCount.id + 1), name: clickedUserWord, correct: event.target.innerText.match(new RegExp(chosenRandomWord, 'g')  ) || [].length }
           ]
         )
-      } else return
+      } else if (truth) console.log('DUDSSS')
     }
     
     
@@ -376,11 +314,8 @@ const App = () => {
       createElement('p', {className: 'code-desc'}, 'Test'),
     )
   }
-  const retrieveCode = (code) => clickedWord = code
 
   const OutwardText = (event, fWord, bWord, wWord, nSibling, pSibling, sText) => {
-    console.log('PIG', 'CODE', event, chosenWord)
-
 
     fWord += event.target.innerText
     while (nSibling && /[a-z]/i.test(nSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
@@ -442,26 +377,26 @@ const App = () => {
             console.log('FOODFIND', clickedDud, )
             event.target.style.background = '#33dd88'
             eventSibling.style.background = '#33dd88'
-
             eventSibling = eventSibling.nextElementSibling
             p++
-          }
+          } 
+          
                     // nSibling.style.background = '#33dd88'
                     // nSibling.style.color = 'black'
-        }
-
+          setTruth(true)
+        } else setTruth(false)
+        
         // if (dudArray3[13][6] === '{' || dudArray3[13][6] === '<' || dudArray3[13][6] === '(' || dudArray3[13][6] === '[') {
 
         // }
         console.log('FOODFINAL', clickedDud)
         
         
-      }
+      } 
 
       console.log('DUDS', dudArray, dudArray2, dudArray2[5], dudArray2.length)
       
       nSibling = nSibling.nextElementSibling
-      
       i++
     }
     while (pSibling && /[(<[{ !@#$%^&*_=+|,;/.-]/g.test(pSibling.innerText) && /[\])}>]/.test(event.target.innerText) && i <= 6 ) {
@@ -524,7 +459,6 @@ const App = () => {
     }
     
     wWord = bWord.split('').reverse().join('') + fWord
-    
     typeSentence([event.target.innerText, wWord], sText)
   }
   
@@ -577,7 +511,7 @@ const App = () => {
             onMouseHover={mouseEnter}
             onMouseOut={mouseOut}
             onClicked={processCodes}
-            onMoved={mouseMoved}
+            // onMoved={mouseMoved}
           />
           <RightText 
             lettersNumbers={lettersNumbers} 
