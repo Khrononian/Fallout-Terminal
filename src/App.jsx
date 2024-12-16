@@ -51,7 +51,7 @@ const App = () => {
       words.push(sevenWords[Math.floor(Math.random() * sevenWords.length)])
     }
 
-    for (let i = 0; i < 105; i++) {
+    for (let i = 0; i < 106; i++) {
       characterString.push(characters[Math.floor(Math.random() * characters.length)])
       console.log('FINS', characterString[i])
     }
@@ -96,16 +96,16 @@ const App = () => {
         console.log('Test', words[i], words[i].toString().split(''), characterString)
 
         characterString.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) ) + firstNum, 0, words[i].toString().toUpperCase().split(''))
-      
+        firstNum += 12
+        secondNum += 12
       }
 
-      firstNum += 12
-      secondNum += 12
+      
       i++
       takeAwayNum--
     }
     console.log('NEW', characterString, characterString.length, )
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 7; i++) {
       // characterStringCopy.splice(Math.floor(Math.random() * characterStringCopy.length), 0, terminalCopy[i] )
       characterString.splice(Math.floor(Math.random() * characterString.length), 0, terminalCopy[i] )
       console.log('TESTTTT', finalCharacter, terminalCopy, words)
@@ -115,7 +115,6 @@ const App = () => {
         ...prevChar,
         finalCharacter.concat(characterString.flat())
     ])
-      console.log('RIGHTS', finalCharacter)
 
     
     let newArray = []
@@ -269,7 +268,8 @@ const App = () => {
     console.log(event.target.innerText, event.target.nextElementSibling, event)
     
     spanText.innerText = ''
-    
+    // if (/[!@#$%^&* _\-[=+|,;.]/ig.test(event.target.innerText)) setTruth(false)
+
     OutwardText(event, frontWord, backWord, wholeWord, nextSibling, prevSibling, spanText)
   
   }
@@ -299,7 +299,93 @@ const App = () => {
             { id: setCount(prevCount => prevCount.id + 1), name: clickedUserWord, correct: event.target.innerText.match(new RegExp(chosenRandomWord, 'g')  ) || [].length }
           ]
         )
-      } else if (truth) console.log('DUDSSS')
+      } else if (truth) {
+        console.log('DUDSSS')
+        console.log('DUDSSTT', terminalCode)
+        const updatedTerminals = [...terminalCode]
+        const updatedLetters = [...finalCharacter]
+        const clickedTerminal = []
+        let newSibling = event.target.nextElementSibling
+        let prevSibling = event.target.previousElementSibling
+        // terminalCode.forEach((item, index, arrays) => {
+        //   // console.log('DUDSSINNER', item, index, item[index], item[2])
+        //   while (o !== 8) {
+        //     // for (let i = 1; i < 7; i++) {
+        //     //   if (event.target.innerText === item[0] && newSibling.innerText === arrays[o][i]) console.log('DUDSINNERWORKS')
+        //     //   console.log('DUDSSSINNER2', item[index], item[o], newSibling, arrays, arrays[o], arrays[o][i])
+
+        //     //   newSibling = newSibling.nextElementSibling
+        //     //   o++
+        //     // }
+        //   }
+        // })
+        let t = 0;
+        for (let k = 0; k <= 6; k++) {
+          for (let i = 0; i < 8; i++) {
+            if (event.target.innerText === updatedTerminals[k][0] && newSibling.innerText === updatedTerminals[k][i]) {
+              let newWork
+              console.log('DUDSSINNERWORKS', terminalCode[k], terminalCode[k][i], updatedTerminals[k], updatedTerminals[k][i], updatedTerminals[k][0])
+              
+              // updatedTerminals[k][i] = '.'
+              // console.log('DUDQ', updatedLetters, updatedLetters.length)
+              console.log('DUDQ', updatedTerminals, updatedTerminals[k], clickedTerminal)
+
+              // for (let q = 0; q < updatedLetters[0].length; q++) {
+              //   if (updatedLetters[0][q] === updatedTerminals[k][i] && newSibling.innerText === updatedTerminals[k][i] && event.target.innerText === updatedTerminals[k][0]) {
+              //     console.log('DUDQUEE',updatedLetters[0], updatedLetters[0][q], updatedTerminals[k])
+              //     updatedLetters[0][q] = '.'
+              //     newSibling = newSibling.nextElementSibling
+              //   }
+              // }
+
+              // console.log('DUDQF', newWork)
+              clickedTerminal.push(updatedTerminals[k])
+              while (t <= 6  ) {
+                console.log('DUDSSNEW', newSibling.innerText, updatedTerminals[k], updatedTerminals[k][t], updatedTerminals, clickedTerminal, t)
+                event.target.innerText = '.'
+                newSibling.innerText = '.'
+                updatedTerminals[k][t] = '.'
+                
+                t++
+                newSibling = newSibling.nextElementSibling
+              }
+              
+              if (updatedTerminals[k][6] === '.') updatedTerminals[k][7] = '.'
+              console.log('DUDSSINNERTEST', updatedTerminals, updatedTerminals[k][i], newSibling.innerText, newSibling.innerText === updatedTerminals[k][i])
+              
+              newSibling = newSibling.nextElementSibling
+            }
+            
+              // console.log('DUDSSINNER', terminalCode, terminalCode[k], terminalCode[k][0], terminalCode[k][i], updatedTerminals)
+          }
+          console.log('DUDTTF')
+          for (let i = updatedTerminals[k].length - 1; i >= 0; i--) {
+            console.log('DUDTT', updatedTerminals)
+            if (event.target.innerText === updatedTerminals[k][7] && prevSibling.innerText === updatedTerminals[k][i]) {
+              console.log('DUDTTT', updatedTerminals[k], terminalCode)
+              
+              updatedTerminals[k][i] = '.'
+
+              if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
+              
+              while (t !== 7 && prevSibling.innerText === updatedTerminals[k][i]) {
+                event.target.innerText = '.'
+                prevSibling.innerText = '.'
+                prevSibling = prevSibling.previousElementSibling
+                t++
+              }
+              
+              prevSibling = prevSibling.previousElementSibling
+            }
+          }
+        }
+        // for (let k = 7; k === 0; k--) {
+        //   for (let i = 8; i === 0; i--) {
+        //     console.log('DUDTTF', updatedTerminals)
+        //     if (event.target.innerText === updatedTerminals[k][7] ) console.log('DUDTTT')
+        //   }
+        // }
+      }
     }
     
     
@@ -310,7 +396,7 @@ const App = () => {
       'p',
       { className: 'code-desc' },
       `> ${'word'}`,
-      createElement('p', {className: 'code-desc'}, 'Access denied'),
+      createElement('p', {className: 'code-desc'}, 'Access denied'), 
       createElement('p', {className: 'code-desc'}, 'Test'),
     )
   }
@@ -366,6 +452,10 @@ const App = () => {
         console.log('FOOD678', dudArray3[13], dudArray3[13][6], dudArray3[13][6] === '}' || dudArray3[13][6] === '>' || dudArray3[13][6] === ')' || dudArray3[13][6] === ']')
         console.log('FOODTEST', '{' === '}', /[()|[\]|{}]/g.test('{' === '}'), terminalCode)
 
+        
+        for (let o = 0; o != 6; o++) {
+          if (dudArray2[o] === '>' || dudArray2[o] === ']' || dudArray2[o] === ')' || dudArray2[o] === '}') return
+        } 
         if (dudArray3[13][6] === '}' && dudArray3[12] === '{' || dudArray3[13][6] === '>' && dudArray3[12] === '<' || dudArray3[13][6] === ')' && dudArray3[12] === '(' || dudArray3[13][6] === ']' && dudArray3[12] === '[') {
           
           let p = 0;
@@ -379,12 +469,12 @@ const App = () => {
             eventSibling.style.background = '#33dd88'
             eventSibling = eventSibling.nextElementSibling
             p++
-          } 
+          }
           
                     // nSibling.style.background = '#33dd88'
                     // nSibling.style.color = 'black'
           setTruth(true)
-        } else setTruth(false)
+        } 
         
         // if (dudArray3[13][6] === '{' || dudArray3[13][6] === '<' || dudArray3[13][6] === '(' || dudArray3[13][6] === '[') {
 
@@ -392,7 +482,8 @@ const App = () => {
         console.log('FOODFINAL', clickedDud)
         
         
-      } 
+      }
+      // if (/[!@#$%^&* _\-[=+|,;.]/ig.test(event.target.innerText)) setTruth(false)
 
       console.log('DUDS', dudArray, dudArray2, dudArray2[5], dudArray2.length)
       
@@ -413,12 +504,15 @@ const App = () => {
         
         console.log('FOOD678', dudArray3[13], dudArray3[13][6], dudArray3[13][6] === '{' || dudArray3[13][6] === '<' || dudArray3[13][6] === '(' || dudArray3[13][6] === '[')
         
-
+        for (let o = 1; o != 7; o++) {
+          if (dudArray2[o] === '<' || dudArray2[o] === '[' || dudArray2[o] === '(' || dudArray2[o] === '{') return
+        }
+        
         if (dudArray3[0][0] === '{' && dudArray3[1] === '}' || dudArray3[0][0] === '<' && dudArray3[1] === '>' || dudArray3[0][0] === '(' && dudArray3[1] === ')' || dudArray3[0][0] === '[' && dudArray3[1] === ']') {
           
           let p = 0;
           clickedDud = dudArray[0]
-
+          
           while (p !== 7) {
             console.log('FOOD9393', p, dudArray, dudArray2, terminalCode)
             
@@ -431,8 +525,7 @@ const App = () => {
             prevEventSibling = prevEventSibling.previousElementSibling
             p++
           }
-                    // nSibling.style.background = '#33dd88'
-                    // nSibling.style.color = 'black'
+          setTruth(true)
         }
 
         // if (dudArray3[13][6] === '{' || dudArray3[13][6] === '<' || dudArray3[13][6] === '(' || dudArray3[13][6] === '[') {
@@ -469,7 +562,8 @@ const App = () => {
 
     event.target.style.background = 'transparent';
     event.target.style.color = 'white';
-    
+    setTruth(false)
+
     if (document.getElementById('span').innerText.length > 7) document.getElementById('span').innerText.substring(0, 8)
     // event.target.style.color = '#33dd88'
     
