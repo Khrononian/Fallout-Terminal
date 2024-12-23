@@ -15,6 +15,7 @@ const App = () => {
   const [letter, setLetter] = useState('')
   const [truth, setTruth] = useState(false)
   const [clickedUserWord, setClickedUserWord] = useState('')
+  const [randomWords, setChosenRandomWords] = useState()
   const [chosenRandomWord, setChosenRandomWord] = useState('')
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
@@ -73,8 +74,8 @@ const App = () => {
       terminalDudHolder.forEach(element => {
         if (element[0] === terminalCodeCopy[p][0]) terminalCodeCopy[p].push(element[1])
       })
-      
-      console.log('AFTER', terminalCodeCopy, characterString, words)
+      setChosenRandomWords(words)
+      console.log('AFTER', terminalCodeCopy, characterString, words, chosenRandomWord)
       p++
     }
     // setTerminalCode(prevCode => [
@@ -155,8 +156,8 @@ const App = () => {
     let secondNum = 12
     let i = 0
 
-    console.log('AFTER NEW', characterString, characterString.length, finalCharacter, finalCopy.flat().length)
-
+    console.log('AFTER NEW', characterString, characterString.length, finalCharacter, finalCopy.flat().length, chosenRandomWord)
+    console.log('AFTER WORDS', randomWords)
     return finalCharacter.flat()
   }
   
@@ -320,6 +321,8 @@ const App = () => {
         //   }
         // })
         let t = 0;
+
+        deleteFakeCodeWords()
         for (let k = 0; k <= 6; k++) {
           for (let i = 0; i < 8; i++) {
             if (event.target.innerText === updatedTerminals[k][0] && newSibling.innerText === updatedTerminals[k][i]) {
@@ -379,16 +382,67 @@ const App = () => {
             }
           }
         }
-        // for (let k = 7; k === 0; k--) {
-        //   for (let i = 8; i === 0; i--) {
-        //     console.log('DUDTTF', updatedTerminals)
-        //     if (event.target.innerText === updatedTerminals[k][7] ) console.log('DUDTTT')
-        //   }
-        // }
+       
       }
     }
     
     
+  }
+
+  const deleteFakeCodeWords = () => {
+    const newCharacters = [...finalCharacter]
+    let t = 0;
+    console.log('FIST', chosenRandomWord, words)
+    let randomizedWord = ''
+    // for (let i = 0; i < newCharacters.length; i++) {
+    //   for (let o = 0; o < randomWords.length; o++) {
+    //     while (t !== 8) {
+    //       string += randomWords[o][t]
+    //       console.log('AFTER FIR', randomWords[t], randomWords[t][0], randomWords[o][t].toUpperCase(), string)
+          
+    //       // if (newCharacters[i] == randomWords[o][t]) console.log('AFTER FISTR')
+    //       t++
+    //     }
+    //   }
+    // }
+    // for (let i = 0; i < newCharacters.length; i++) {
+    //   for (const word of randomWords) {
+    //     while (t !== 7) {
+    //       console.log('AFTER FIRS', word, word[t], randomWords[t])
+    //       if (newCharacters[i] == word[t]) console.log('AFTER FIRST ME')
+          
+    //       t++
+    //     }
+    //   }
+    // }
+    
+    randomizedWord = randomWords[Math.floor(Math.random() * randomWords.length)].toUpperCase()
+    
+    let p = 0;
+    let index =  newCharacters[0].join('').match(randomizedWord).index
+    for (let i = 0; i < newCharacters.length; i++) {
+      if (newCharacters[0].join('').search(randomizedWord)) {
+        console.log('AFTER FIR TED')
+        newCharacters[i].join('').search(randomizedWord)
+        console.log('AFTER FIR FIN', newCharacters, newCharacters[i].join('').match(randomizedWord), newCharacters[i].join('').match(randomizedWord).input[newCharacters[i].join('').match(randomizedWord).index])
+        while (p !== 7) {
+          newCharacters[i].join('').match(randomizedWord).input[newCharacters[i].join('').match(randomizedWord).index++]
+          console.log('AFTER FIR FIGS', newCharacters[i].join('').match(randomizedWord).input[index++], )
+          p++
+        }
+      }
+      // if (newCharacters[0].join(''))
+        console.log('AFTER FIRS MEEE', newCharacters[0].join(''), newCharacters[0].join('').search(randomizedWord))
+        while (t !== 7) {
+          console.log('AFTER FIRS', randomWords[t], randomizedWord, randomizedWord[t], newCharacters[i])
+          if (newCharacters[i] === randomizedWord.toUpperCase()) console.log('AFTER FIRST MEEE')
+          
+          t++
+        }
+      console.log('AFTER FIR TTT', newCharacters[0], newCharacters[0][i], randomizedWord[i])
+    }
+    setFinalCharacter(newCharacters)
+    console.log('AFTER FIR FINER', finalCharacter)
   }
   console.log(data)
   const createNewElements = ({ word, accessCode }) => {
@@ -419,6 +473,7 @@ const App = () => {
     console.log('Jecks', event.target.innerText)
     // if (/[()<>[\]{}]/gi.test(event.target.innerText)  ) {
     if (/[ (<[{ ]/.test(event.target.innerText)  ) {
+      
       console.log('ALMOST', )
       let i = 0
      
