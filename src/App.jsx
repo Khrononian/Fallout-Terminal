@@ -290,101 +290,106 @@ const App = () => {
         console.log('FOODTEST222', item)
         if (item.length === 8) console.log('FOODTEST111')
       })
-      
-      if (/[A-Z]/g.test(clickedUserWord)) {
-        console.log('FOODNEWS')
-        setAttempts(attempt => attempt - 1)
-        setData(data =>
-          [
-            ...data,
-            { id: setCount(prevCount => prevCount.id + 1), name: clickedUserWord, correct: event.target.innerText.match(new RegExp(chosenRandomWord, 'g')  ) || [].length }
-          ]
-        )
-      } else if (truth) {
-        console.log('DUDSSS')
-        console.log('DUDSSTT', terminalCode)
-        const updatedTerminals = [...terminalCode]
-        const updatedLetters = [...finalCharacter]
-        const clickedTerminal = []
-        let newSibling = event.target.nextElementSibling
-        let prevSibling = event.target.previousElementSibling
-        // terminalCode.forEach((item, index, arrays) => {
-        //   // console.log('DUDSSINNER', item, index, item[index], item[2])
-        //   while (o !== 8) {
-        //     // for (let i = 1; i < 7; i++) {
-        //     //   if (event.target.innerText === item[0] && newSibling.innerText === arrays[o][i]) console.log('DUDSINNERWORKS')
-        //     //   console.log('DUDSSSINNER2', item[index], item[o], newSibling, arrays, arrays[o], arrays[o][i])
+    }
+    if (/[A-Z]/g.test(clickedUserWord)) {
+      console.log('FOODNEWS')
+      setAttempts(attempt => clickedUserWord !== chosenRandomWord ? attempt - 1 : 'WIN')
+      setData(data =>
+        [
+          ...data,
+          { id: setCount(prevCount => prevCount.id + 1), name: '>' + clickedUserWord, permission: clickedUserWord !== chosenRandomWord ? '>Access Denied' : '>Access Granted', correct: '>' + event.target.innerText.match(new RegExp(chosenRandomWord, 'g')  ) || [].length }
+        ]
+      )
+    } else if (truth) {
+      console.log('DUDSSS')
+      console.log('DUDSSTT', terminalCode)
+      const updatedTerminals = [...terminalCode]
+      const updatedLetters = [...finalCharacter]
+      const clickedTerminal = []
+      let newSibling = event.target.nextElementSibling
+      let prevSibling = event.target.previousElementSibling
+      // terminalCode.forEach((item, index, arrays) => {
+      //   // console.log('DUDSSINNER', item, index, item[index], item[2])
+      //   while (o !== 8) {
+      //     // for (let i = 1; i < 7; i++) {
+      //     //   if (event.target.innerText === item[0] && newSibling.innerText === arrays[o][i]) console.log('DUDSINNERWORKS')
+      //     //   console.log('DUDSSSINNER2', item[index], item[o], newSibling, arrays, arrays[o], arrays[o][i])
 
-        //     //   newSibling = newSibling.nextElementSibling
-        //     //   o++
-        //     // }
-        //   }
-        // })
-        let t = 0;
+      //     //   newSibling = newSibling.nextElementSibling
+      //     //   o++
+      //     // }
+      //   }
+      // })
+      let t = 0;
 
-        deleteFakeCodeWords()
-        for (let k = 0; k <= 6; k++) {
-          for (let i = 0; i < 8; i++) {
-            if (event.target.innerText === updatedTerminals[k][0] && newSibling.innerText === updatedTerminals[k][i]) {
-              let newWork
-              console.log('DUDSSINNERWORKS', terminalCode[k], terminalCode[k][i], updatedTerminals[k], updatedTerminals[k][i], updatedTerminals[k][0])
+      deleteFakeCodeWords()
+      for (let k = 0; k <= 6; k++) {
+        for (let i = 0; i < 8; i++) {
+          if (event.target.innerText === updatedTerminals[k][0] && newSibling.innerText === updatedTerminals[k][i]) {
+            let newWork
+            console.log('DUDSSINNERWORKS', terminalCode[k], terminalCode[k][i], updatedTerminals[k], updatedTerminals[k][i], updatedTerminals[k][0])
+            
+            // updatedTerminals[k][i] = '.'
+            // console.log('DUDQ', updatedLetters, updatedLetters.length)
+            console.log('DUDQ', updatedTerminals, updatedTerminals[k], clickedTerminal)
+
+            // for (let q = 0; q < updatedLetters[0].length; q++) {
+            //   if (updatedLetters[0][q] === updatedTerminals[k][i] && newSibling.innerText === updatedTerminals[k][i] && event.target.innerText === updatedTerminals[k][0]) {
+            //     console.log('DUDQUEE',updatedLetters[0], updatedLetters[0][q], updatedTerminals[k])
+            //     updatedLetters[0][q] = '.'
+            //     newSibling = newSibling.nextElementSibling
+            //   }
+            // }
+
+            // console.log('DUDQF', newWork)
+            clickedTerminal.push(updatedTerminals[k])
+            while (t <= 6  ) {
+              console.log('DUDSSNEW', newSibling.innerText, updatedTerminals[k], updatedTerminals[k][t], updatedTerminals, clickedTerminal, t)
+              event.target.innerText = '.'
+              newSibling.innerText = '.'
+              updatedTerminals[k][t] = '.'
               
-              // updatedTerminals[k][i] = '.'
-              // console.log('DUDQ', updatedLetters, updatedLetters.length)
-              console.log('DUDQ', updatedTerminals, updatedTerminals[k], clickedTerminal)
-
-              // for (let q = 0; q < updatedLetters[0].length; q++) {
-              //   if (updatedLetters[0][q] === updatedTerminals[k][i] && newSibling.innerText === updatedTerminals[k][i] && event.target.innerText === updatedTerminals[k][0]) {
-              //     console.log('DUDQUEE',updatedLetters[0], updatedLetters[0][q], updatedTerminals[k])
-              //     updatedLetters[0][q] = '.'
-              //     newSibling = newSibling.nextElementSibling
-              //   }
-              // }
-
-              // console.log('DUDQF', newWork)
-              clickedTerminal.push(updatedTerminals[k])
-              while (t <= 6  ) {
-                console.log('DUDSSNEW', newSibling.innerText, updatedTerminals[k], updatedTerminals[k][t], updatedTerminals, clickedTerminal, t)
-                event.target.innerText = '.'
-                newSibling.innerText = '.'
-                updatedTerminals[k][t] = '.'
-                
-                t++
-                newSibling = newSibling.nextElementSibling
-              }
-              
-              if (updatedTerminals[k][6] === '.') updatedTerminals[k][7] = '.'
-              console.log('DUDSSINNERTEST', updatedTerminals, updatedTerminals[k][i], newSibling.innerText, newSibling.innerText === updatedTerminals[k][i])
-              
+              t++
               newSibling = newSibling.nextElementSibling
             }
             
-              // console.log('DUDSSINNER', terminalCode, terminalCode[k], terminalCode[k][0], terminalCode[k][i], updatedTerminals)
+            if (updatedTerminals[k][6] === '.') updatedTerminals[k][7] = '.'
+            console.log('DUDSSINNERTEST', updatedTerminals, updatedTerminals[k][i], newSibling.innerText, newSibling.innerText === updatedTerminals[k][i])
+            
+            newSibling = newSibling.nextElementSibling
           }
-          console.log('DUDTTF')
-          for (let i = updatedTerminals[k].length - 1; i >= 0; i--) {
-            console.log('DUDTT', updatedTerminals)
-            if (event.target.innerText === updatedTerminals[k][7] && prevSibling.innerText === updatedTerminals[k][i]) {
-              console.log('DUDTTT', updatedTerminals[k], terminalCode)
-              
-              updatedTerminals[k][i] = '.'
+          
+            // console.log('DUDSSINNER', terminalCode, terminalCode[k], terminalCode[k][0], terminalCode[k][i], updatedTerminals)
+        }
+        console.log('DUDTTF')
+        for (let i = updatedTerminals[k].length - 1; i >= 0; i--) {
+          console.log('DUDTT', updatedTerminals)
+          if (event.target.innerText === updatedTerminals[k][7] && prevSibling.innerText === updatedTerminals[k][i]) {
+            console.log('DUDTTT TRIP', updatedTerminals[k], terminalCode)
+            
+            updatedTerminals[k][i] = '.'
 
-              if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
-              
-              while (t !== 7 && prevSibling.innerText === updatedTerminals[k][i]) {
-                event.target.innerText = '.'
-                prevSibling.innerText = '.'
-                prevSibling = prevSibling.previousElementSibling
-                t++
-              }
-              
+            if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
+            
+            // while (t !== 7 && prevSibling.innerText === updatedTerminals[k][i]) {
+            //   event.target.innerText = '.'
+            //   prevSibling.innerText = '.'
+            //   prevSibling = prevSibling.previousElementSibling
+            //   t++
+            // }
+            while (t !== 7) {
+              event.target.innerText = '.'
+              prevSibling.innerText = '.'
               prevSibling = prevSibling.previousElementSibling
+              t++
             }
+            
+            prevSibling = prevSibling.previousElementSibling
           }
         }
-       
       }
     }
+    
     
     
   }
@@ -394,6 +399,7 @@ const App = () => {
     let t = 0;
     console.log('FIST', chosenRandomWord, words)
     let randomizedWord = ''
+    let randomIndex
     // for (let i = 0; i < newCharacters.length; i++) {
     //   for (let o = 0; o < randomWords.length; o++) {
     //     while (t !== 8) {
@@ -422,8 +428,8 @@ const App = () => {
     let index =  newCharacters[0].join('').match(randomizedWord).index
     for (let i = 0; i < newCharacters.length; i++) {
       if (newCharacters[0].join('').search(randomizedWord)) {
-        console.log('AFTER FIR TED')
-        newCharacters[i].join('').search(randomizedWord)
+        console.log('AFTER FIR TED', chosenRandomWord)
+        randomIndex = newCharacters[i].join('').search(randomizedWord)
         console.log('AFTER FIR FIN', newCharacters, newCharacters[i].join('').match(randomizedWord), newCharacters[i].join('').match(randomizedWord).input[newCharacters[i].join('').match(randomizedWord).index])
         while (p !== 7) {
           newCharacters[i].join('').match(randomizedWord).input[newCharacters[i].join('').match(randomizedWord).index++]
@@ -432,12 +438,19 @@ const App = () => {
         }
       }
       // if (newCharacters[0].join(''))
-        console.log('AFTER FIRS MEEE', newCharacters[0].join(''), newCharacters[0].join('').search(randomizedWord))
-        while (t !== 7) {
-          console.log('AFTER FIRS', randomWords[t], randomizedWord, randomizedWord[t], newCharacters[i])
-          if (newCharacters[i] === randomizedWord.toUpperCase()) console.log('AFTER FIRST MEEE')
-          
-          t++
+        console.log('AFTER FIRS MEEE', newCharacters[0].join(''), newCharacters[0].join('').search(randomizedWord), randomIndex, newCharacters[randomIndex])
+      if (newCharacters[0][randomIndex] === randomizedWord[t]) {
+        console.log('AFTER FIRS WIN', newCharacters[i], newCharacters[0].join('').search(randomizedWord), newCharacters[0][randomIndex], randomIndex)
+          while (t !== 7) {
+            console.log('AFTER FIRS', randomWords[t], randomizedWord, randomizedWord[t], newCharacters[i], randomIndex)
+            if (newCharacters[0][randomIndex] === randomizedWord[t].toUpperCase()) {
+              console.log('AFTER FIRST S MEEE', newCharacters[0], newCharacters[0][randomIndex])
+              newCharacters[0][randomIndex] = '.'
+            }
+            
+            t++
+            randomIndex++
+          }
         }
       console.log('AFTER FIR TTT', newCharacters[0], newCharacters[0][i], randomizedWord[i])
     }
@@ -668,11 +681,11 @@ const App = () => {
             randomLetters={randomLetters}
             setUpLetters={setUpLetters}
           />
-          <div>
+          <div className='text'>
             { data.map(info => (
             <div key={info.id}>
               <p>{info.name}</p>
-              <p>Access Denied</p>
+              <p>{info.permission}</p>
               <p>{info.correct}/7 correct</p>
             </div>
           )) } 
