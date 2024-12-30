@@ -14,6 +14,16 @@
 .header {
   color: #33dd88;
 }
+.text {
+  align-content: end;
+  margin-bottom: 1.5em;
+}
+.text p {
+  margin: 0em 0em 0em 1.8em;
+  display: flex;
+  justify-content: flex-start;
+  width: 150px;
+}
 .span {
   letter-spacing: .5em;
 }
