@@ -1,6 +1,6 @@
 import React from 'react'
 
-const RightText = ({ lettersNumbers, characters, randomLetters, setUpLetters }) => {
+const RightText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onMouseHover, onMouseOut, onClicked }) => {
   return (
     <>
       <div className='grid'>
@@ -11,11 +11,11 @@ const RightText = ({ lettersNumbers, characters, randomLetters, setUpLetters }) 
             })
           }
         </div>
-        <div className='rightgrid '>
+        <div className='rightgrid ' id='grid'>
           {
-            // setUpLetters(characters, 90).map((letter, index) => {
-            //   return <p key={index}>{letter}</p>
-            // })
+            setUpLetters().map((letter, index) => {
+              return <p style={{cursor: 'pointer'}} className={letter} key={index} onClick={event => onClicked(event)} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
+            })
           }
         </div>
       </div>
