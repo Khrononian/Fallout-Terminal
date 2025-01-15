@@ -13,7 +13,7 @@ const RightText = ({ lettersNumbers, characters, randomLetters, setUpLetters, on
         </div>
         <div className='rightgrid ' id='grid'>
           {
-            setUpLetters().map((letter, index) => {
+            setUpLetters()[1].map((letter, index) => {
               return <p style={{cursor: 'pointer'}} className={letter} key={index} onClick={event => onClicked(event)} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
             })
           }
