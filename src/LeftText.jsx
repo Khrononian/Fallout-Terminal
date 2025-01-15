@@ -1,8 +1,7 @@
 import React from 'react'
 import './TextStyles.css'
 
-const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onMouseHover, onMouseOut, onClicked, onMoved }) => {
-
+const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onMouseHover, onMouseOut, onClicked }) => {
   return (
     <main>
       <div className='grid'>
@@ -16,7 +15,7 @@ const LeftText = ({ lettersNumbers, characters, randomLetters, setUpLetters, onM
         
         <div className='rightgrid ' id='grid'>
           {
-            setUpLetters().map((letter, index) => {
+            setUpLetters()[0].map((letter, index) => {
               return <p style={{cursor: 'pointer'}} className={letter} key={index} onClick={event => onClicked(event)} onMouseEnter={event => onMouseHover(event)} onMouseLeave={event => onMouseOut(event)}>{letter}</p>
             })
           }
