@@ -58,7 +58,7 @@ const App = () => {
 
     for (let i = 0; i < 6; i++) {
       console.log('AFTER FIRS QUEEEEE', chosenRandomWord)
-      // USE THIS AND POTENTIALLY REMOVE THE WORD THAT BECOMES RANDOM
+      // STILL COPYING WORDS IN DIFFERENT ARRAYS
 
       if (wordsRight.length === 0 && wordsLeft.length === 0) {
         wordsLeft.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
@@ -184,13 +184,18 @@ const App = () => {
       sideStrings.concat(newArray)
     ])
     // setChosenRandomWord(wordsLeft[Math.floor(Math.random() * wordsLeft.length)].toUpperCase())
-    wordDuos.push(wordsLeft.concat(wordsRight))
-    randomStringWord = wordDuos[0].splice(Math.floor(Math.random() * wordDuos.flat().length), 1)
-      
-    console.log('FISTING', wordsLeft, wordsRight, wordsLeft.concat(wordsRight), wordDuos, 'Num', wordDuos.flat(), randomStringWord, )
+
+    // wordDuos.push(wordsLeft.concat(wordsRight))
+    // randomStringWord = wordDuos[0].splice(Math.floor(Math.random() * wordDuos.flat().length), 1)
     
-    setChosenRandomWord(wordsLeft.concat(wordsRight)[Math.floor(Math.random() * lettersNumbers.length)])
-    setChosenRandomWords(wordDuos.flat())
+    wordDuos.push(wordsLeft, wordsRight)
+    
+    randomStringWord = wordDuos[Math.floor(Math.random() * wordDuos.length)].splice(Math.floor(Math.random() * wordDuos.length), 1)
+      
+    console.log('FISTING', wordsLeft, wordsRight, wordDuos, 'Num', randomStringWord, )
+    
+    setChosenRandomWord(randomStringWord)
+    setChosenRandomWords(wordDuos)
   }, [])
   
   console.log('FINS', finalLeftCharacter)
@@ -331,6 +336,7 @@ const App = () => {
   
   const processCodes = (event) => {
     const attemptsLeft = [0, 1, 2, 3]
+    const chooseOne = ['left', 'right']
     console.log('Code', data, clickedDud, clickedDud.length)
     console.log('FOODNEWS', clickedUserWord, chosenRandomWord)
     // setClickedUserWord()
@@ -364,7 +370,7 @@ const App = () => {
       
       let t = 0;
 
-      deleteFakeCodeWords(deletedWords)
+      deleteFakeCodeWords(chooseOne)
 
       for (let k = 0; k <= 6; k++) {
         for (let i = 0; i < 8; i++) {
@@ -423,14 +429,17 @@ const App = () => {
     
   }
 
-  const deleteFakeCodeWords = () => {
-    const newCharacters = [...finalLeftCharacter]
+  const deleteFakeCodeWords = (chooseArray) => {
+    let path = chooseArray[Math.floor(Math.random() * chooseArray.length)]
+    const newCharacters = [path == 'left' ? finalLeftCharacter.slice() : finalRightCharacter.slice()]
     const newWords = [...randomWords]
-    
-    let t = 0;
-    console.log('FIST', chosenRandomWord, wordsLeft)
+    // const pathNum = chooseArray[Math.floor(Math.random() * chooseArray.length)] == 'left' ? 0 : 1;
+    let randomSelection = Math.floor(Math.random() * randomWords.length)
     let randomizedWord = ''
     let randomIndex
+    let t = 0;
+    console.log('FIST', path, newCharacters[0], chooseArray[Math.floor(Math.random() * chooseArray.length)] == 'left' ? 0 : 1, chosenRandomWord, randomWords, randomWords[randomSelection][Math.floor(Math.random() * 5 || 6)])
+    
     // for (let i = 0; i < newCharacters.length; i++) {
     //   for (let o = 0; o < randomWords.length; o++) {
     //     while (t !== 8) {
@@ -453,13 +462,25 @@ const App = () => {
     //   }
     // }
     
-    randomizedWord = randomWords[Math.floor(Math.random() * randomWords.length)].toUpperCase()
+    randomizedWord = randomWords[randomSelection][Math.floor(Math.random() * 5 || 6)]
     
     
     let p = 0;
-    let index = newCharacters[0].join('').match(randomizedWord).index
-    console.log('FISTING4', randomizedWord, randomWords, newCharacters[0].join('').match(randomizedWord))
+    // let index = newCharacters[0].join('').match(randomizedWord).index
+    // console.log('FISTING4', randomizedWord, randomWords, newCharacters[0].join('').match(randomizedWord))
+
+    
     for (let i = 0; i < newCharacters.length; i++) {
+      console.log('FISTRRR', randomizedWord, newCharacters[0], newCharacters.join('').replace(/(.)(.)?/g, (_, firstChar, secondChar) => {
+        if (!firstChar) firstChar = ''
+        return firstChar
+      }),  )
+      if (i % 2 == 1) {
+        // console.log('FIST WORKED', newCharacters.join('').replace(newCharacters.join('').substring(i), ''))
+      }
+      // console.log('FIST rand', chooseArray[Math.floor(Math.random() * chooseArray.length)])
+
+      
       if (newCharacters[0].join('').search(randomizedWord)) {
         console.log('AFTER FIR TED', chosenRandomWord)
         randomIndex = newCharacters[i].join('').search(randomizedWord)
