@@ -438,7 +438,7 @@ const App = () => {
     let randomizedWord = ''
     let randomIndex
     let t = 0;
-    console.log('FIST', path, newCharacters[0], chooseArray[Math.floor(Math.random() * chooseArray.length)] == 'left' ? 0 : 1, chosenRandomWord, randomWords, randomWords[randomSelection][Math.floor(Math.random() * 5 || 6)])
+    // console.log('FIST', path, newCharacters[0], chooseArray[Math.floor(Math.random() * chooseArray.length)] == 'left' ? 0 : 1, chosenRandomWord, randomWords, randomWords[randomSelection][Math.floor(Math.random() * 5 || 6)])
     
     // for (let i = 0; i < newCharacters.length; i++) {
     //   for (let o = 0; o < randomWords.length; o++) {
@@ -461,14 +461,19 @@ const App = () => {
     //     }
     //   }
     // }
-    
-    randomizedWord = randomWords[randomSelection][Math.floor(Math.random() * 5 || 6)]
+    console.log('PATH5', randomWords[path == 'left' ? 0 : 1], )
+    randomizedWord = randomWords[path == 'left' ? 0 : 1][Math.floor(Math.random() * randomWords[path == 'left' ? 0 : 1].length)]
     
     
     let p = 0;
     // let index = newCharacters[0].join('').match(randomizedWord).index
-    // console.log('FISTING4', randomizedWord, randomWords, newCharacters[0].join('').match(randomizedWord))
+    let index = newCharacters[0].join('').replace(/(.)(.)?/g, (_, firstChar) => {
+      if (!firstChar) firstChar = ''
+      return firstChar
+    }).match(randomizedWord).index
 
+    // console.log('FISTING4', randomizedWord, randomWords, newCharacters[0].join('').match(randomizedWord))
+    console.log('PATH', path)
     
     for (let i = 0; i < newCharacters.length; i++) {
       console.log('FISTRRR', randomizedWord, newCharacters[0], newCharacters.join('').replace(/(.)(.)?/g, (_, firstChar, secondChar) => {
@@ -483,41 +488,66 @@ const App = () => {
       
       if (newCharacters[0].join('').search(randomizedWord)) {
         console.log('AFTER FIR TED', chosenRandomWord)
-        randomIndex = newCharacters[i].join('').search(randomizedWord)
-        console.log('AFTER FIR FIN', newCharacters, newCharacters[i].join('').match(randomizedWord), newCharacters[i].join('').match(randomizedWord).input[newCharacters[i].join('').match(randomizedWord).index])
+        randomIndex = newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar) => {
+          if (!firstChar) firstChar = ''
+          return firstChar
+        }).search(randomizedWord)
+        // console.log('AFTER FIR FIN', newCharacters, newCharacters[i].join('').match(randomizedWord), newCharacters[i].join('').match(randomizedWord).input[newCharacters[i].join('').match(randomizedWord).index])
+        console.log('FISTER', newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar) => {
+          if (!firstChar) firstChar = ''
+          return firstChar
+        }).match(randomizedWord), newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar, secondChar) => {
+          if (!firstChar) firstChar = ''
+          return firstChar
+        }).match(randomizedWord).input[newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar, secondChar) => {
+          if (!firstChar) firstChar = ''
+          return firstChar
+        }).match(randomizedWord).index++] )
+
         while (p !== 7) {
-          newCharacters[i].join('').match(randomizedWord).input[newCharacters[i].join('').match(randomizedWord).index++]
-          console.log('AFTER FIR FIGS', newCharacters[i].join('').match(randomizedWord).input[index++], )
+          newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar) => {
+            if (!firstChar) firstChar = ''
+            return firstChar
+          }).match(randomizedWord).input[newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar) => {
+            if (!firstChar) firstChar = ''
+            return firstChar
+          }).match(randomizedWord).index++]
+
+          // console.log('AFTER FIR FIGS', newCharacters[i].join('').match(randomizedWord).input[index++], )
           p++
         }
       }
-      // if (newCharacters[0].join(''))
-        console.log('AFTER FIRS MEEE', newCharacters[0].join(''), newCharacters[0].join('').search(randomizedWord), randomIndex, newCharacters[randomIndex])
-      if (newCharacters[0][randomIndex] === randomizedWord[t]) {
+      // FINALLY FIXED THE ISSUE OF 469, AND FIXED THE BROKEN CODES AFTER IT INCLUDING THE RANDOMWORDS ARRAY NOT PROPERLY
+      // SETTING. NOW LOOK FOR THE NEXT THING TO WORK ON
+      
+      console.log('PATH2', randomWords[Math.floor(Math.random() * randomWords.length)], randomizedWord, newCharacters.flat()[0][randomIndex], newCharacters[randomIndex] )
+      // if (newCharacters[0][randomIndex] === randomizedWord[t]) {
+      if (newCharacters.flat()[0][randomIndex] === randomizedWord[t]) {
         console.log('AFTER FIRS WIN', newCharacters[i], newCharacters[0].join('').search(randomizedWord), newCharacters[0][randomIndex], randomIndex)
         
         console.log('UpdatedFIRST', newCharacters[0].join('').match(randomizedWord), newCharacters[0].join('').search(randomizedWord), randomWords)
         // setDeletedWords(prev => [...prev, randomizedWord])
         deletedWords.push(randomizedWord)
         // newWords.filter(word => !deletedWords.includes(word))
-        
-        setChosenRandomWords(randomWords.filter(word => !deletedWords.includes(word)))
-        console.log('UpdatedSEC', randomWords)
+        console.log('PATH4', randomWords, randomWords[path == 'left' ? 0 : 1], deletedWords, randomWords)
+
+        // setChosenRandomWords(randomWords[path == 'left' ? 0 : 1].filter(word => !deletedWords.includes(word)))
+        path == 'left' ? setChosenRandomWords([randomWords[path == 'left' ? 0 : 1].filter(word => deletedWords[0] !== word ), [...randomWords[1]]])
+        : setChosenRandomWords([[...randomWords[0]], randomWords[path == 'left' ? 0 : 1].filter(word => deletedWords[0] !== word )])
+        deletedWords.pop()
+        console.log('PATH3', randomWords, deletedWords )
         while (t !== 7) {
-            console.log('AFTER FIRS', randomWords[t], randomizedWord, chosenRandomWord, randomizedWord[t], newCharacters[i], randomIndex)
-            if (newCharacters[0][randomIndex] === randomizedWord[t].toUpperCase() && randomizedWord !== chosenRandomWord) {
-              console.log('AFTER FIRST S MEEE', newCharacters[0], newCharacters[0][randomIndex])
-              newCharacters[0][randomIndex] = '.'
-            } else {
-              console.log('AFTER FIRS FAIL FAIL', randomizedWord, chosenRandomWord)
-              while (randomizedWord !== chosenRandomWord) {
-                console.log('AFTER FIRS WORKS WORKS WORKS')
-                randomizedWord = randomWords[Math.floor(Math.random() * randomWords.length)].toUpperCase()
-              }
+          if (newCharacters.flat()[0][randomIndex] === randomizedWord[t].toUpperCase() && randomizedWord !== chosenRandomWord) {
+            newCharacters.flat()[0][randomIndex] = '.'
+          } else {
+            while (randomizedWord !== chosenRandomWord) {
+              
+              randomizedWord = randomWords[Math.floor(Math.random() * randomWords.length)].toUpperCase()
             }
-            // newWords.filter(word => word !== randomizedWord)
-            t++
-            randomIndex++
+          }
+          // newWords.filter(word => word !== randomizedWord)
+          t++
+          randomIndex++
           }
         }
         
@@ -526,7 +556,8 @@ const App = () => {
 
         console.log('AFTER FIR TTT', newCharacters[0], newCharacters[0][i], randomizedWord[i])
     }
-    setFinalLeftCharacter(newCharacters)
+    console.log('PATH', newCharacters, randomWords)
+    path == 'left' ? setFinalLeftCharacter(newCharacters[0]) : setFinalRightCharacter(newCharacters[0])
     console.log('AFTER FIR FINER', finalLeftCharacter)
   }
 
