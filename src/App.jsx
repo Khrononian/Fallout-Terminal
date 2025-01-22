@@ -59,40 +59,25 @@ const App = () => {
     for (let i = 0; i < 6; i++) {
       console.log('AFTER FIRS QUEEEEE', chosenRandomWord)
       // STILL COPYING WORDS IN DIFFERENT ARRAYS
+      if (wordsLeft.length !== new Set(wordsLeft).size) {
+        console.log('HIGGYL', wordsLeft, wordsRight)
+        wordsLeft.pop()
+        wordsLeft.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
+      }
+      if (wordsRight.length !== new Set(wordsRight).size) {
+        console.log('HIGGYR', wordsLeft, wordsRight)
+        wordsRight.pop()
+        wordsRight.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
+      }
 
       if (wordsRight.length === 0 && wordsLeft.length === 0) {
         wordsLeft.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
         wordsRight.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
+      } else {
+        wordsLeft.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
+        wordsRight.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
       }
 
-      if (wordsRight.indexOf(wordsLeft[i] ) == -1) {
-        // wordsRight.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-      } else {
-        wordsRight.pop()
-        wordsRight.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-      }
-      if (wordsLeft.indexOf(wordsRight[i]) == -1) {
-        // wordsLeft.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-      } else {
-        wordsLeft.pop()
-        wordsLeft.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-      }
-      if (wordsRight.indexOf(wordsRight[i]) == -1) {
-        wordsRight.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-        console.log('LEMME 1', wordsLeft, wordsRight)
-      } else {
-        wordsRight.pop()
-        console.log('LEMME 2', wordsRight)
-        wordsRight.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-        // wordsRight.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-      }
-
-      if (wordsLeft.indexOf(wordsLeft[i]) == -1) {
-        wordsLeft.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-      } else {
-        wordsLeft.pop()
-        wordsLeft.push(sevenWords[Math.floor(Math.random() * sevenWords.length)].toUpperCase())
-      }
     }
 
     for (let i = 0; i < 106; i++) {
@@ -351,16 +336,15 @@ const App = () => {
       })
     }
     if (/[A-Z]/g.test(clickedUserWord)) {
-      console.log('FOODNEWS')
+      console.log('HIGGYSSSS', chosenRandomWord, chosenRandomWord[0].split(''), clickedUserWord, (chosenRandomWord[0].match(new RegExp(clickedUserWord.split(''), 'gi') ) || []), clickedUserWord.split('').join(' ')[0])
       setAttempts(attempt => clickedUserWord !== chosenRandomWord ? attempt - 1 : 'WIN')
       setData(data =>
         [
           ...data,
-          { id: setCount(prevCount => prevCount.id + 1), name: '>' + clickedUserWord, permission: clickedUserWord !== chosenRandomWord ? '>Access Denied' : '>Access Granted', correct: '>' + event.target.innerText.match(new RegExp(chosenRandomWord, 'g')  ) || [].length }
+          { id: setCount(prevCount => prevCount.id + 1), name: '>' + clickedUserWord, permission: clickedUserWord !== chosenRandomWord ? '>Access Denied' : '>Access Granted', correct: '>' + (chosenRandomWord[0].match(new RegExp(clickedUserWord.split('').join('|'), 'g') ) || []).length }
         ]
       )
     } else if (truth) {
-      console.log('DUDSSS')
       console.log('DUDSSTT', terminalCode)
       const updatedTerminals = [...terminalCode]
       const updatedLetters = [...finalLeftCharacter]
@@ -545,6 +529,7 @@ const App = () => {
               randomizedWord = randomWords[Math.floor(Math.random() * randomWords.length)].toUpperCase()
             }
           }
+          // clickedUserWord[0].match(new RegExp(chosenRandomWord[0].split('').forEach(letter => letter), 'g') ) || []).length
           // newWords.filter(word => word !== randomizedWord)
           t++
           randomIndex++
