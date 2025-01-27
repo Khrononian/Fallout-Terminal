@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, createElement } from 'react'
+import React, { useState, useEffect, useRef, createElement } from 'react'
 import './App.css'
 import LeftText from './LeftText'
 import RightText from './RightText'
@@ -23,7 +23,7 @@ const App = () => {
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
-  
+  const ElementReference = useRef(null)
   const words = []
   const wordDuos = []
   const wordsLeft = []
@@ -177,11 +177,18 @@ const App = () => {
     
     randomStringWord = wordDuos[Math.floor(Math.random() * wordDuos.length)].splice(Math.floor(Math.random() * wordDuos.length), 1)
       
-    console.log('FISTING', wordsLeft, wordsRight, wordDuos, 'Num', randomStringWord, )
+    console.log('FIST', wordsLeft, wordsRight, wordDuos, 'Num', randomStringWord, )
     
     setChosenRandomWord(randomStringWord)
     setChosenRandomWords(wordDuos)
   }, [])
+
+  useEffect(() => {
+    const elementCount = ElementReference.current;
+
+    if (elementCount.childNodes.length === 7) elementCount.firstChild.remove()
+    console.log('ASUS', elementCount, elementCount.childNodes, elementCount.childNodes[0])
+  },)
   
   console.log('FINS', finalLeftCharacter)
   const randomLetters = () => {
@@ -364,7 +371,7 @@ const App = () => {
             
             // updatedTerminals[k][i] = '.'
             console.log('DUDQ', updatedTerminals, updatedTerminals[k], clickedTerminal)
-            console.log('FISTING2', randomWords)
+            console.log('FIST2', randomWords)
             
 
             // console.log('DUDQF', newWork)
@@ -456,7 +463,6 @@ const App = () => {
       return firstChar
     }).match(randomizedWord).index
 
-    // console.log('FISTING4', randomizedWord, randomWords, newCharacters[0].join('').match(randomizedWord))
     console.log('PATH', path)
     
     for (let i = 0; i < newCharacters.length; i++) {
@@ -480,10 +486,10 @@ const App = () => {
         console.log('FISTER', newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar) => {
           if (!firstChar) firstChar = ''
           return firstChar
-        }).match(randomizedWord), newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar, secondChar) => {
+        }).match(randomizedWord), newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar) => {
           if (!firstChar) firstChar = ''
           return firstChar
-        }).match(randomizedWord).input[newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar, secondChar) => {
+        }).match(randomizedWord).input[newCharacters[i].join('').replace(/(.)(.)?/g, (_, firstChar) => {
           if (!firstChar) firstChar = ''
           return firstChar
         }).match(randomizedWord).index++] )
@@ -501,8 +507,6 @@ const App = () => {
           p++
         }
       }
-      // FINALLY FIXED THE ISSUE OF 469, AND FIXED THE BROKEN CODES AFTER IT INCLUDING THE RANDOMWORDS ARRAY NOT PROPERLY
-      // SETTING. NOW LOOK FOR THE NEXT THING TO WORK ON
       
       console.log('PATH2', randomWords[Math.floor(Math.random() * randomWords.length)], randomizedWord, newCharacters.flat()[0][randomIndex], newCharacters[randomIndex] )
       // if (newCharacters[0][randomIndex] === randomizedWord[t]) {
@@ -762,7 +766,6 @@ const App = () => {
             onMouseHover={mouseEnter}
             onMouseOut={mouseOut}
             onClicked={processCodes}
-            // onMoved={mouseMoved}
           />
           <RightText 
             lettersNumbers={lettersNumbers} 
@@ -773,15 +776,15 @@ const App = () => {
             onMouseOut={mouseOut}
             onClicked={processCodes}
           />
-          <div className='text'>
+          <div className='text' ref={ElementReference}>
             { data.map(info => (
-            <div key={info.id}>
+            <div key={info.id} >
               <p>{info.name}</p>
               <p>{info.permission}</p>
               <p>{info.correct}/7 correct</p>
             </div>
           )) } 
-          <p>{'>'}<span id='span'></span></p>
+          <p className='outcome'>{'>'}<span id='span'></span></p>
           </div>
           
           
