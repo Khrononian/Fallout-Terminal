@@ -8,7 +8,8 @@
 .boxes {
   display: flex;
   justify-content: space-between;
-  width: 590px;
+  width: 790px;
+  /* overflow: hidden; */
 }
 
 .header {
@@ -16,13 +17,20 @@
 }
 .text {
   align-content: end;
-  margin-bottom: 1.5em;
+  height: 408px;
+  overflow: hidden;
+  vertical-align: top;
 }
 .text p {
   margin: 0em 0em 0em 1.8em;
   display: flex;
   justify-content: flex-start;
   width: 150px;
+}
+.outcome {
+  padding-bottom: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .span {
   letter-spacing: .5em;
