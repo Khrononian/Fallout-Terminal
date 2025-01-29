@@ -348,7 +348,7 @@ const App = () => {
       setData(data =>
         [
           ...data,
-          { id: setCount(prevCount => prevCount.id + 1), name: '>' + clickedUserWord, permission: clickedUserWord !== chosenRandomWord ? '>Access Denied' : '>Access Granted', correct: '>' + (chosenRandomWord[0].match(new RegExp(clickedUserWord.split('').join('|'), 'g') ) || []).length }
+          { id: setCount(prevCount => prevCount.id + 1), name: '>' + clickedUserWord, dudCode: 'Dud Removed.', permission: clickedUserWord !== chosenRandomWord ? '>Access Denied' : '>Access Granted', correct: '>' + (chosenRandomWord[0].match(new RegExp(clickedUserWord.split('').join('|'), 'g') ) || []).length }
         ]
       )
     } else if (truth) {
@@ -364,55 +364,79 @@ const App = () => {
       deleteFakeCodeWords(chooseOne)
 
       for (let k = 0; k <= 6; k++) {
-        for (let i = 0; i < 8; i++) {
-          if (event.target.innerText === updatedTerminals[k][0] && newSibling.innerText === updatedTerminals[k][i]) {
-            let newWork
-            console.log('DUDSSINNERWORKS', terminalCode[k], terminalCode[k][i], updatedTerminals[k], updatedTerminals[k][i], updatedTerminals[k][0])
-            
-            // updatedTerminals[k][i] = '.'
-            console.log('DUDQ', updatedTerminals, updatedTerminals[k], clickedTerminal)
-            console.log('FIST2', randomWords)
-            
-
-            // console.log('DUDQF', newWork)
-            clickedTerminal.push(updatedTerminals[k])
-            while (t <= 6  ) {
-              console.log('DUDSSNEW', newSibling.innerText, updatedTerminals[k], updatedTerminals[k][t], updatedTerminals, clickedTerminal, t)
-              event.target.innerText = '.'
-              newSibling.innerText = '.'
-              updatedTerminals[k][t] = '.'
+        if (event.target.innerText == '[' || event.target.innerText == '{' || event.target.innerText == '<' || event.target.innerText == '(') {
+          for (let i = 0; i < 8; i++) {
+            if (event.target.innerText === updatedTerminals[k][0] && newSibling.innerText === updatedTerminals[k][i]) {
+              let newWork
+              console.log('DUDSSINNERWORKS', terminalCode[k], terminalCode[k][i], updatedTerminals[k], updatedTerminals[k][i], updatedTerminals[k][0])
               
-              t++
+              // updatedTerminals[k][i] = '.'
+              console.log('DUDQ', updatedTerminals, updatedTerminals[k], clickedTerminal)
+              console.log('FIST2', randomWords)
+              
+
+              // console.log('DUDQF', newWork)
+              clickedTerminal.push(updatedTerminals[k])
+              while (t <= 6  ) {
+                console.log('DUDSSNEW', newSibling.innerText, updatedTerminals[k], updatedTerminals[k][t], updatedTerminals, clickedTerminal, t)
+                event.target.innerText = '.'
+                newSibling.innerText = '.'
+                updatedTerminals[k][t] = '.'
+                
+                t++
+                newSibling = newSibling.nextElementSibling
+              }
+              
+              if (updatedTerminals[k][6] === '.') updatedTerminals[k][7] = '.'
+              console.log('DUDSSINNERTEST', updatedTerminals, updatedTerminals[k][i], newSibling.innerText, newSibling.innerText === updatedTerminals[k][i])
+              
               newSibling = newSibling.nextElementSibling
             }
             
-            if (updatedTerminals[k][6] === '.') updatedTerminals[k][7] = '.'
-            console.log('DUDSSINNERTEST', updatedTerminals, updatedTerminals[k][i], newSibling.innerText, newSibling.innerText === updatedTerminals[k][i])
-            
-            newSibling = newSibling.nextElementSibling
+              // console.log('DUDSSINNER', terminalCode, terminalCode[k], terminalCode[k][0], terminalCode[k][i], updatedTerminals)
           }
-          
-            // console.log('DUDSSINNER', terminalCode, terminalCode[k], terminalCode[k][0], terminalCode[k][i], updatedTerminals)
         }
-        console.log('DUDTTF')
-        for (let i = updatedTerminals[k].length - 1; i >= 0; i--) {
-          console.log('DUDTT', updatedTerminals)
-          if (prevSibling.innerText == null) return
-          if (event.target.innerText === updatedTerminals[k][7] && prevSibling.innerText === updatedTerminals[k][i]) {
-            console.log('DUDTTT TRIP', updatedTerminals[k], terminalCode)
-            
-            updatedTerminals[k][i] = '.'
+        else {
+          for (let i = updatedTerminals[k].length - 1; i >= 0; i--) {
+            console.log('DUDTT', updatedTerminals)
+            // if (prevSibling == null) {
+            //   updatedTerminals[k][i] = '.'
 
-            if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
-            
-            while (t !== 7) {
-              event.target.innerText = '.'
-              prevSibling.innerText = '.'
-              prevSibling = prevSibling.previousElementSibling
-              t++
-            }
-            
-            prevSibling = prevSibling.previousElementSibling
+            //   if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
+
+            //   while (t !== 7) {
+            //     event.target.innerText = '.'
+            //     t++
+            //   }
+              
+            // }
+              if (event.target.innerText === updatedTerminals[k][7] && prevSibling.innerText === updatedTerminals[k][i]) {
+                console.log('DUDTTT TRIP', updatedTerminals[k], terminalCode)
+                console.log('PAIN1', prevSibling)
+                updatedTerminals[k][i] = '.'
+
+                if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
+                
+                while (t !== 7) {
+                  event.target.innerText = '.'
+                  prevSibling.innerText = '.'
+                  prevSibling = prevSibling.previousElementSibling
+                  t++
+                }
+                
+                prevSibling = prevSibling.previousElementSibling
+              }
+            //  else {
+            //   console.log('PAIN2', prevSibling)
+            //   updatedTerminals[k][i] = '.'
+
+            //   if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
+
+            //   while (t !== 7) {
+            //     event.target.innerText = '.'
+            //     t++
+            //   }
+            // }
           }
         }
       }
@@ -466,7 +490,7 @@ const App = () => {
     console.log('PATH', path)
     
     for (let i = 0; i < newCharacters.length; i++) {
-      console.log('FISTRRR', randomizedWord, newCharacters[0], newCharacters.join('').replace(/(.)(.)?/g, (_, firstChar, secondChar) => {
+      console.log('FISTRRR', randomizedWord, newCharacters[0], newCharacters.join('').replace(/(.)(.)?/g, (_, firstChar) => {
         if (!firstChar) firstChar = ''
         return firstChar
       }),  )
@@ -776,6 +800,7 @@ const App = () => {
             onMouseOut={mouseOut}
             onClicked={processCodes}
           />
+
           <div className='text' ref={ElementReference}>
             { data.map(info => (
             <div key={info.id} >
