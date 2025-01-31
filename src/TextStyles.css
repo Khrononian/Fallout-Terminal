@@ -10,6 +10,7 @@
 .leftgrid p, .rightgrid p {
     margin: 0;
     padding: 0;
+    /* height: 20px; */
 }
 .leftgrid {
     width: 75px;
@@ -28,6 +29,19 @@
     text-align: center;
 }
 
+.header span:first-child {
+    padding-left: .8em;
+}
+
 .code-desc {
     letter-spacing: .5em;
+}
+
+.main-div {
+    animation: upwards 6s 
+}
+
+@keyframes upwards {
+    from {transform: translateY(auto)}
+    to {transform: translateY(-155%)}
 }
