@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+.left-div {
+  display: flex;
+}
+
 .boxes {
   display: flex;
   justify-content: space-between;
