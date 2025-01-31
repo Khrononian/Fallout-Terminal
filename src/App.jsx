@@ -344,7 +344,9 @@ const App = () => {
     }
     if (/[A-Z]/g.test(clickedUserWord)) {
       console.log('HIGGYSSSS', chosenRandomWord, chosenRandomWord[0].split(''), clickedUserWord, (chosenRandomWord[0].match(new RegExp(clickedUserWord.split(''), 'gi') ) || []), clickedUserWord.split('').join(' ')[0])
-      setAttempts(attempt => clickedUserWord !== chosenRandomWord ? attempt - 1 : 'WIN')
+      document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
+      if (attempts != 0) setAttempts(attempt => clickedUserWord !== chosenRandomWord ? attempt - 1 : 'WIN')
+      else 
       setData(data =>
         [
           ...data,
@@ -390,7 +392,8 @@ const App = () => {
               if (updatedTerminals[k][6] === '.') updatedTerminals[k][7] = '.'
               console.log('DUDSSINNERTEST', updatedTerminals, updatedTerminals[k][i], newSibling.innerText, newSibling.innerText === updatedTerminals[k][i])
               
-              newSibling = newSibling.nextElementSibling
+              if (newSibling != null) newSibling = newSibling.nextElementSibling 
+              else return
             }
             
               // console.log('DUDSSINNER', terminalCode, terminalCode[k], terminalCode[k][0], terminalCode[k][i], updatedTerminals)
@@ -398,45 +401,25 @@ const App = () => {
         }
         else {
           for (let i = updatedTerminals[k].length - 1; i >= 0; i--) {
+
             console.log('DUDTT', updatedTerminals)
-            // if (prevSibling == null) {
-            //   updatedTerminals[k][i] = '.'
+            if (event.target.innerText === updatedTerminals[k][7] && prevSibling.innerText === updatedTerminals[k][i]) {
+              console.log('DUDTTT TRIP', updatedTerminals[k], terminalCode)
+              console.log('PAIN1', prevSibling)
+              updatedTerminals[k][i] = '.'
 
-            //   if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
-
-            //   while (t !== 7) {
-            //     event.target.innerText = '.'
-            //     t++
-            //   }
+              if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
               
-            // }
-              if (event.target.innerText === updatedTerminals[k][7] && prevSibling.innerText === updatedTerminals[k][i]) {
-                console.log('DUDTTT TRIP', updatedTerminals[k], terminalCode)
-                console.log('PAIN1', prevSibling)
-                updatedTerminals[k][i] = '.'
-
-                if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
-                
-                while (t !== 7) {
-                  event.target.innerText = '.'
-                  prevSibling.innerText = '.'
-                  prevSibling = prevSibling.previousElementSibling
-                  t++
-                }
-                
+              while (t !== 7) {
+                event.target.innerText = '.'
+                prevSibling.innerText = '.'
                 prevSibling = prevSibling.previousElementSibling
+                t++
               }
-            //  else {
-            //   console.log('PAIN2', prevSibling)
-            //   updatedTerminals[k][i] = '.'
-
-            //   if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
-
-            //   while (t !== 7) {
-            //     event.target.innerText = '.'
-            //     t++
-            //   }
-            // }
+              
+              if (prevSibling != null) prevSibling = prevSibling.previousElementSibling
+              else return
+            }
           }
         }
       }
@@ -494,10 +477,6 @@ const App = () => {
         if (!firstChar) firstChar = ''
         return firstChar
       }),  )
-      if (i % 2 == 1) {
-        // console.log('FIST WORKED', newCharacters.join('').replace(newCharacters.join('').substring(i), ''))
-      }
-      // console.log('FIST rand', chooseArray[Math.floor(Math.random() * chooseArray.length)])
 
       
       if (newCharacters[0].join('').search(randomizedWord)) {
@@ -564,6 +543,7 @@ const App = () => {
           }
         }
         
+
         console.log('UpdatedTerm', randomizedWord, randomWords, newWords, newWords.filter(word => !deletedWords.includes(word)), deletedWords)
         console.log('UpdatedIndex', newCharacters[0].join('').match(randomizedWord), newCharacters[0].join('').search(randomizedWord), newCharacters[0].join(''), newCharacters[0].join('').search(randomizedWord), randomizedWord)
 
@@ -575,15 +555,6 @@ const App = () => {
   }
 
   console.log(data)
-  const createNewElements = ({ word, accessCode }) => {
-    return createElement(
-      'p',
-      { className: 'code-desc' },
-      `> ${'word'}`,
-      createElement('p', {className: 'code-desc'}, 'Access denied'), 
-      createElement('p', {className: 'code-desc'}, 'Test'),
-    )
-  }
 
   const OutwardText = (event, fWord, bWord, wWord, nSibling, pSibling, sText) => {
 
@@ -775,11 +746,11 @@ const App = () => {
 
   return (
     <>
-      <div>
-        <p>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
-        <p>ENTER PASSWORD NOW</p>
+      <div className='main-div'>
+        <p className='left-div'>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
+        <p className='left-div'>ENTER PASSWORD NOW</p>
         <br/>
-        <p className='header'>{attempts} ATTEMPT(S) LEFT: <span className='span'>█</span><span className='span'>█</span><span className='span'>█</span><span className='span'>█</span></p>
+        <p className='header left-div' id='attempts'>{attempts} ATTEMPT(S) LEFT: <span className='span'>█</span><span className='span'>█</span><span className='span'>█</span><span className='span'>█</span></p>
         <br/>
         <div className='boxes'>
           <LeftText 
