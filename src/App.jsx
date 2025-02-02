@@ -343,10 +343,20 @@ const App = () => {
       })
     }
     if (/[A-Z]/g.test(clickedUserWord)) {
+      
       console.log('HIGGYSSSS', chosenRandomWord, chosenRandomWord[0].split(''), clickedUserWord, (chosenRandomWord[0].match(new RegExp(clickedUserWord.split(''), 'gi') ) || []), clickedUserWord.split('').join(' ')[0])
       document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
-      if (attempts != 0) setAttempts(attempt => clickedUserWord !== chosenRandomWord ? attempt - 1 : 'WIN')
-      else 
+      if (attempts != 1 && clickedUserWord != chosenRandomWord) setAttempts(attempt => attempt - 1)
+      else if (clickedUserWord != chosenRandomWord.toString()) {
+        console.log('ATTEMPT11')
+        setAttempts(attempt => attempt - 1)
+        document.getElementById('main-div').classList.add('div-main')
+      } else {
+        console.log('ATTEMPTS22')
+        document.getElementById('main-div').classList.add('div-main')
+      }
+
+      console.log('ATTEMPTS', attempts, clickedUserWord, chosenRandomWord, clickedUserWord == chosenRandomWord.toString())
       setData(data =>
         [
           ...data,
@@ -746,7 +756,7 @@ const App = () => {
 
   return (
     <>
-      <div className='main-div'>
+      <div className='main-div' id='main-div'>
         <p className='left-div'>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
         <p className='left-div'>ENTER PASSWORD NOW</p>
         <br/>
