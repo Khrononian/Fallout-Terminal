@@ -37,8 +37,9 @@
     letter-spacing: .5em;
 }
 
-.main-div {
-    animation: upwards 6s 
+.div-main {
+    animation: upwards ease 2.2s;
+    animation-fill-mode: forwards
 }
 
 @keyframes upwards {
