@@ -345,22 +345,25 @@ const App = () => {
     if (/[A-Z]/g.test(clickedUserWord)) {
       
       console.log('HIGGYSSSS', chosenRandomWord, chosenRandomWord[0].split(''), clickedUserWord, (chosenRandomWord[0].match(new RegExp(clickedUserWord.split(''), 'gi') ) || []), clickedUserWord.split('').join(' ')[0])
-      document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
-      if (attempts != 1 && clickedUserWord != chosenRandomWord) setAttempts(attempt => attempt - 1)
-      else if (clickedUserWord != chosenRandomWord.toString()) {
+      // document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
+      if (attempts != 1 && clickedUserWord != chosenRandomWord) {
+        document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
+        setAttempts(attempt => attempt - 1)
+      } else if (clickedUserWord != chosenRandomWord.toString()) {
         console.log('ATTEMPT11')
         setAttempts(attempt => attempt - 1)
+        document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
         document.getElementById('main-div').classList.add('div-main')
       } else {
         console.log('ATTEMPTS22')
         document.getElementById('main-div').classList.add('div-main')
       }
-
+      console.log('DUDES1', truth)
       console.log('ATTEMPTS', attempts, clickedUserWord, chosenRandomWord, clickedUserWord == chosenRandomWord.toString())
       setData(data =>
         [
           ...data,
-          { id: setCount(prevCount => prevCount.id + 1), name: '>' + clickedUserWord, dudCode: 'Dud Removed.', permission: clickedUserWord !== chosenRandomWord ? '>Access Denied' : '>Access Granted', correct: '>' + (chosenRandomWord[0].match(new RegExp(clickedUserWord.split('').join('|'), 'g') ) || []).length }
+          { id: setCount(prevCount => prevCount.id + 1), name: '>' + clickedUserWord, permission: clickedUserWord !== chosenRandomWord ? '>Access Denied' : '>Access Granted', correct: '>' + (chosenRandomWord[0].match(new RegExp(clickedUserWord.split('').join('|'), 'g') ) || []).length + '/7 correct' }
         ]
       )
     } else if (truth) {
@@ -469,6 +472,11 @@ const App = () => {
     //     }
     //   }
     // }
+    setData(data => [
+      ...data,
+      {dudCode: '>Dud Removed'}
+    ])
+    console.log('DUDES2', data, truth, randomWords)
     console.log('PATH5', randomWords[path == 'left' ? 0 : 1], )
     randomizedWord = randomWords[path == 'left' ? 0 : 1][Math.floor(Math.random() * randomWords[path == 'left' ? 0 : 1].length)]
     
@@ -787,7 +795,8 @@ const App = () => {
             <div key={info.id} >
               <p>{info.name}</p>
               <p>{info.permission}</p>
-              <p>{info.correct}/7 correct</p>
+              <p>{info.correct}</p>
+              { randomWords[0].length < 6 || randomWords[1].length < 6 ? <p>{info.dudCode}</p> : '>' }
             </div>
           )) } 
           <p className='outcome'>{'>'}<span id='span'></span></p>
