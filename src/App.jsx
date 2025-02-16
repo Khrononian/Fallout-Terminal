@@ -11,6 +11,7 @@ const App = () => {
   const [sideStrings, setSideStrings] = useState([])
   const [finalLeftCharacter, setFinalLeftCharacter] = useState([])
   const [finalRightCharacter, setFinalRightCharacter] = useState([])
+  const [allowance, setAllowance] = useState(['█', '█', '█', '█'])
   const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], []])
   const [count, setCount] = useState(0)
   const [letter, setLetter] = useState('')
@@ -19,11 +20,13 @@ const App = () => {
   const [randomWords, setChosenRandomWords] = useState()
   const [chosenRandomWord, setChosenRandomWord] = useState('')
   // const [deletedWords, setDeletedWords] = useState([])
+  const allowanceR = ['█', '█', '█', '█']
   const deletedWords = []
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
   const ElementReference = useRef(null)
+  const Allowance = useRef(null)
   const words = []
   const wordDuos = []
   const wordsLeft = []
@@ -54,6 +57,8 @@ const App = () => {
     
     const terminalDudHolder = ['[]', '()', '{}', '<>']
     const dudHolder = [0, 1, 2, 3, 4, 5];
+    const arrayChoice = ['left', 'right']
+    const randomAllowance = ['W', 'I', 'N', 'ALLOWANCE REPLENISHED', 'N', 'N', 'E', 'R']
     let p = 0
 
     for (let i = 0; i < 6; i++) {
@@ -79,6 +84,7 @@ const App = () => {
       }
 
     }
+    console.log('CHOICES', wordsLeft, wordsRight)
 
     for (let i = 0; i < 106; i++) {
       leftCharacterString.push(characters[Math.floor(Math.random() * characters.length)])
@@ -118,10 +124,10 @@ const App = () => {
     
     while (takeAwayNum !== 0) {
       // if (wordsLeft[i] !== undefined) {
-      if (wordsLeft[i] !== undefined && wordsRight[i] !== undefined) {
+      if (wordsLeft[i] !== undefined && wordsRight[i] !== undefined ) {
         
         // console.log('Test', wordsLeft[i], wordsLeft[i].toString().split(''), leftCharacterString)
-        console.log('Test', wordsLeft[i], wordsLeft[i].toString().split(''), leftCharacterString)
+        console.log('CHOICE', wordsLeft[i], wordsLeft[i].toString().split(''), chosenRandomWord)
 
         leftCharacterString.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) ) + firstNum, 0, wordsLeft[i].toString().toUpperCase().split(''))
         rightCharacterString.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) ) + firstNum, 0, wordsRight[i].toString().toUpperCase().split(''))
@@ -182,6 +188,10 @@ const App = () => {
     setChosenRandomWord(randomStringWord)
     setChosenRandomWords(wordDuos)
   }, [])
+
+  useEffect(() => {
+
+  }, )
 
   useEffect(() => {
     const elementCount = ElementReference.current;
@@ -329,6 +339,7 @@ const App = () => {
   const processCodes = (event) => {
     const attemptsLeft = [0, 1, 2, 3]
     const chooseOne = ['left', 'right']
+    const randomAllowance = ['W', 'I', 'N', 'ALLOWANCE REPLENISHED', 'N', 'N', 'E', 'R']
     console.log('Code', data, clickedDud, clickedDud.length)
     console.log('FOODNEWS', clickedUserWord, chosenRandomWord)
     // setClickedUserWord()
@@ -347,18 +358,21 @@ const App = () => {
       console.log('HIGGYSSSS', chosenRandomWord, chosenRandomWord[0].split(''), clickedUserWord, (chosenRandomWord[0].match(new RegExp(clickedUserWord.split(''), 'gi') ) || []), clickedUserWord.split('').join(' ')[0])
       // document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
       if (attempts != 1 && clickedUserWord != chosenRandomWord) {
-        document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
+        // document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
+        console.log('CHOICERSRT', allowance.slice(0, attempts - 1))
+        
         setAttempts(attempt => attempt - 1)
+        setAllowance([...allowance.slice(2, attempts), allowance.slice(-1)])
+        // setAllowance([...allowance.slice(0, attempts), ...allowance.filter((element, index) => ) ])
       } else if (clickedUserWord != chosenRandomWord.toString()) {
         console.log('ATTEMPT11')
+        console.log('CHOICE122333')
         setAttempts(attempt => attempt - 1)
-        document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
+        setAllowance([])
         document.getElementById('main-div').classList.add('div-main')
-      } else {
-        console.log('ATTEMPTS22')
-        document.getElementById('main-div').classList.add('div-main')
-      }
+      } else document.getElementById('main-div').classList.add('div-main')
       console.log('DUDES1', truth)
+      console.log('CHOICE', chosenRandomWord)
       console.log('ATTEMPTS', attempts, clickedUserWord, chosenRandomWord, clickedUserWord == chosenRandomWord.toString())
       setData(data =>
         [
@@ -371,11 +385,28 @@ const App = () => {
       const updatedTerminals = [...terminalCode]
       const updatedLetters = [...finalLeftCharacter]
       const clickedTerminal = []
+      let allowanceRep = Allowance.current
       let newSibling = event.target.nextElementSibling
       let prevSibling = event.target.previousElementSibling
       
       let t = 0;
 
+      if (randomAllowance[Math.floor(Math.random() * randomAllowance.length)] == 'ALLOWANCE REPLENISHED' && attempts < 4) {
+      
+        console.log('CHOICEWORK', attempts, allowance)
+        // while (attempts != 4) {
+        //   console.log('CHOICEWOOOO', attempts, allowance)
+        //   // setAllowance([...attempts, '█'])
+        //   setAttempts(attempts + 1)
+        //   // setAllowance(prev => [...prev, '█'])
+          
+        // }
+        setAttempts(4)
+        setAllowance(['█', '█', '█', '█'])
+        
+        console.log('CHOICESSSS', allowanceRep)
+        
+      }
       deleteFakeCodeWords(chooseOne)
 
       for (let k = 0; k <= 6; k++) {
@@ -474,7 +505,7 @@ const App = () => {
     // }
     setData(data => [
       ...data,
-      {dudCode: '>Dud Removed'}
+      {dudCode: '>Dud Removed.'}
     ])
     console.log('DUDES2', data, truth, randomWords)
     console.log('PATH5', randomWords[path == 'left' ? 0 : 1], )
@@ -530,7 +561,7 @@ const App = () => {
       }
       
       console.log('PATH2', randomWords[Math.floor(Math.random() * randomWords.length)], randomizedWord, newCharacters.flat()[0][randomIndex], newCharacters[randomIndex] )
-      // if (newCharacters[0][randomIndex] === randomizedWord[t]) {
+      // CHANGE THIS LINE UNDER ME TO ADD A [0] AFTER FLAT
       if (newCharacters.flat()[0][randomIndex] === randomizedWord[t]) {
         console.log('AFTER FIRS WIN', newCharacters[i], newCharacters[0].join('').search(randomizedWord), newCharacters[0][randomIndex], randomIndex)
         
@@ -600,7 +631,7 @@ const App = () => {
       //  /[ (<[{ ]/.test(event.target.innerText)
       //  / [ >\]}) ] /.test(nSibling.innerText)
     }
-    console.log('CHECKERS', nSibling, nSibling.innerText, /[!@#$%^&* _\-[=+|,;.]/ig.test(event.target.innerText) , /[!@#$%^&* _=+|,;.-]/ig.test(nSibling.innerText) )
+    // console.log('CHECKERS', nSibling, nSibling.innerText, /[!@#$%^&* _\-[=+|,;.]/ig.test(event.target.innerText) , /[!@#$%^&* _=+|,;.-]/ig.test(nSibling.innerText) )
     let i = 0
     let dudArray = []
     let dudArray2= []
@@ -768,7 +799,7 @@ const App = () => {
         <p className='left-div'>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
         <p className='left-div'>ENTER PASSWORD NOW</p>
         <br/>
-        <p className='header left-div' id='attempts'>{attempts} ATTEMPT(S) LEFT: <span className='span'>█</span><span className='span'>█</span><span className='span'>█</span><span className='span'>█</span></p>
+        <p className='header left-div' id='attempts' ref={Allowance}>{attempts} ATTEMPT(S) LEFT: { allowance.map((element, index) => React.createElement('span', { key: index, className: 'span' }, element )) } </p>
         <br/>
         <div className='boxes'>
           <LeftText 
@@ -791,12 +822,12 @@ const App = () => {
           />
 
           <div className='text' ref={ElementReference}>
-            { data.map(info => (
-            <div key={info.id} >
+            { data.map((info, index) => (
+            <div key={index} >
               <p>{info.name}</p>
               <p>{info.permission}</p>
               <p>{info.correct}</p>
-              { randomWords[0].length < 6 || randomWords[1].length < 6 ? <p>{info.dudCode}</p> : '>' }
+              { randomWords[0].length < 6 || randomWords[1].length < 6 ? <p>{info.dudCode}</p> : '' }
             </div>
           )) } 
           <p className='outcome'>{'>'}<span id='span'></span></p>
