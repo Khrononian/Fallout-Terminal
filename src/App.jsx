@@ -13,6 +13,7 @@ const App = () => {
   const [finalRightCharacter, setFinalRightCharacter] = useState([])
   const [allowance, setAllowance] = useState(['█', '█', '█', '█'])
   const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], []])
+  const [rightTerminalCode, setRightTerminalCode] = useState([[], [], [], [], [], [], []])
   const [count, setCount] = useState(0)
   const [letter, setLetter] = useState('')
   const [truth, setTruth] = useState(false)
@@ -53,6 +54,7 @@ const App = () => {
     ];
     const dudCharacters = '!@#$%^&*_-=+|,;./'
     const terminalCodeCopy = [...terminalCode]
+    const rightTerminalCodeCopy = [...rightTerminalCode]
     // const terminalCodeCopy = [[], [], [], [], [], [], []]
     
     const terminalDudHolder = ['[]', '()', '{}', '<>']
@@ -94,18 +96,17 @@ const App = () => {
 
     while (dudHolder.length !== 0 || p <= 6) {
       terminalCodeCopy[p].unshift(terminalDudHolder[Math.floor(Math.random() * terminalDudHolder.length)][0])
+      rightTerminalCodeCopy[p].unshift(terminalDudHolder[Math.floor(Math.random() * terminalDudHolder.length)][0])
       
       for (let i = 0; i < 6; i++) {
-        // setTerminalCode(prevCode => [
-        //   ...prevCode,
-        //   terminalCode[p].concat(dudCharacters[Math.floor(Math.random() * dudCharacters.length)])
-        // ])
-        terminalCodeCopy[p].push(dudCharacters[Math.floor(Math.random() * dudCharacters.length)])
         
+        terminalCodeCopy[p].push(dudCharacters[Math.floor(Math.random() * dudCharacters.length)])
+        rightTerminalCodeCopy[p].push(dudCharacters[Math.floor(Math.random() * dudCharacters.length)])
       }
       dudHolder.pop()
       terminalDudHolder.forEach(element => {
         if (element[0] === terminalCodeCopy[p][0]) terminalCodeCopy[p].push(element[1])
+        if (element[0] === rightTerminalCodeCopy[p][0]) rightTerminalCodeCopy[p].push(element[1])
       })
       // setChosenRandomWords(wordsLeft.concat(wordsRight))
       console.log('AFTER', terminalCodeCopy, leftCharacterString, wordsLeft, chosenRandomWord)
@@ -143,7 +144,7 @@ const App = () => {
     console.log('NEW', leftCharacterString, leftCharacterString.length, )
     for (let i = 0; i < 7; i++) {
       leftCharacterString.splice(Math.floor(Math.random() * leftCharacterString.length), 0, terminalCopy[i] )
-      rightCharacterString.splice(Math.floor(Math.random() * leftCharacterString.length), 0, terminalCopy[i] )
+      rightCharacterString.splice(Math.floor(Math.random() * leftCharacterString.length), 0, rightTerminalCodeCopy[i] )
       console.log('TESTTTT', finalLeftCharacter, terminalCopy, wordsLeft)
     }
     
@@ -383,6 +384,7 @@ const App = () => {
     } else if (truth) {
       console.log('DUDSSTT', terminalCode)
       const updatedTerminals = [...terminalCode]
+      const updatedRightTerminal = [...rightTerminalCode]
       const updatedLetters = [...finalLeftCharacter]
       const clickedTerminal = []
       let allowanceRep = Allowance.current
@@ -408,12 +410,13 @@ const App = () => {
         
       }
       deleteFakeCodeWords(chooseOne)
-
+      // LOOK AT THESE SERIES UNDER HERE TO SEE IF IT COULD BE REFACTORED
       for (let k = 0; k <= 6; k++) {
         if (event.target.innerText == '[' || event.target.innerText == '{' || event.target.innerText == '<' || event.target.innerText == '(') {
           for (let i = 0; i < 8; i++) {
+            console.log('XMEN', updatedTerminals, updatedTerminals[k], updatedRightTerminal)
             if (event.target.innerText === updatedTerminals[k][0] && newSibling.innerText === updatedTerminals[k][i]) {
-              let newWork
+              console.log('XMEN1')
               console.log('DUDSSINNERWORKS', terminalCode[k], terminalCode[k][i], updatedTerminals[k], updatedTerminals[k][i], updatedTerminals[k][0])
               
               // updatedTerminals[k][i] = '.'
@@ -421,9 +424,8 @@ const App = () => {
               console.log('FIST2', randomWords)
               
 
-              // console.log('DUDQF', newWork)
               clickedTerminal.push(updatedTerminals[k])
-              while (t <= 6  ) {
+              while (t <= 6 ) {
                 console.log('DUDSSNEW', newSibling.innerText, updatedTerminals[k], updatedTerminals[k][t], updatedTerminals, clickedTerminal, t)
                 event.target.innerText = '.'
                 newSibling.innerText = '.'
@@ -438,31 +440,57 @@ const App = () => {
               
               if (newSibling != null) newSibling = newSibling.nextElementSibling 
               else return
+            } else {
+              console.log('XWOMEN', updatedRightTerminal, updatedRightTerminal[k])
+              clickedTerminal.push(updatedRightTerminal)
+
+              while (t <= 6) {
+                event.target.innerText = '.'
+                newSibling.innerText = '.'
+                updatedRightTerminal[k][t] = '.'
+                
+                t++
+                newSibling = newSibling.nextElementSibling
+              }
+              if (updatedRightTerminal[k][6] === '.') updatedRightTerminal[k][7] = '.'
             }
-            
-              // console.log('DUDSSINNER', terminalCode, terminalCode[k], terminalCode[k][0], terminalCode[k][i], updatedTerminals)
           }
         }
         else {
-          for (let i = updatedTerminals[k].length - 1; i >= 0; i--) {
+          if (event.target.innerText === updatedTerminals[k][7]) {
+            for (let i = updatedTerminals[k].length - 1; i >= 0; i--) {
 
-            console.log('DUDTT', updatedTerminals)
-            if (event.target.innerText === updatedTerminals[k][7] && prevSibling.innerText === updatedTerminals[k][i]) {
-              console.log('DUDTTT TRIP', updatedTerminals[k], terminalCode)
-              console.log('PAIN1', prevSibling)
-              updatedTerminals[k][i] = '.'
+              console.log('DUDTT', updatedTerminals)
+              if (event.target.innerText === updatedTerminals[k][7] && prevSibling.innerText === updatedTerminals[k][i]) {
+                console.log('DUDTTT TRIP', updatedTerminals[k], terminalCode)
+                console.log('PAIN1', prevSibling)
+                updatedTerminals[k][i] = '.'
 
-              if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
-              
-              while (t !== 7) {
-                event.target.innerText = '.'
-                prevSibling.innerText = '.'
-                prevSibling = prevSibling.previousElementSibling
-                t++
+                if (updatedTerminals[k][0] === '.') updatedTerminals[k][7] = '.'
+                
+                while (t !== 7) {
+                  event.target.innerText = '.'
+                  prevSibling.innerText = '.'
+                  prevSibling = prevSibling.previousElementSibling
+                  t++
+                }
+                
+                if (prevSibling != null) prevSibling = prevSibling.previousElementSibling
+                else return
               }
-              
-              if (prevSibling != null) prevSibling = prevSibling.previousElementSibling
-              else return
+            }
+          } else {
+            for (let i = updatedRightTerminal[k].length - 1; i >= 0; i--) {
+              if (event.target.innerText === updatedRightTerminal[k][7] && prevSibling.innerText === updatedRightTerminal[k][i]) {
+                if (updatedRightTerminal[k][0] === '.') updatedRightTerminal[k][7] = '.'
+
+                while (t !== 7) {
+                  event.target.innerText = '.'
+                  prevSibling.innerText = '.'
+                  prevSibling = prevSibling.previousElementSibling
+                  t++
+                }
+              }
             }
           }
         }
