@@ -17,6 +17,7 @@ const App = () => {
   const [count, setCount] = useState(0)
   const [letter, setLetter] = useState('')
   const [truth, setTruth] = useState(false)
+  const [allowed, setAllowed] = useState(false)
   const [clickedUserWord, setClickedUserWord] = useState('')
   const [randomWords, setChosenRandomWords] = useState()
   const [chosenRandomWord, setChosenRandomWord] = useState('')
@@ -88,7 +89,7 @@ const App = () => {
     }
     console.log('CHOICES', wordsLeft, wordsRight)
 
-    for (let i = 0; i < 106; i++) {
+    for (let i = 0; i < 130; i++) {
       leftCharacterString.push(characters[Math.floor(Math.random() * characters.length)])
       rightCharacterString.push(characters[Math.floor(Math.random() * characters.length)])
       console.log('FINS', leftCharacterString[i])
@@ -134,7 +135,7 @@ const App = () => {
         rightCharacterString.splice(Math.floor(Math.random() * (secondNum - firstNum + 1) ) + firstNum, 0, wordsRight[i].toString().toUpperCase().split(''))
         
         firstNum += 12
-        secondNum += 12
+        secondNum += 30
       }
 
       
@@ -142,7 +143,7 @@ const App = () => {
       takeAwayNum--
     }
     console.log('NEW', leftCharacterString, leftCharacterString.length, )
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 4; i++) {
       leftCharacterString.splice(Math.floor(Math.random() * leftCharacterString.length), 0, terminalCopy[i] )
       rightCharacterString.splice(Math.floor(Math.random() * leftCharacterString.length), 0, rightTerminalCodeCopy[i] )
       console.log('TESTTTT', finalLeftCharacter, terminalCopy, wordsLeft)
@@ -403,6 +404,7 @@ const App = () => {
         //   // setAllowance(prev => [...prev, '█'])
           
         // }
+        setAllowed(true)
         setAttempts(4)
         setAllowance(['█', '█', '█', '█'])
         
@@ -410,6 +412,7 @@ const App = () => {
         
       }
       deleteFakeCodeWords(chooseOne)
+
       // LOOK AT THESE SERIES UNDER HERE TO SEE IF IT COULD BE REFACTORED
       for (let k = 0; k <= 6; k++) {
         if (event.target.innerText == '[' || event.target.innerText == '{' || event.target.innerText == '<' || event.target.innerText == '(') {
@@ -508,32 +511,10 @@ const App = () => {
     let randomizedWord = ''
     let randomIndex
     let t = 0;
-    // console.log('FIST', path, newCharacters[0], chooseArray[Math.floor(Math.random() * chooseArray.length)] == 'left' ? 0 : 1, chosenRandomWord, randomWords, randomWords[randomSelection][Math.floor(Math.random() * 5 || 6)])
     
-    // for (let i = 0; i < newCharacters.length; i++) {
-    //   for (let o = 0; o < randomWords.length; o++) {
-    //     while (t !== 8) {
-    //       string += randomWords[o][t]
-    //       console.log('AFTER FIR', randomWords[t], randomWords[t][0], randomWords[o][t].toUpperCase(), string)
-          
-    //       // if (newCharacters[i] == randomWords[o][t]) console.log('AFTER FISTR')
-    //       t++
-    //     }
-    //   }
-    // }
-    // for (let i = 0; i < newCharacters.length; i++) {
-    //   for (const word of randomWords) {
-    //     while (t !== 7) {
-    //       console.log('AFTER FIRS', word, word[t], randomWords[t])
-    //       if (newCharacters[i] == word[t]) console.log('AFTER FIRST ME')
-          
-    //       t++
-    //     }
-    //   }
-    // }
     setData(data => [
       ...data,
-      {dudCode: '>Dud Removed.'}
+      {dudCode: `>Dud Removed.`}
     ])
     console.log('DUDES2', data, truth, randomWords)
     console.log('PATH5', randomWords[path == 'left' ? 0 : 1], )
@@ -856,9 +837,15 @@ const App = () => {
               <p>{info.permission}</p>
               <p>{info.correct}</p>
               { randomWords[0].length < 6 || randomWords[1].length < 6 ? <p>{info.dudCode}</p> : '' }
+              
             </div>
           )) } 
-          <p className='outcome'>{'>'}<span id='span'></span></p>
+            <div>
+              <p className='allowance'>{ allowed === true ? '>Allowance \n>replenished.' : '' }</p>
+            </div>
+            
+            
+            <p className='outcome'>{'>'}<span id='span'></span></p>
           </div>
           
           
