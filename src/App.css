@@ -5,15 +5,20 @@
   text-align: center;
 }
 
+body {
+  background: black;
+}
+
 .left-div {
   display: flex;
+  color: #33dd88;
+  margin: 0;
 }
 
 .boxes {
   display: flex;
   justify-content: space-between;
   width: 790px;
-  /* overflow: hidden; */
 }
 
 .header {
@@ -30,6 +35,9 @@
   display: flex;
   justify-content: flex-start;
   width: 150px;
+}
+.text .allowance {
+  text-align: left;
 }
 .outcome {
   padding-bottom: 1.5em;
