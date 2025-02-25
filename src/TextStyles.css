@@ -1,8 +1,24 @@
 .main-div {
     background-image: url('./thumbnail/bg.png');
-    padding: 1.8em .4em 1.5em 1.5em
-}
+    padding: .6em .4em 0.5em 0.8em;
+    width: 730px;
+    height: 449px;
 
+    display: flex;
+    flex-direction: column;
+    
+}
+.terminal-background {
+    background-image: url('./thumbnail/monitorborder.png');
+    width: 920px;
+    height: 670px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-51%, -45.5%);
+    z-index: -10;
+}
+/* ADD THE LAST TERMINAL BACKGROUND PICTURE */
 .grid {
     display: grid;
     grid-template-columns: 70px 1fr;
@@ -17,20 +33,24 @@
     margin: 0;
     padding: 0;
 }
+.leftgrid p {
+    height: 20.2px;
+}
 .leftgrid {
     width: 75px;
     text-align: left;
 }
 .rightgrid {
     /* background: darkgreen; */
+    /* width: 210px; */
     width: 210px;
     word-wrap: break-word;
     white-space: pre-wrap;
-    letter-spacing: 1.8px;
+    /* letter-spacing: .8px; */
     text-align: left;
     display: grid;
-    grid-template-columns: repeat(12, 17px);
-    grid-template-rows: repeat(17, 24px);
+    grid-template-columns: repeat(12, 14px);
+    grid-template-rows: repeat(17, 20px);
     text-align: center;
 }
 

@@ -6,7 +6,7 @@
 }
 
 body {
-  background: black;
+  /* background: black; */
 }
 
 .left-div {
@@ -18,7 +18,8 @@ body {
 .boxes {
   display: flex;
   justify-content: space-between;
-  width: 790px;
+  /* width: 790px; */
+  width: auto;
 }
 
 .header {
@@ -26,12 +27,12 @@ body {
 }
 .text {
   align-content: end;
-  height: 408px;
+  height: auto;
   overflow: hidden;
   vertical-align: top;
 }
 .text p {
-  margin: 0em 0em 0em 1.8em;
+  /* margin: 0em 0em 0em 1.8em; */
   display: flex;
   justify-content: flex-start;
   width: 150px;
