@@ -804,12 +804,14 @@ const App = () => {
 
   return (
     <>
+      <div className='terminal-background'></div>
       <div className='main-div' id='main-div'>
         <p className='left-div'>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
         <p className='left-div'>ENTER PASSWORD NOW</p>
         <br/>
         <p className='header left-div' id='attempts' ref={Allowance}>{attempts} ATTEMPT(S) LEFT: { allowance.map((element, index) => React.createElement('span', { key: index, className: 'span' }, element )) } </p>
         <br/>
+        
         <div className='boxes'>
           <LeftText 
             lettersNumbers={lettersNumbers} 
