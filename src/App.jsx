@@ -811,7 +811,6 @@ const App = () => {
         <br/>
         <p className='header left-div' id='attempts' ref={Allowance}>{attempts} ATTEMPT(S) LEFT: { allowance.map((element, index) => React.createElement('span', { key: index, className: 'span' }, element )) } </p>
         <br/>
-        
         <div className='boxes'>
           <LeftText 
             lettersNumbers={lettersNumbers} 
