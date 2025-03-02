@@ -17,8 +17,7 @@ body {
 
 .boxes {
   display: flex;
-  justify-content: space-between;
-  /* width: 790px; */
+  justify-content: space-around;
   width: auto;
 }
 
@@ -30,12 +29,19 @@ body {
   height: auto;
   overflow: hidden;
   vertical-align: top;
+  text-align: left;
 }
 .text p {
   /* margin: 0em 0em 0em 1.8em; */
   display: flex;
   justify-content: flex-start;
-  width: 150px;
+  width: 170px;
+  margin: 0;
+  color: #33dd88;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 12pt;
+  letter-spacing: .2em;
 }
 .text .allowance {
   text-align: left;
