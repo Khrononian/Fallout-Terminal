@@ -434,6 +434,7 @@ const App = () => {
                 newSibling.innerText = '.'
                 updatedTerminals[k][t] = '.'
                 
+                
                 t++
                 newSibling = newSibling.nextElementSibling
               }
@@ -451,7 +452,9 @@ const App = () => {
                 event.target.innerText = '.'
                 newSibling.innerText = '.'
                 updatedRightTerminal[k][t] = '.'
-                
+                newSibling.style.background = 'transparent'
+                newSibling.style.color = '#33dd88'
+
                 t++
                 newSibling = newSibling.nextElementSibling
               }
@@ -490,6 +493,8 @@ const App = () => {
                 while (t !== 7) {
                   event.target.innerText = '.'
                   prevSibling.innerText = '.'
+                  prevSibling.style.background = 'transparent'
+                  prevSibling.style.color = '#33dd88'
                   prevSibling = prevSibling.previousElementSibling
                   t++
                 }
@@ -681,6 +686,7 @@ const App = () => {
             console.log('FOODFIND', clickedDud, )
             event.target.style.background = '#33dd88'
             eventSibling.style.background = '#33dd88'
+            eventSibling.style.color = 'black'
             eventSibling = eventSibling.nextElementSibling
             p++
           }
@@ -735,6 +741,7 @@ const App = () => {
             console.log('FOODFIND', clickedDud, )
             event.target.style.background = '#33dd88'
             prevEventSibling.style.background = '#33dd88'
+            prevEventSibling.style.color = 'black'
 
             prevEventSibling = prevEventSibling.previousElementSibling
             p++
@@ -773,9 +780,10 @@ const App = () => {
     const selectedAudio = document.getElementById('audiofile');
     let nextSibling = event.target.nextElementSibling;
     let prevSibling = event.target.previousElementSibling;
+    let i = 0;
 
     event.target.style.background = 'transparent';
-    event.target.style.color = 'white';
+    event.target.style.color = '#33dd88';
     setTruth(false)
 
     if (document.getElementById('span').innerText.length > 7) document.getElementById('span').innerText.substring(0, 8)
@@ -784,16 +792,32 @@ const App = () => {
     while (nextSibling && /[a-z]/i.test(nextSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
       // event.target.style.background = '#33dd88'
       // event.target.style.color = 'black'
+      console.log('GIMME')
       nextSibling.style.background = 'transparent'
-      nextSibling.style.color = 'white'
+      nextSibling.style.color = '#33dd88'
       nextSibling = nextSibling.nextElementSibling
     }
 
     while (prevSibling && /[a-z]/i.test(prevSibling.innerText) && /[a-z]/i.test(event.target.innerText)) {
       // event.target.style.color = 'black'
       prevSibling.style.background = 'transparent'
-      prevSibling.style.color = 'white'
+      prevSibling.style.color = '#33dd88'
       prevSibling = prevSibling.previousElementSibling
+    }
+
+    while (prevSibling && /[(<[{ !@#$%^&*_=+|,;/.-]/g.test(prevSibling.innerText) && /[\])}>]/.test(event.target.innerText) && i <= 6) {
+      prevSibling.style.background = 'transparent'
+      prevSibling.style.color = '#33dd88'
+      prevSibling = prevSibling.previousElementSibling
+      
+      i++
+    }
+    while (nextSibling && /[!@#$%^&*_=+|,;/.\- \])}>]/g.test(nextSibling.innerText) && /[(<{[]/.test(event.target.innerText) && i <= 6) {
+      nextSibling.style.background = 'transparent'
+      nextSibling.style.color = '#33dd88'
+      nextSibling = nextSibling.nextElementSibling
+
+      i++
     }
     
     selectedAudio.onended = () => {
@@ -846,7 +870,7 @@ const App = () => {
             </div>
             
             
-            <p className='outcome'>{'>'}<span id='span'></span></p>
+            <p className='outcome'>{'>'}<span id='span'></span><span>█</span></p>
           </div>
           
           
