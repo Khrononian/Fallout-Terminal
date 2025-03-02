@@ -27,6 +27,9 @@
 .leftgrid, .rightgrid {
     flex-direction: column;
     color: #33dd88;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 12pt;
 } 
 
 .leftgrid p, .rightgrid p {
@@ -43,7 +46,7 @@
 .rightgrid {
     /* background: darkgreen; */
     /* width: 210px; */
-    width: 210px;
+    width: 170px;
     word-wrap: break-word;
     white-space: pre-wrap;
     /* letter-spacing: .8px; */
