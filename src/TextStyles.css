@@ -1,12 +1,22 @@
-.main-div {
+.main-terminal {
     background-image: url('./thumbnail/bg.png');
+    transform: translateY(-28%);
+}
+.main-div {
+    position: relative;
     padding: .6em .4em 0.5em 0.8em;
     width: 730px;
     height: 449px;
-
     display: flex;
     flex-direction: column;
     
+    z-index: -11;
+}
+.top-header, .locked-terminal {
+    font-family: monospace;
+    font-size: 12pt;
+    font-weight: bold;
+    color: #33dd88;
 }
 .terminal-background {
     background-image: url('./thumbnail/monitorborder.png');
@@ -15,7 +25,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-51%, -45.5%);
+    /* transform: translate(-51%, -45.5%); */
+    transform: translate(-51%, -65.5%);
     z-index: -10;
 }
 /* ADD THE LAST TERMINAL BACKGROUND PICTURE */
@@ -65,12 +76,41 @@
     letter-spacing: .5em;
 }
 
+.power-btn {
+    position: absolute;
+    /* transform: translate(39.2em, 60px); */
+    transform: translate(1265%, 60px);
+    background: white;
+    cursor: pointer;
+    padding: 1.55em;
+}
+
+.locked-terminal {
+    display: none;
+}
+
+.locked-terminal-styles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
 .div-main {
     animation: upwards ease 2.2s;
     animation-fill-mode: forwards
 }
+/* .main-terminal {
+    animation: terminal-upwards ease 2.2s;
+    animation-fill-mode: forwards;
+} */
 
 @keyframes upwards {
     from {transform: translateY(auto)}
-    to {transform: translateY(-155%)}
+    to {transform: translateY(-165%)}
 }
+/* @keyframes terminal-upwards {
+    from { transform: translate(auto, auto) }
+    to { transform: translate(-51%, -155%) }
+} */
