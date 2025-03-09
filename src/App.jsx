@@ -14,6 +14,7 @@ const App = () => {
   const [allowance, setAllowance] = useState(['█', '█', '█', '█'])
   const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], []])
   const [rightTerminalCode, setRightTerminalCode] = useState([[], [], [], [], [], [], []])
+  const [locked, setLocked] = useState(false)
   const [count, setCount] = useState(0)
   const [letter, setLetter] = useState('')
   const [truth, setTruth] = useState(false)
@@ -21,7 +22,7 @@ const App = () => {
   const [clickedUserWord, setClickedUserWord] = useState('')
   const [randomWords, setChosenRandomWords] = useState()
   const [chosenRandomWord, setChosenRandomWord] = useState('')
-  // const [deletedWords, setDeletedWords] = useState([])
+  const lockedTerminalText = document.getElementById('main-div')
   const allowanceR = ['█', '█', '█', '█']
   const deletedWords = []
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
@@ -372,7 +373,16 @@ const App = () => {
         setAttempts(attempt => attempt - 1)
         setAllowance([])
         document.getElementById('main-div').classList.add('div-main')
-      } else document.getElementById('main-div').classList.add('div-main')
+        // document.getElementById('terminal').classList.add('main-terminal')
+        setLocked(true)
+        lockedTerminalText.onanimationend = current => {
+          console.log('KICK', current)
+        }
+      } else {
+        document.getElementById('main-div').classList.add('div-main')
+        setLocked(true)
+        // document.getElementById('terminal').classList.add('main-terminal')
+      }
       console.log('DUDES1', truth)
       console.log('CHOICE', chosenRandomWord)
       console.log('ATTEMPTS', attempts, clickedUserWord, chosenRandomWord, clickedUserWord == chosenRandomWord.toString())
@@ -412,7 +422,7 @@ const App = () => {
         
       }
       deleteFakeCodeWords(chooseOne)
-
+      
       // LOOK AT THESE SERIES UNDER HERE TO SEE IF IT COULD BE REFACTORED
       for (let k = 0; k <= 6; k++) {
         if (event.target.innerText == '[' || event.target.innerText == '{' || event.target.innerText == '<' || event.target.innerText == '(') {
@@ -433,7 +443,6 @@ const App = () => {
                 event.target.innerText = '.'
                 newSibling.innerText = '.'
                 updatedTerminals[k][t] = '.'
-                
                 
                 t++
                 newSibling = newSibling.nextElementSibling
@@ -828,56 +837,62 @@ const App = () => {
 
   return (
     <>
-      <div className='terminal-background'></div>
-      <div className='main-div' id='main-div'>
-        <p className='left-div'>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
-        <p className='left-div'>ENTER PASSWORD NOW</p>
-        <br/>
-        <p className='header left-div' id='attempts' ref={Allowance}>{attempts} ATTEMPT(S) LEFT: { allowance.map((element, index) => React.createElement('span', { key: index, className: 'span' }, element )) } </p>
-        <br/>
-        <div className='boxes'>
-          <LeftText 
-            lettersNumbers={lettersNumbers} 
-            characters={characters}
-            randomLetters={randomLetters}
-            setUpLetters={setUpLetters}
-            onMouseHover={mouseEnter}
-            onMouseOut={mouseOut}
-            onClicked={processCodes}
-          />
-          <RightText 
-            lettersNumbers={lettersNumbers} 
-            characters={characters}
-            randomLetters={randomLetters}
-            setUpLetters={setUpLetters}
-            onMouseHover={mouseEnter}
-            onMouseOut={mouseOut}
-            onClicked={processCodes}
-          />
+      <div className='terminal-background' id='terminal'></div>
+      <div className='main-terminal'>
+        <div className='main-div' id='main-div'>
+          <p className='left-div top-header'>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
+          <p className='left-div top-header'>ENTER PASSWORD NOW</p>
+          <br/>
+          <p className='header left-div top-header' id='attempts' ref={Allowance}>{attempts} ATTEMPT(S) LEFT: { allowance.map((element, index) => React.createElement('span', { key: index, className: 'span' }, element )) } </p>
+          <br/>
+          <div className='boxes'>
+            <LeftText 
+              lettersNumbers={lettersNumbers} 
+              characters={characters}
+              randomLetters={randomLetters}
+              setUpLetters={setUpLetters}
+              onMouseHover={mouseEnter}
+              onMouseOut={mouseOut}
+              onClicked={processCodes}
+            />
+            <RightText 
+              lettersNumbers={lettersNumbers} 
+              characters={characters}
+              randomLetters={randomLetters}
+              setUpLetters={setUpLetters}
+              onMouseHover={mouseEnter}
+              onMouseOut={mouseOut}
+              onClicked={processCodes}
+            />
 
-          <div className='text' ref={ElementReference}>
-            { data.map((info, index) => (
-            <div key={index} >
-              <p>{info.name}</p>
-              <p>{info.permission}</p>
-              <p>{info.correct}</p>
-              { randomWords[0].length < 6 || randomWords[1].length < 6 ? <p>{info.dudCode}</p> : '' }
+            <div className='text' ref={ElementReference}>
+              { data.map((info, index) => (
+              <div key={index} >
+                <p>{info.name}</p>
+                <p>{info.permission}</p>
+                <p>{info.correct}</p>
+                { randomWords[0].length < 6 || randomWords[1].length < 6 ? <p>{info.dudCode}</p> : '' }
+                
+              </div>
+            )) } 
+              <div>
+                <p className='allowance'>{ allowed === true ? '>Allowance \n>replenished.' : '' }</p>
+              </div>
               
-            </div>
-          )) } 
-            <div>
-              <p className='allowance'>{ allowed === true ? '>Allowance \n>replenished.' : '' }</p>
+              
+              <p className='outcome'>{'>'}<span id='span'></span><span>█</span></p>
             </div>
             
             
-            <p className='outcome'>{'>'}<span id='span'></span><span>█</span></p>
           </div>
           
-          
         </div>
-        
+        <div className='locked-terminal'>
+            <p>TERMINAL LOCKED</p>
+            <p>PLEASE CONTACT AN ADMINISTRATOR</p>
+        </div>
+        <div className='power-btn'></div>
       </div>
-
       <div>
         <audio id='audiofile' src='https://breakout.bernis-hideout.de/robco-industries/sound/k1.ogg'/>
       </div>
