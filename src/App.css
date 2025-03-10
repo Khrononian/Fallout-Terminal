@@ -5,8 +5,8 @@
   text-align: center;
 }
 
-body {
-  /* background: black; */
+html {
+  background-color: black;
 }
 
 .left-div {
