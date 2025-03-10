@@ -342,7 +342,7 @@ const App = () => {
   const processCodes = (event) => {
     const attemptsLeft = [0, 1, 2, 3]
     const chooseOne = ['left', 'right']
-    const randomAllowance = ['W', 'I', 'N', 'ALLOWANCE REPLENISHED', 'N', 'N', 'E', 'R']
+    const randomAllowance = ['W', 'I', 'N', 'ALLOWANCE REPLENISHED', 'ALLOWANCE REPLENISHED', 'N', 'N', 'E', 'R']
     console.log('Code', data, clickedDud, clickedDud.length)
     console.log('FOODNEWS', clickedUserWord, chosenRandomWord)
     // setClickedUserWord()
@@ -374,13 +374,20 @@ const App = () => {
         setAllowance([])
         document.getElementById('main-div').classList.add('div-main')
         // document.getElementById('terminal').classList.add('main-terminal')
-        setLocked(true)
+        // setLocked(true)
         lockedTerminalText.onanimationend = current => {
-          console.log('KICK', current)
+          console.log('KICK', current, current.target.querySelector('.boxes'))
+          // current.target.querySelector('.boxes').style.display = 'none'
+          setLocked(true)
         }
       } else {
         document.getElementById('main-div').classList.add('div-main')
-        setLocked(true)
+        lockedTerminalText.onanimationend = current => {
+          console.log('KICK', current, current.target.querySelector('.boxes'))
+          // current.target.querySelector('.boxes').style.display = 'none'
+          setLocked(true)
+        }
+        // setLocked(true)
         // document.getElementById('terminal').classList.add('main-terminal')
       }
       console.log('DUDES1', truth)
@@ -486,6 +493,8 @@ const App = () => {
                 while (t !== 7) {
                   event.target.innerText = '.'
                   prevSibling.innerText = '.'
+                  prevSibling.style.background = 'transparent'
+                  prevSibling.style.color = '#33dd88'
                   prevSibling = prevSibling.previousElementSibling
                   t++
                 }
@@ -838,10 +847,11 @@ const App = () => {
   return (
     <>
       <div className='terminal-background' id='terminal'></div>
+      <div className='upper-background'></div>
       <div className='main-terminal'>
         <div className='main-div' id='main-div'>
           <p className='left-div top-header'>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
-          <p className='left-div top-header'>ENTER PASSWORD NOW</p>
+          <p className={allowance.length < 2 ? 'left-div top-header blinker' : 'left-div top-header'}>{allowance.length < 2 ? '!!! WARNING: LOCKOUT IMMINENT !!!' : 'ENTER PASSWORD NOW'}</p>
           <br/>
           <p className='header left-div top-header' id='attempts' ref={Allowance}>{attempts} ATTEMPT(S) LEFT: { allowance.map((element, index) => React.createElement('span', { key: index, className: 'span' }, element )) } </p>
           <br/>
@@ -880,17 +890,16 @@ const App = () => {
               </div>
               
               
-              <p className='outcome'>{'>'}<span id='span'></span><span>█</span></p>
+              <p className='outcome'>{'>'}<span id='span'></span><span className='blinker'>█</span></p>
             </div>
-            
-            
           </div>
           
         </div>
-        <div className='locked-terminal'>
+        {locked == true ? <div className='locked-terminal-styles'>
             <p>TERMINAL LOCKED</p>
             <p>PLEASE CONTACT AN ADMINISTRATOR</p>
-        </div>
+        </div> : null}
+        
         <div className='power-btn'></div>
       </div>
       <div>
