@@ -1,6 +1,7 @@
 .main-terminal {
     background-image: url('./thumbnail/bg.png');
     transform: translateY(-28%);
+    position: relative;
 }
 .main-div {
     position: relative;
@@ -92,25 +93,41 @@
 .locked-terminal-styles {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
+    font-size: 21px;
+    font-family: monospace;
+    font-weight: bold;
+    color: #33dd88;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+}
+.upper-background {
+    position: absolute;
+    top: 0%;
+    background: url('./thumbnail/monitorborder.png');
+    background-position: top;
+    background-size: 90em;
+    width: 750px;
+    height: 110px;
+    z-index: 1;
 }
 
+.blinker {
+    animation: blink .5s linear infinite;
+}
 .div-main {
-    animation: upwards ease 2.2s;
-    animation-fill-mode: forwards
-}
-/* .main-terminal {
-    animation: terminal-upwards ease 2.2s;
+    /* animation: upwards ease 2.2s; */
+    animation: upwards ease 1.8s;
     animation-fill-mode: forwards;
-} */
-
+    /* animation-duration: 1.7s; */
+}
 @keyframes upwards {
     from {transform: translateY(auto)}
-    to {transform: translateY(-165%)}
+    to {transform: translateY(-125%)}
 }
-/* @keyframes terminal-upwards {
-    from { transform: translate(auto, auto) }
-    to { transform: translate(-51%, -155%) }
-} */
+@keyframes blink {
+    30% {
+        opacity: 0;
+    }
+}
