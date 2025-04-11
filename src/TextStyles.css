@@ -20,13 +20,11 @@
     color: #33dd88;
 }
 .terminal-background {
-    background-image: url('./thumbnail/monitorborder.png');
     width: 920px;
     height: 670px;
     position: absolute;
     top: 50%;
     left: 50%;
-    /* transform: translate(-51%, -45.5%); */
     transform: translate(-51%, -65.5%);
     z-index: -10;
 }
@@ -77,13 +75,16 @@
     letter-spacing: .5em;
 }
 
-.power-btn {
+.power-btn, .power-btn2 {
     position: absolute;
-    /* transform: translate(39.2em, 60px); */
     transform: translate(1265%, 60px);
+    /* transform: translate(1000%, 60%); */
     background: white;
     cursor: pointer;
     padding: 1.55em;
+}
+.power-btn2 {
+    transform: translate(510%, 325%);
 }
 
 .locked-terminal {
@@ -109,8 +110,9 @@
     background-position: top;
     background-size: 90em;
     width: 750px;
-    height: 110px;
-    z-index: 1;
+    height: 120px;
+    z-index: 2;
+    transform: translate(0%, -100%);
 }
 
 .blinker {
