@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, createElement } from 'react'
 import './App.css'
 import LeftText from './LeftText'
 import RightText from './RightText'
+import backgroundOn from './thumbnail/monitorborder.png'
+import backgroundOff from './thumbnail/monitorborder-off.png'
 
 // import Audios from './audios'
 
@@ -15,6 +17,7 @@ const App = () => {
   const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], []])
   const [rightTerminalCode, setRightTerminalCode] = useState([[], [], [], [], [], [], []])
   const [locked, setLocked] = useState(false)
+  const [refresh, setRefresh] = useState(true)
   const [count, setCount] = useState(0)
   const [letter, setLetter] = useState('')
   const [truth, setTruth] = useState(false)
@@ -23,19 +26,20 @@ const App = () => {
   const [randomWords, setChosenRandomWords] = useState()
   const [chosenRandomWord, setChosenRandomWord] = useState('')
   const lockedTerminalText = document.getElementById('main-div')
-  const allowanceR = ['█', '█', '█', '█']
   const deletedWords = []
   const lettersNumbers = ['A', 'B', 'C', 'D', 'E', 'F', 
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
   const ElementReference = useRef(null)
   const Allowance = useRef(null)
-  const words = []
+  const leftInnerDivs1 = useRef(null)
+  const leftInnerDivs2 = useRef(null)
+  const rightInnerDivs1 = useRef(null)
+  const rightInnerDivs2 = useRef(null)
   const wordDuos = []
   const wordsLeft = []
   const wordsRight = []
   let randomStringWord 
-  const testArrays = []
   const leftCharacterString = []
   const rightCharacterString = []
   let clickedDud = ''
@@ -190,15 +194,11 @@ const App = () => {
     
     setChosenRandomWord(randomStringWord)
     setChosenRandomWords(wordDuos)
-  }, [])
-
-  useEffect(() => {
-
-  }, )
+  }, [refresh])
 
   useEffect(() => {
     const elementCount = ElementReference.current;
-
+    if (elementCount == undefined || elementCount == null) return
     if (elementCount.childNodes.length === 7) elementCount.firstChild.remove()
     console.log('ASUS', elementCount, elementCount.childNodes, elementCount.childNodes[0])
   },)
@@ -323,7 +323,7 @@ const App = () => {
     let frontWord = ''
     let backWord = ''
     
-    event.target.style.background = 'green' 
+    event.target.style.background = '#33dd88' 
     event.target.style.color = 'black'
 
     console.log(selectedAudio.src)
@@ -357,20 +357,20 @@ const App = () => {
       })
     }
     if (/[A-Z]/g.test(clickedUserWord)) {
-      
+      console.log('TRUMP', allowance)
       console.log('HIGGYSSSS', chosenRandomWord, chosenRandomWord[0].split(''), clickedUserWord, (chosenRandomWord[0].match(new RegExp(clickedUserWord.split(''), 'gi') ) || []), clickedUserWord.split('').join(' ')[0])
       // document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
-      if (attempts != 1 && clickedUserWord != chosenRandomWord) {
+      if (allowance.length != 1 && clickedUserWord != chosenRandomWord) {
         // document.getElementById('attempts').removeChild(document.getElementById('attempts').lastChild)
         console.log('CHOICERSRT', allowance.slice(0, attempts - 1))
         
-        setAttempts(attempt => attempt - 1)
-        setAllowance([...allowance.slice(2, attempts), allowance.slice(-1)])
-        // setAllowance([...allowance.slice(0, attempts), ...allowance.filter((element, index) => ) ])
+        // setAttempts(attempt => attempt - 1)
+        setAllowance([...allowance.slice(2, allowance.length), allowance.slice(-1)])
+        // if (allowance.length == 1) setAllowance([])
       } else if (clickedUserWord != chosenRandomWord.toString()) {
         console.log('ATTEMPT11')
         console.log('CHOICE122333')
-        setAttempts(attempt => attempt - 1)
+        // setAttempts(attempt => attempt - 1)
         setAllowance([])
         document.getElementById('main-div').classList.add('div-main')
         // document.getElementById('terminal').classList.add('main-terminal')
@@ -411,18 +411,10 @@ const App = () => {
       
       let t = 0;
 
-      if (randomAllowance[Math.floor(Math.random() * randomAllowance.length)] == 'ALLOWANCE REPLENISHED' && attempts < 4) {
+      if (randomAllowance[Math.floor(Math.random() * randomAllowance.length)] == 'ALLOWANCE REPLENISHED' && allowance.length < 4) {
       
         console.log('CHOICEWORK', attempts, allowance)
-        // while (attempts != 4) {
-        //   console.log('CHOICEWOOOO', attempts, allowance)
-        //   // setAllowance([...attempts, '█'])
-        //   setAttempts(attempts + 1)
-        //   // setAllowance(prev => [...prev, '█'])
-          
-        // }
         setAllowed(true)
-        setAttempts(4)
         setAllowance(['█', '█', '█', '█'])
         
         console.log('CHOICESSSS', allowanceRep)
@@ -844,16 +836,46 @@ const App = () => {
     }
   }
 
+  const resetGame = event => {
+    const leftDiv1 = leftInnerDivs1.current;
+    const leftDiv2 = leftInnerDivs2.current;
+    const rightDiv1 = rightInnerDivs1.current
+    const rightDiv2 = rightInnerDivs2.current
+    // console.log('TARIF', leftDiv1.firstChild, rightDiv1)
+    
+      // while (leftDiv1.firstChild && rightDiv1.firstChild ) {
+      //   leftDiv1.removeChild(leftDiv1.firstChild)
+      //   rightDiv1.removeChild(rightDiv1.firstChild)
+      // }
+      // while (leftDiv2.firstChild && rightDiv2.firstChild) {
+      //   leftDiv2.removeChild(leftDiv2.firstChild)
+      //   rightDiv2.removeChild(rightDiv2.firstChild)
+      // }
+    setFinalLeftCharacter([])
+    setFinalRightCharacter([])
+    setSideStrings([]) 
+    setTerminalCode([[], [], [], [], [], [], []])
+    setRightTerminalCode([[], [], [], [], [], [], []])
+    setAllowance(['█', '█', '█', '█'])
+
+    setRefresh(prevCheck => !prevCheck)
+    
+    console.log('TARIF', refresh)
+  }
+
   return (
     <>
-      <div className='terminal-background' id='terminal'></div>
-      <div className='upper-background'></div>
-      <div className='main-terminal'>
+      <div className='terminal-background' id='terminal' 
+      style={ refresh == true ? { backgroundImage: `url(${backgroundOn})` } : { backgroundImage: `url(${backgroundOff})` }}>
+      </div>
+      
+      {refresh == true ? <div className='main-terminal'>
+        <div className='upper-background'></div>
         <div className='main-div' id='main-div'>
           <p className='left-div top-header'>ROBCO INDUSTRIES (TM) TERMALINK PROTOCOL</p>
           <p className={allowance.length < 2 ? 'left-div top-header blinker' : 'left-div top-header'}>{allowance.length < 2 ? '!!! WARNING: LOCKOUT IMMINENT !!!' : 'ENTER PASSWORD NOW'}</p>
           <br/>
-          <p className='header left-div top-header' id='attempts' ref={Allowance}>{attempts} ATTEMPT(S) LEFT: { allowance.map((element, index) => React.createElement('span', { key: index, className: 'span' }, element )) } </p>
+          <p className='header left-div top-header' id='attempts' ref={Allowance}>{allowance.length} ATTEMPT(S) LEFT: { allowance.map((element, index) => React.createElement('span', { key: index, className: 'span' }, element )) } </p>
           <br/>
           <div className='boxes'>
             <LeftText 
@@ -864,6 +886,8 @@ const App = () => {
               onMouseHover={mouseEnter}
               onMouseOut={mouseOut}
               onClicked={processCodes}
+              innerLeftRef1={leftInnerDivs1}
+              innerLeftRef2={leftInnerDivs2}
             />
             <RightText 
               lettersNumbers={lettersNumbers} 
@@ -873,6 +897,8 @@ const App = () => {
               onMouseHover={mouseEnter}
               onMouseOut={mouseOut}
               onClicked={processCodes}
+              innerRightRef1={rightInnerDivs1}
+              innerRightRef2={rightInnerDivs2}
             />
 
             <div className='text' ref={ElementReference}>
@@ -895,13 +921,15 @@ const App = () => {
           </div>
           
         </div>
+        
         {locked == true ? <div className='locked-terminal-styles'>
             <p>TERMINAL LOCKED</p>
             <p>PLEASE CONTACT AN ADMINISTRATOR</p>
         </div> : null}
         
-        <div className='power-btn'></div>
-      </div>
+        <div className='power-btn' onClick={resetGame}></div>
+      </div> : null}
+      {refresh == false ? <div className='power-btn2' onClick={resetGame}></div> : null}
       <div>
         <audio id='audiofile' src='https://breakout.bernis-hideout.de/robco-industries/sound/k1.ogg'/>
       </div>
