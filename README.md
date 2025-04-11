@@ -1,8 +1,10 @@
-# React + Vite
+# Fallout Terminal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A recreation of the in-game computer terminals from the Fallout series. Text based hacking mini game simulated with a retro futuristic 
+green monochrome interfacebuilt with react. [Live Link](https://falloutterminalapp.netlify.app/)
+## 
 
-Currently, two official plugins are available:
+![Fallout Terminal](./src/previewimg/Screenshot%202025-04-02%20154349.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Challenges
+- 
