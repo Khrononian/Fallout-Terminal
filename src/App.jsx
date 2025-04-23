@@ -377,14 +377,12 @@ const App = () => {
         // setLocked(true)
         lockedTerminalText.onanimationend = current => {
           console.log('KICK', current, current.target.querySelector('.boxes'))
-          // current.target.querySelector('.boxes').style.display = 'none'
           setLocked(true)
         }
       } else {
         document.getElementById('main-div').classList.add('div-main')
         lockedTerminalText.onanimationend = current => {
           console.log('KICK', current, current.target.querySelector('.boxes'))
-          // current.target.querySelector('.boxes').style.display = 'none'
           setLocked(true)
         }
         // setLocked(true)
@@ -839,24 +837,19 @@ const App = () => {
   const resetGame = event => {
     const leftDiv1 = leftInnerDivs1.current;
     const leftDiv2 = leftInnerDivs2.current;
-    const rightDiv1 = rightInnerDivs1.current
-    const rightDiv2 = rightInnerDivs2.current
-    // console.log('TARIF', leftDiv1.firstChild, rightDiv1)
+    const rightDiv1 = rightInnerDivs1.current;
+    const rightDiv2 = rightInnerDivs2.current;
+    const innerElement = ElementReference.current;
     
-      // while (leftDiv1.firstChild && rightDiv1.firstChild ) {
-      //   leftDiv1.removeChild(leftDiv1.firstChild)
-      //   rightDiv1.removeChild(rightDiv1.firstChild)
-      // }
-      // while (leftDiv2.firstChild && rightDiv2.firstChild) {
-      //   leftDiv2.removeChild(leftDiv2.firstChild)
-      //   rightDiv2.removeChild(rightDiv2.firstChild)
-      // }
+    
     setFinalLeftCharacter([])
     setFinalRightCharacter([])
     setSideStrings([]) 
     setTerminalCode([[], [], [], [], [], [], []])
     setRightTerminalCode([[], [], [], [], [], [], []])
     setAllowance(['█', '█', '█', '█'])
+    setData([])
+    setLocked(false)
 
     setRefresh(prevCheck => !prevCheck)
     
@@ -865,8 +858,10 @@ const App = () => {
 
   return (
     <>
-      <div className='terminal-background' id='terminal' 
-      style={ refresh == true ? { backgroundImage: `url(${backgroundOn})` } : { backgroundImage: `url(${backgroundOff})` }}>
+      <div className='terminal-background' id='terminal'>
+        <img src={refresh == true ? backgroundOn : backgroundOff} alt='ON'/>
+        {refresh == false ? <div className='power-btn2' onClick={resetGame}></div> : <div className='power-btn' onClick={resetGame}></div>}
+      
       </div>
       
       {refresh == true ? <div className='main-terminal'>
@@ -903,7 +898,7 @@ const App = () => {
 
             <div className='text' ref={ElementReference}>
               { data.map((info, index) => (
-              <div key={index} >
+              <div key={index}>
                 <p>{info.name}</p>
                 <p>{info.permission}</p>
                 <p>{info.correct}</p>
@@ -927,9 +922,8 @@ const App = () => {
             <p>PLEASE CONTACT AN ADMINISTRATOR</p>
         </div> : null}
         
-        <div className='power-btn' onClick={resetGame}></div>
       </div> : null}
-      {refresh == false ? <div className='power-btn2' onClick={resetGame}></div> : null}
+      {/* {refresh == false ? <div className='power-btn2' onClick={resetGame}></div> : <div className='power-btn' onClick={resetGame}></div>} */}
       <div>
         <audio id='audiofile' src='https://breakout.bernis-hideout.de/robco-industries/sound/k1.ogg'/>
       </div>
