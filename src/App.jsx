@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useRef, createElement } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './App.css'
 import LeftText from './LeftText'
 import RightText from './RightText'
 import backgroundOn from './thumbnail/monitorborder.png'
 import backgroundOff from './thumbnail/monitorborder-off.png'
+import passCodeAudio from './audio/passcode.ogg'
+import failCodeAudio from './audio/failcode.ogg'
+import powerOnAudio from './audio/poweron.ogg'
+import powerOffAudio from './audio/poweroff.ogg'
 
 // import Audios from './audios'
 
@@ -17,7 +21,8 @@ const App = () => {
   const [terminalCode, setTerminalCode] = useState([[], [], [], [], [], [], []])
   const [rightTerminalCode, setRightTerminalCode] = useState([[], [], [], [], [], [], []])
   const [locked, setLocked] = useState(false)
-  const [refresh, setRefresh] = useState(true)
+  const [unlocked, setUnlocked] = useState(false)
+  const [refresh, setRefresh] = useState(false)
   const [count, setCount] = useState(0)
   const [letter, setLetter] = useState('')
   const [truth, setTruth] = useState(false)
@@ -32,10 +37,6 @@ const App = () => {
   const characters = '!@#$%^&*()[]<>{}_-=+|,;./'
   const ElementReference = useRef(null)
   const Allowance = useRef(null)
-  const leftInnerDivs1 = useRef(null)
-  const leftInnerDivs2 = useRef(null)
-  const rightInnerDivs1 = useRef(null)
-  const rightInnerDivs2 = useRef(null)
   const wordDuos = []
   const wordsLeft = []
   const wordsRight = []
@@ -314,7 +315,7 @@ const App = () => {
     return new Promise(resolve => setTimeout(resolve, 55))
   }
 
-  async function mouseEnter (event) {
+  function mouseEnter (event) {
     const selectedAudio = document.getElementById('audiofile');
     const spanText = document.getElementById('span')
     let nextSibling = event.target.nextElementSibling
@@ -343,6 +344,8 @@ const App = () => {
     const attemptsLeft = [0, 1, 2, 3]
     const chooseOne = ['left', 'right']
     const randomAllowance = ['W', 'I', 'N', 'ALLOWANCE REPLENISHED', 'ALLOWANCE REPLENISHED', 'N', 'N', 'E', 'R']
+    const failCode = document.getElementById('failCodeAudio');
+    const passCode = document.getElementById('passCodeAudio')
     console.log('Code', data, clickedDud, clickedDud.length)
     console.log('FOODNEWS', clickedUserWord, chosenRandomWord)
     // setClickedUserWord()
@@ -366,7 +369,7 @@ const App = () => {
         
         // setAttempts(attempt => attempt - 1)
         setAllowance([...allowance.slice(2, allowance.length), allowance.slice(-1)])
-        // if (allowance.length == 1) setAllowance([])
+        failCode.play()
       } else if (clickedUserWord != chosenRandomWord.toString()) {
         console.log('ATTEMPT11')
         console.log('CHOICE122333')
@@ -382,9 +385,10 @@ const App = () => {
       } else {
         document.getElementById('main-div').classList.add('div-main')
         lockedTerminalText.onanimationend = current => {
-          console.log('KICK', current, current.target.querySelector('.boxes'))
-          setLocked(true)
+          console.log('WINNER', current, current.target.querySelector('.boxes'))
+          setUnlocked(true)
         }
+        passCode.play()
         // setLocked(true)
         // document.getElementById('terminal').classList.add('main-terminal')
       }
@@ -834,14 +838,12 @@ const App = () => {
     }
   }
 
-  const resetGame = event => {
-    const leftDiv1 = leftInnerDivs1.current;
-    const leftDiv2 = leftInnerDivs2.current;
-    const rightDiv1 = rightInnerDivs1.current;
-    const rightDiv2 = rightInnerDivs2.current;
-    const innerElement = ElementReference.current;
+  const resetGame = () => {
+    const powerOn = document.getElementById('powerOnAudio')
+    const powerOff = document.getElementById('powerOffAudio')
     
-    
+    if (refresh == false) powerOn.play()
+    else powerOff.play()
     setFinalLeftCharacter([])
     setFinalRightCharacter([])
     setSideStrings([]) 
@@ -850,7 +852,7 @@ const App = () => {
     setAllowance(['█', '█', '█', '█'])
     setData([])
     setLocked(false)
-
+    setUnlocked(false)
     setRefresh(prevCheck => !prevCheck)
     
     console.log('TARIF', refresh)
@@ -874,15 +876,13 @@ const App = () => {
           <br/>
           <div className='boxes'>
             <LeftText 
-              lettersNumbers={lettersNumbers} 
+              lettersNumbers={lettersNumbers}
               characters={characters}
               randomLetters={randomLetters}
               setUpLetters={setUpLetters}
               onMouseHover={mouseEnter}
               onMouseOut={mouseOut}
               onClicked={processCodes}
-              innerLeftRef1={leftInnerDivs1}
-              innerLeftRef2={leftInnerDivs2}
             />
             <RightText 
               lettersNumbers={lettersNumbers} 
@@ -892,8 +892,6 @@ const App = () => {
               onMouseHover={mouseEnter}
               onMouseOut={mouseOut}
               onClicked={processCodes}
-              innerRightRef1={rightInnerDivs1}
-              innerRightRef2={rightInnerDivs2}
             />
 
             <div className='text' ref={ElementReference}>
@@ -921,11 +919,19 @@ const App = () => {
             <p>TERMINAL LOCKED</p>
             <p>PLEASE CONTACT AN ADMINISTRATOR</p>
         </div> : null}
+        {unlocked == true ? <div className='locked-terminal-styles'>
+          <p>Terminal Access Granted</p>
+          <p>Press Here to Proceed</p>
+        </div> : null}
         
       </div> : null}
       {/* {refresh == false ? <div className='power-btn2' onClick={resetGame}></div> : <div className='power-btn' onClick={resetGame}></div>} */}
       <div>
         <audio id='audiofile' src='https://breakout.bernis-hideout.de/robco-industries/sound/k1.ogg'/>
+        <audio id='passCodeAudio' src={passCodeAudio}/>
+        <audio id='failCodeAudio' src={failCodeAudio}/>
+        <audio id='powerOnAudio' src ={powerOnAudio} />
+        <audio id='powerOffAudio' src ={powerOffAudio} />
       </div>
     </>
   )
