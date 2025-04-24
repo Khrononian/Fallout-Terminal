@@ -1,8 +1,10 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  /* max-width: 1280px; */
+  max-width: 100%;
+  /* margin: 0 auto; */
   padding: 2rem;
   text-align: center;
+  height: 100vh;
 }
 
 html {
@@ -16,9 +18,10 @@ html {
 }
 
 .boxes {
-  display: flex;
-  justify-content: space-between;
-  width: auto;
+  display: grid;
+  /* grid-template-columns: repeat(2, minmax(200px, 270px)) 24% ; */
+  grid-template-columns: repeat(2, 32%) 24% ;
+  gap: 30px;
 }
 
 .header {
@@ -30,12 +33,13 @@ html {
   overflow: hidden;
   vertical-align: top;
   text-align: left;
+  width: fit-content;
 }
 .text p {
   /* margin: 0em 0em 0em 1.8em; */
   display: flex;
   justify-content: flex-start;
-  width: 170px;
+  /* width: 100%; */
   margin: 0;
   color: #33dd88;
   font-family: monospace;
