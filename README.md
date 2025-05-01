@@ -11,4 +11,3 @@ green monochrome interfacebuilt with react. [Live Link](https://falloutterminala
 - On this project, I wanted to try and make elements responsive without media queries. CSS properties such as max width and viewport heights had a bigger impact on responsiveness than I anticipated.
 - Getting the terminal dud codes to match opening with closing tags was a challenge since the amount of characters in a dud code could be cut off by other random characters. To counteract it, looping through the character number to account for how much is inside is necessary to prevent false duds from being recognized and taken as authentic. 
 
-
