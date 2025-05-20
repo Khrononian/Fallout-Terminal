@@ -1,7 +1,7 @@
 # Fallout Terminal
 
 A recreation of the in-game computer terminals from the Fallout series. Text based hacking mini game simulated with a retro futuristic 
-green monochrome interfacebuilt with react. [Live Link](https://falloutterminalapp.netlify.app/)
+green monochrome interface built with react. [Live Link](https://falloutterminalapp.netlify.app/)
 ## Preview
 ![Fallout Terminal Power Off](./src/previewimg/previewPowerOff.png)
 ![Fallout Terminal Power On](./src/previewimg/previewPowerOn.png)
